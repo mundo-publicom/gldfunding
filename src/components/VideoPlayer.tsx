@@ -1,6 +1,7 @@
 import { useRef, useState } from 'react'
 import { CaretDownIcon, PlayIcon } from '@phosphor-icons/react'
 import { cn } from '../lib/cn'
+import { asset } from '../lib/asset'
 
 /**
  * Facade video player.
@@ -65,7 +66,7 @@ export function VideoPlayer({
           <video
             ref={videoRef}
             className="h-full w-full"
-            poster={poster}
+            poster={asset(poster)}
             preload="none"
             controls={started}
             playsInline
@@ -73,12 +74,12 @@ export function VideoPlayer({
                itself is hostile. The visitor decides. */
             onEnded={() => setStarted(false)}
           >
-            <source src={src} type="video/mp4" />
+            <source src={asset(src)} type="video/mp4" />
             {captions && (
-              <track kind="captions" src={captions} srcLang="en" label="English" default />
+              <track kind="captions" src={asset(captions)} srcLang="en" label="English" default />
             )}
             Your browser cannot play this video.{' '}
-            <a href={src}>Download it instead</a>, or read the transcript below.
+            <a href={asset(src)}>Download it instead</a>, or read the transcript below.
           </video>
         </div>
 
