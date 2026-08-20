@@ -1,0 +1,12 @@
+{
+  "name": "GLD Funding",
+  "short_name": "GLD Funding",
+  "description": "Merchant cash advances and working capital for small businesses.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#ffffff",
+  "theme_color": "#04181c",
+  "icons": [
+    { "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml", "purpose": "any" }
+  ]
+}

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 44" width="200" height="44">
+  <rect width="34" height="34" y="5" rx="7" fill="#0a3a44"/>
+  <path d="M24.5 12.6A7.4 7.4 0 0 0 10 15.8a7.4 7.4 0 0 0 14.4 3.4h-6.6"
+        stroke="#55e6cc" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+  <text x="46" y="29" font-family="Geist Variable, system-ui, sans-serif" font-size="19" font-weight="600" letter-spacing="-0.5" fill="#0d1618">GLD</text>
+  <text x="90" y="29" font-family="Geist Variable, system-ui, sans-serif" font-size="19" font-weight="600" letter-spacing="-0.5" fill="#00806f">Funding</text>
+</svg>
