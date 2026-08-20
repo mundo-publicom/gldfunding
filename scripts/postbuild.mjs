@@ -25,6 +25,14 @@ const BASE = (process.env.BASE_PATH || '/').replace(/\/$/, '')
 
 const url = (route) => `${ORIGIN}${BASE}${route === '/' && BASE ? '/' : route}`
 
+// A build is only the real site when it is served from the canonical origin at
+// the root. Anything else — a GitHub Pages staging URL, a preview host — must
+// not be indexed: the legal pages, disclosures and state notes are still
+// pending counsel review, and an answer engine that ingests them now will go on
+// citing them long after they change.
+const CANONICAL_ORIGIN = 'https://www.gldfunding.com'
+const IS_PRODUCTION = ORIGIN === CANONICAL_ORIGIN && BASE === ''
+
 const TODAY = new Date().toISOString().slice(0, 10)
 
 /* ---------- collect routes ---------- */
@@ -55,7 +63,8 @@ const routes = files
 
 writeFileSync(
   join(DIST, 'robots.txt'),
-  `# ${ORIGIN}${BASE}
+  IS_PRODUCTION
+    ? `# ${ORIGIN}${BASE}
 # Answer engines are explicitly welcome: being cited in AI results is a
 # primary acquisition channel for this site, not an afterthought.
 
@@ -106,6 +115,14 @@ User-agent: meta-externalagent
 Allow: /
 
 Sitemap: ${ORIGIN}${BASE}/sitemap.xml
+`
+    : `# NON-PRODUCTION BUILD — ${ORIGIN}${BASE}
+# This is not the live site. Nothing here may be crawled, indexed or cited.
+# The permissive production robots.txt is emitted only when the build runs
+# against ${CANONICAL_ORIGIN} at the root.
+
+User-agent: *
+Disallow: /
 `,
 )
 
@@ -214,15 +231,30 @@ Last updated: ${TODAY}
 /* ---------- 4. strip the gated WebGL preload ---------- */
 
 let stripped = 0
+let noindexed = 0
+
+// robots.txt only asks a crawler not to fetch; it does not stop a URL that is
+// linked from elsewhere being indexed. `noindex` is what actually keeps a
+// staging build out of the index, so non-production builds carry both.
+const NOINDEX = '<meta name="robots" content="noindex,nofollow">'
+
 for (const file of files) {
   const html = readFileSync(file, 'utf8')
-  const next = html.replace(
+  let next = html.replace(
     /<link rel="modulepreload"[^>]*CapitalFlow[^>]*>/g,
     () => {
       stripped++
       return ''
     },
   )
+
+  // The Seo component emits its own robots meta on pages that opt into
+  // noindex; leave those alone rather than declaring it twice.
+  if (!IS_PRODUCTION && !/<meta[^>]*name="robots"/.test(next)) {
+    next = next.replace('<head>', `<head>${NOINDEX}`)
+    noindexed++
+  }
+
   if (next !== html) writeFileSync(file, next)
 }
 
@@ -247,5 +279,6 @@ writeFileSync(join(DIST, '.nojekyll'), '')
 
 console.log(
   `[postbuild] ${routes.length} routes → sitemap.xml · robots.txt · llms.txt · .nojekyll` +
-    (stripped ? ` · stripped ${stripped} gated preload(s)` : ''),
+    (stripped ? ` · stripped ${stripped} gated preload(s)` : '') +
+    (IS_PRODUCTION ? '' : ` · NON-PRODUCTION: noindexed ${noindexed} page(s), robots.txt disallows all`),
 )

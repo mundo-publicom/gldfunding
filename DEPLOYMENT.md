@@ -46,6 +46,40 @@ BASE_PATH=/gldfunding SITE_ORIGIN=https://<user>.github.io pnpm build
   names. Setting `www.gldfunding.com` gives the apex → `www` redirect this
   project's canonical URLs assume.
 
+### Staging builds refuse indexing
+
+`scripts/postbuild.mjs` treats a build as production only when `SITE_ORIGIN` is
+`https://www.gldfunding.com` **and** `BASE_PATH` is empty. Any other combination
+— the GitHub Pages URL above, or any preview host — emits:
+
+- a `robots.txt` of `User-agent: * / Disallow: /`, replacing the permissive one
+- `<meta name="robots" content="noindex,nofollow">` on every generated page
+
+Both, because `robots.txt` only asks a crawler not to fetch; a URL linked from
+elsewhere can still be indexed without `noindex`. This matters more than usual
+here: the legal pages, disclosures and per-state notes are still pending counsel
+review, and an answer engine that ingests them now will keep citing them long
+after they are corrected. Pages that already opt into `noindex` via the `Seo`
+component are left alone rather than declaring it twice.
+
+Nothing about the production build changes — verify with `pnpm build` and check
+that `dist/robots.txt` still reads `Allow: /`.
+
+### Attaching a custom domain redirects the github.io URL away
+
+Setting a custom domain makes GitHub Pages 301 the whole
+`mundo-publicom.github.io/gldfunding/*` path to that domain. While the domain
+still resolves to the old Heroku site, that sends every staging visitor to
+production. Keep `cname` unset until cutover:
+
+```
+gh api repos/:owner/gldfunding/pages --jq '{cname,https_enforced}'   # cname should be null
+gh api -X PUT repos/:owner/gldfunding/pages -F cname=null            # detach if it was set
+```
+
+Removing it leaves a cached 301 at the CDN edge; re-run the workflow
+(`gh workflow run deploy.yml`) to purge it.
+
 ### What GitHub Pages will NOT do — read before committing to it
 
 1. **No custom response headers.** `public/_headers` is inert here. The security
