@@ -10,24 +10,29 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 20
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v5
 
-      - uses: actions/setup-node@v4
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 11
+
+      - uses: actions/setup-node@v5
         with:
           node-version: 22
-          cache: npm
+          cache: pnpm
 
-      - run: npm ci
+      - name: Install
+        run: pnpm install --frozen-lockfile
 
       - name: Lint
-        run: npm run lint
+        run: pnpm lint
 
       # playwright.config.ts builds the site and serves dist/ itself.
       - name: Install browsers
-        run: npx playwright install --with-deps chromium webkit
+        run: pnpm exec playwright install --with-deps chromium webkit
 
       - name: End-to-end QA
-        run: npm test
+        run: pnpm test
 
       - uses: actions/upload-artifact@v4
         if: ${{ !cancelled() }}

@@ -7,16 +7,21 @@ Vite 8 · React 19 · TypeScript · Tailwind v4 · statically pre-rendered with
 `vite-react-ssg`.
 
 ```bash
-npm install
-npm run dev         # http://localhost:5173
-npm run build       # 71 static pages → dist/
-npm run preview     # serve dist/
+pnpm install
+pnpm dev          # http://localhost:5173
+pnpm build        # 71 static pages → dist/
+pnpm preview      # serve dist/
 
-npm test            # full QA suite (builds + serves dist/ automatically)
-npm run test:links  # broken-link sweep only
-npm run test:ui     # interactive runner
-npm run test:report # open the last HTML report
+pnpm test         # full QA suite (builds + serves dist/ automatically)
+pnpm test:links   # broken-link sweep only
+pnpm test:ui      # interactive runner
+pnpm test:report  # open the last HTML report
 ```
+
+**This repo uses pnpm** (`packageManager` in `package.json`, `pnpm-lock.yaml`,
+and both workflows run `pnpm install --frozen-lockfile`). Installing with npm
+creates a `package-lock.json` that drifts from the pnpm lockfile and breaks CI
+at the install step.
 
 ---
 

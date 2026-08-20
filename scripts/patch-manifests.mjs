@@ -10,8 +10,19 @@
  *
  * Remove entries here as upstream publishes fixed manifests.
  */
-import { readdirSync, readFileSync, writeFileSync, existsSync, statSync } from 'node:fs'
+import { readdirSync, readFileSync, writeFileSync, existsSync, statSync, lstatSync } from 'node:fs'
 import { join } from 'node:path'
+
+/*
+ * npm-only. pnpm understands `catalog:` natively and ignores a dependency's
+ * devDependencies entirely, so there is nothing to fix — and under pnpm the
+ * paths below are symlinks into the shared content-addressable store, so
+ * writing through them would corrupt packages for every other project on the
+ * machine. Bail out.
+ */
+if (process.env.npm_config_user_agent?.startsWith('pnpm')) {
+  process.exit(0)
+}
 
 const ROOT = new URL('../node_modules', import.meta.url).pathname
 const BAD = /"(catalog:[^"]*|workspace:[^"]*)"/
@@ -21,6 +32,12 @@ let patched = 0
 function patch(pkgDir) {
   const manifest = join(pkgDir, 'package.json')
   if (!existsSync(manifest)) return
+  // Symlinked package (pnpm store, npm link) — writing would escape this project.
+  try {
+    if (lstatSync(pkgDir).isSymbolicLink()) return
+  } catch {
+    return
+  }
 
   let raw
   try {
