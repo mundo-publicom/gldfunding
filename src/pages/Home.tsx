@@ -143,7 +143,7 @@ export function Component() {
         </div>
       </Section>
 
-      <HowItWorksTimeline />
+      <HowItWorksTimeline showVideoLink />
 
       {/* Cost transparency, up front — the content that earns AI citations. */}
       <Section tone="paper" id="calculator">

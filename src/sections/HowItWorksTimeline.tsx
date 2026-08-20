@@ -1,7 +1,9 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { CTA, PRODUCT } from '../data/site'
+import { OVERVIEW_VIDEO } from '../data/video'
 import { Section, SectionHead } from '../components/ui'
+import { PlayCircleIcon } from '@phosphor-icons/react'
 
 const STEPS = [
   {
@@ -31,7 +33,7 @@ const STEPS = [
  * JS beyond this component. The rail fills as the reader travels, so the motion
  * is explaining the process rather than decorating it.
  */
-export function HowItWorksTimeline() {
+export function HowItWorksTimeline({ showVideoLink = false }: { showVideoLink?: boolean } = {}) {
   const wrapRef = useRef<HTMLDivElement>(null)
   const [progress, setProgress] = useState(0)
   const [active, setActive] = useState(0)
@@ -86,9 +88,20 @@ export function HowItWorksTimeline() {
             title="Three steps. Most of it happens while you're working."
             lead="No branch visit, no business plan, no six-week underwriting committee."
           />
-          <Link to={CTA.primaryHref} className="btn btn-primary-invert mt-8">
-            {CTA.primary}
-          </Link>
+          <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
+            <Link to={CTA.primaryHref} className="btn btn-primary-invert">
+              {CTA.primary}
+            </Link>
+            {showVideoLink && (
+              <Link
+                to="/funding/how-it-works"
+                className="group inline-flex items-center gap-2 text-[0.9375rem] font-medium text-mint-glow"
+              >
+                <PlayCircleIcon size={19} weight="fill" />
+                Watch the {OVERVIEW_VIDEO.durationLabel} overview
+              </Link>
+            )}
+          </div>
         </div>
 
         <div ref={wrapRef} className="relative">

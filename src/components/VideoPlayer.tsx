@@ -87,16 +87,19 @@ export function VideoPlayer({
             type="button"
             onClick={() => play()}
             aria-label={`Play video: ${title} (${durationLabel})`}
-            className="group absolute inset-0 flex cursor-pointer flex-col items-center justify-center gap-4 bg-petrol/45 transition-colors duration-200 hover:bg-petrol/30 focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-mint-glow"
+            className="group absolute inset-0 cursor-pointer bg-petrol/35 transition-colors duration-200 hover:bg-petrol/20 focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-mint-glow"
           >
-            <span className="flex h-16 w-16 items-center justify-center rounded-full bg-mint-lift text-petrol shadow-panel transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-105 group-active:scale-95 sm:h-[72px] sm:w-[72px]">
+            {/* Play affordance stays centred; the label rides a bottom scrim so it
+                never lands on the artwork or fights a light poster frame. */}
+            <span className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-mint-lift text-petrol shadow-panel transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-105 group-active:scale-95 sm:h-[72px] sm:w-[72px]">
               <PlayIcon size={26} weight="fill" className="ml-1" />
             </span>
-            <span className="flex flex-col items-center gap-1 px-6 text-center">
-              <span className="text-[1.0625rem] font-semibold text-white drop-shadow-sm">
+
+            <span className="absolute inset-x-0 bottom-0 flex flex-wrap items-baseline gap-x-3 gap-y-1 bg-gradient-to-t from-petrol via-petrol/80 to-transparent px-4 pb-3.5 pt-10 text-left sm:px-5 sm:pb-4">
+              <span className="text-[0.9375rem] font-semibold text-white sm:text-[1.0625rem]">
                 {title}
               </span>
-              <span className="font-mono text-[0.75rem] uppercase tracking-[0.14em] text-mint-glow">
+              <span className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-mint-glow">
                 {durationLabel}
               </span>
             </span>

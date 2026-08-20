@@ -14,6 +14,15 @@ const base = rawBase.endsWith('/') ? rawBase : `${rawBase}/`
 export default defineConfig({
   base,
   plugins: [react(), tailwindcss()],
+  server: {
+    // Listen on 0.0.0.0 so the dev server is reachable from outside the
+    // container. Harmless outside Docker — it also binds localhost.
+    host: true,
+    port: 5173,
+    // Some bind mounts (Docker on macOS/Windows) don't forward filesystem
+    // events; set VITE_POLL=1 in that case to fall back to polling.
+    watch: process.env.VITE_POLL ? { usePolling: true, interval: 300 } : undefined,
+  },
   build: {
     // One stylesheet for the whole site — it is small, and this avoids
     // a render-blocking request per route.

@@ -1,7 +1,9 @@
 import { Link } from 'react-router-dom'
 import { AnswerBlock, FaqList, PageHero, Prose, Section, SectionHead } from '../../components/ui'
 import { HowItWorksTimeline } from '../../sections/HowItWorksTimeline'
+import { VideoPlayer } from '../../components/VideoPlayer'
 import { Seo, breadcrumbSchema, faqSchema } from '../../lib/seo'
+import { OVERVIEW_VIDEO, videoSchema } from '../../data/video'
 import { CTA, PRODUCT } from '../../data/site'
 
 const TRAIL = [
@@ -36,19 +38,36 @@ export function Component() {
         path="/funding/how-it-works"
         title="How Funding Works, Step by Step"
         description={`Apply in about eight minutes, get a decision in ${PRODUCT.decisionHours} business hours, and receive funds within ${PRODUCT.fundingHours} hours of signing. Three steps, no branch visit, no business plan.`}
-        schema={[breadcrumbSchema(TRAIL), faqSchema(FAQS)]}
+        schema={[breadcrumbSchema(TRAIL), faqSchema(FAQS), videoSchema('/funding/how-it-works')]}
       />
 
       <PageHero trail={TRAIL} eyebrow="The process" title="How it works" />
 
-      <Section tone="white" className="!pb-0">
-        <div className="max-w-[68ch]">
-          <AnswerBlock>
-            Applying takes about eight minutes and needs {PRODUCT.statementMonths.default} months of
-            business bank statements — four in New York. Underwriting returns a decision within
-            about {PRODUCT.decisionHours} business hours, and funds reach your account within{' '}
-            {PRODUCT.fundingHours} hours of a signed contract.
-          </AnswerBlock>
+      <Section tone="white">
+        <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-14">
+          <div>
+            <AnswerBlock>
+              Applying takes about eight minutes and needs {PRODUCT.statementMonths.default} months
+              of business bank statements — four in New York. Underwriting returns a decision within
+              about {PRODUCT.decisionHours} business hours, and funds reach your account within{' '}
+              {PRODUCT.fundingHours} hours of a signed contract.
+            </AnswerBlock>
+            <p className="mt-6 max-w-[46ch] text-[0.9375rem] leading-relaxed text-ink-2">
+              Prefer to watch? The overview covers the same ground in under a minute and a half —
+              what an advance is, how it differs from a bank loan, and the three steps end to end.
+            </p>
+          </div>
+
+          <VideoPlayer
+            src={OVERVIEW_VIDEO.src}
+            poster={OVERVIEW_VIDEO.poster}
+            captions={OVERVIEW_VIDEO.captions}
+            title={OVERVIEW_VIDEO.title}
+            durationLabel={OVERVIEW_VIDEO.durationLabel}
+            description={OVERVIEW_VIDEO.description}
+            chapters={[...OVERVIEW_VIDEO.chapters]}
+            transcript={[...OVERVIEW_VIDEO.transcript]}
+          />
         </div>
       </Section>
 

@@ -119,6 +119,31 @@ Then set the custom domain to `www.gldfunding.com` in Settings → Pages, wait f
 the DNS check to pass, and enable **Enforce HTTPS** (can take up to 24 hours to
 become available).
 
+## Local development in Docker
+
+One container, the Vite dev server, HMR through a bind mount:
+
+```bash
+docker compose up --build      # first run
+docker compose up              # after that
+```
+
+Then open http://localhost:5173.
+
+- `Dockerfile.dev` installs dependencies with pnpm pinned to the lockfile's
+  version. `node_modules` lives in a named volume so the container's
+  Linux-built binaries are never shadowed by the host's.
+- After changing `package.json` or the lockfile, rebuild:
+  `docker compose up --build`. To drop the installed modules entirely,
+  `docker compose down -v`.
+- If edits on the host don't trigger a reload, set `VITE_POLL: "1"` in
+  `compose.yaml` to switch the watcher to polling.
+- Run one-off commands inside the container with
+  `docker compose run --rm web pnpm lint` (or `pnpm build`).
+
+This image is for development only — it ships the dev server, not the static
+build. Production goes out through GitHub Pages, above.
+
 ## Vercel
 
 ```
