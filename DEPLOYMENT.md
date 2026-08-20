@@ -223,6 +223,22 @@ These are hours of work and pay back before the rebuild launches:
 4. Claim and populate the Google Business Profile for Garden City.
 5. Fix the "2020" copyright in the footer.
 
+## 404 handling — configure this, do not assume it
+
+`dist/404.html` is built, but a static host that falls back to `index.html` will
+serve the **homepage at every unknown URL with a 200**. That is a soft 404 and
+infinite duplicate content — actively harmful to the GEO work.
+
+- **Vercel** — `vercel.json` is committed; Vercel serves `404.html` for unmatched
+  paths automatically on static output.
+- **Netlify / Cloudflare Pages** — `public/_redirects` ships a `/* /404.html 404`
+  catch-all, after the legacy 301s.
+- **Anything else** — configure the equivalent, then confirm with
+  `curl -I https://your-host/nope` and expect `HTTP/2 404`.
+
+`npm test` asserts `404.html` renders and that `_redirects` carries the rule; it
+cannot verify your host, so check the curl above after the first deploy.
+
 ## Launch checklist
 
 - [ ] Replace every `@needs-verification` figure in `src/data/site.ts`
@@ -237,6 +253,8 @@ These are hours of work and pay back before the rebuild launches:
 - [ ] Create `public/apple-touch-icon.png` (180×180) — `index.html` references it
       and the file does not exist, so it 404s on every page today
 - [ ] Redirect map above deployed and verified
+- [ ] `curl -I https://www.gldfunding.com/nope` returns 404, not 200
+- [ ] `npm test` green against the deploy preview
 - [ ] Submit `sitemap.xml` to Google Search Console and Bing Webmaster Tools
 - [ ] Confirm AI crawler hits in server logs after launch
 - [ ] Resolve or formally accept the react-router advisories

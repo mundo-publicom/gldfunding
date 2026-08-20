@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from 'react'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { CaretDownIcon, ListIcon, PhoneIcon, XIcon } from '@phosphor-icons/react'
 import { CTA, INDUSTRIES, SITE, STATES } from '../data/site'
 import { cn } from '../lib/cn'
@@ -27,7 +27,10 @@ const NAV: NavItem[] = [
   {
     label: 'Industries',
     href: '/industries',
-    children: INDUSTRIES.map((i) => ({ label: i.short, href: `/industries/${i.slug}` })),
+    children: [
+      { label: 'All industries', href: '/industries' },
+      ...INDUSTRIES.map((i) => ({ label: i.short, href: `/industries/${i.slug}` })),
+    ],
   },
   {
     label: 'Locations',
@@ -46,7 +49,14 @@ export function Header() {
   const [menu, setMenu] = useState<string | null>(null)
   const [scrolled, setScrolled] = useState(false)
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
+  const navRef = useRef<HTMLElement>(null)
+  /* Which pointer opened the menu. A hybrid device (touch laptop) reports
+     `hover: hover` yet is tapped with a finger, so capability queries lie —
+     the live pointerType is the only reliable signal. */
+  const lastPointer = useRef<string>('mouse')
+  const triggerRefs = useRef<Record<string, HTMLButtonElement | null>>({})
   const { pathname } = useLocation()
+  const navigate = useNavigate()
 
   useEffect(() => {
     setOpen(false)
@@ -71,6 +81,38 @@ export function Header() {
     }
   }, [open])
 
+  /* A dropdown that only responds to hover is unreachable on every touch
+     device wide enough to get the desktop nav — iPads, Surfaces, touch
+     laptops. The trigger is a button that toggles on click/tap; hover is an
+     enhancement for mice, not the only way in. */
+  useEffect(() => {
+    if (!menu) return
+
+    const onPointerDown = (e: PointerEvent) => {
+      if (!navRef.current?.contains(e.target as Node)) setMenu(null)
+    }
+    const onKey = (e: KeyboardEvent) => {
+      if (e.key !== 'Escape') return
+      const trigger = triggerRefs.current[menu]
+      setMenu(null)
+      // After the close commits — focusing mid-render can be undone by the
+      // re-render that removes the panel.
+      requestAnimationFrame(() => trigger?.focus())
+    }
+    const onFocusIn = (e: FocusEvent) => {
+      if (!navRef.current?.contains(e.target as Node)) setMenu(null)
+    }
+
+    document.addEventListener('pointerdown', onPointerDown)
+    document.addEventListener('keydown', onKey)
+    document.addEventListener('focusin', onFocusIn)
+    return () => {
+      document.removeEventListener('pointerdown', onPointerDown)
+      document.removeEventListener('keydown', onKey)
+      document.removeEventListener('focusin', onFocusIn)
+    }
+  }, [menu])
+
   const openMenu = (label: string) => {
     if (closeTimer.current) clearTimeout(closeTimer.current)
     setMenu(label)
@@ -78,6 +120,10 @@ export function Header() {
   const scheduleClose = () => {
     if (closeTimer.current) clearTimeout(closeTimer.current)
     closeTimer.current = setTimeout(() => setMenu(null), 120)
+  }
+  const toggleMenu = (label: string) => {
+    if (closeTimer.current) clearTimeout(closeTimer.current)
+    setMenu((cur) => (cur === label ? null : label))
   }
 
   return (
@@ -100,23 +146,51 @@ export function Header() {
           </span>
         </Link>
 
-        <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Main">
+        <nav ref={navRef} className="hidden items-center gap-0.5 lg:flex" aria-label="Main">
           {NAV.map((item) =>
             item.children ? (
               <div
                 key={item.label}
                 className="relative"
-                onMouseEnter={() => openMenu(item.label)}
-                onMouseLeave={scheduleClose}
+                onPointerEnter={(e) => {
+                  if (e.pointerType === 'mouse') openMenu(item.label)
+                }}
+                onPointerLeave={(e) => {
+                  if (e.pointerType === 'mouse') scheduleClose()
+                }}
               >
-                <Link
-                  to={item.href}
+                <button
+                  type="button"
+                  ref={(el) => {
+                    triggerRefs.current[item.label] = el
+                  }}
                   className={cn(
-                    'flex items-center gap-1 rounded-full px-3 py-2 text-[0.9375rem] font-medium transition-colors duration-150',
+                    'flex cursor-pointer items-center gap-1 rounded-full px-3 py-2 text-[0.9375rem] font-medium transition-colors duration-150',
                     menu === item.label ? 'text-mint-deep' : 'text-ink-2 hover:text-ink',
                   )}
                   aria-expanded={menu === item.label}
-                  onFocus={() => openMenu(item.label)}
+                  aria-haspopup="true"
+                  aria-controls={`menu-${item.label.toLowerCase()}`}
+                  onPointerDown={(e) => {
+                    lastPointer.current = e.pointerType || 'mouse'
+                  }}
+                  onClick={() => {
+                    /* Mouse: hover already revealed the menu, so a click means
+                       "take me to the section". Touch and keyboard: the click
+                       IS how the menu opens, so toggle instead. */
+                    if (lastPointer.current === 'mouse' && menu === item.label) {
+                      setMenu(null)
+                      navigate(item.href)
+                      return
+                    }
+                    toggleMenu(item.label)
+                  }}
+                  onKeyDown={(e) => {
+                    if (e.key === 'ArrowDown') {
+                      e.preventDefault()
+                      openMenu(item.label)
+                    }
+                  }}
                 >
                   {item.label}
                   <CaretDownIcon
@@ -127,18 +201,23 @@ export function Header() {
                       menu === item.label && 'rotate-180',
                     )}
                   />
-                </Link>
+                </button>
 
                 {menu === item.label && (
                   <div
+                    id={`menu-${item.label.toLowerCase()}`}
                     className={cn(
                       'absolute left-0 top-full z-50 mt-1 min-w-[280px] rounded-[4px] border border-rule bg-white p-1.5 shadow-panel',
                       'origin-top-left motion-safe:animate-[menuIn_160ms_cubic-bezier(0.23,1,0.32,1)]',
                       item.label === 'Industries' && 'grid grid-cols-2 gap-x-1 min-w-[420px]',
                       item.label === 'Locations' && 'grid grid-cols-2 gap-x-1 min-w-[400px]',
                     )}
-                    onMouseEnter={() => openMenu(item.label)}
-                    onMouseLeave={scheduleClose}
+                    onPointerEnter={(e) => {
+                      if (e.pointerType === 'mouse') openMenu(item.label)
+                    }}
+                    onPointerLeave={(e) => {
+                      if (e.pointerType === 'mouse') scheduleClose()
+                    }}
                   >
                     {item.children.map((c) => (
                       <Link

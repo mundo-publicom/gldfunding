@@ -8,9 +8,14 @@ Vite 8 · React 19 · TypeScript · Tailwind v4 · statically pre-rendered with
 
 ```bash
 npm install
-npm run dev      # http://localhost:5173
-npm run build    # 71 static pages → dist/
-npm run preview  # serve dist/
+npm run dev         # http://localhost:5173
+npm run build       # 71 static pages → dist/
+npm run preview     # serve dist/
+
+npm test            # full QA suite (builds + serves dist/ automatically)
+npm run test:links  # broken-link sweep only
+npm run test:ui     # interactive runner
+npm run test:report # open the last HTML report
 ```
 
 ---
@@ -122,6 +127,36 @@ puts ~220 words of crawlable, on-topic text on the page for answer engines.
 bank statements." The site now asks New York businesses for four. The video
 predates that rule. Re-record or add an on-screen note before leaning on it in
 paid campaigns.
+
+## QA (`tests/`)
+
+Playwright, run against the **production build** rather than the dev server —
+`dist/` is what ships, and dev-server behaviour hides real defects (titles
+injected late, no `404.html`, no postbuild artifacts) while inventing fake ones.
+`playwright.config.ts` builds and serves it automatically, so `npm test` is the
+only command.
+
+| Spec | Covers |
+|---|---|
+| `links.spec.ts` | Crawls every built page, resolves every internal link, asset and `#fragment`. Also catches a **200 that is really the 404 body**. Verifies every route has one `<h1>`, a real title, a ≥40-char description and an `https://` canonical that is not Heroku. |
+| `navigation.spec.ts` | Category menus by hover, click, **tap**, and keyboard; Escape and outside-click close; mobile panel actually fills the viewport; nav never wraps at 1024–1920px; header keeps a CTA at 320–430px; footer links resolve. |
+| `quality.spec.ts` | axe WCAG 2.2 AA on 18 routes × 2 browsers; zero console/page errors; `robots.txt` names the AI crawlers; every `sitemap.xml` URL resolves; no placeholder metadata anywhere; the video stays unfetched until played and is captioned. |
+
+Routes come from `tests/routes.ts`, read off `dist/` — a hand-written list
+silently stops covering new pages.
+
+**Two browsers:** Chromium desktop and **WebKit** on iPhone. WebKit matters here
+because iOS Safari is most of the mobile traffic and the site leans on `dvh`,
+`backdrop-filter` and `<video>` — it caught a keyboard-inaccessible scroll region
+that Chromium did not.
+
+### `gotoReady()`, and why it exists
+
+The site is pre-rendered, so markup is on screen **and looks interactive**
+before React attaches a single handler. Tests that clicked too early failed
+intermittently with "element not found" on menus that open via JS. `RootLayout`
+now sets `data-hydrated` on mount and `tests/helpers.ts` waits for it. Use
+`gotoReady(page, path)` instead of `page.goto` for anything that interacts.
 
 ## Motion
 

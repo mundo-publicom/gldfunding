@@ -21,14 +21,16 @@
   /* --- accent (locked: every primary action is mint) --- */
   --color-mint: #00b39a;
   --color-mint-lift: #14cbb0;
-  --color-mint-deep: #00806f;
+  --color-mint-deep: #00786a;
   --color-mint-glow: #55e6cc;
 
-  /* --- semantic: reserved, never decorative --- */
+  /* --- semantic: reserved, never decorative ---
+     mint-deep and warn are both sized down to 10-11px in badges, so they are
+     tuned to clear 4.5:1 on white AND on the mint/8 tint, not just on white. */
   --color-rate: #c2542f;
   --color-rate-bg: #fbede8;
   --color-good: #2f7a4f;
-  --color-warn: #b8791f;
+  --color-warn: #9a6412;
 
   /* --- neutrals, biased cool-teal so the page reads as one system --- */
   --color-ink: #0d1618;

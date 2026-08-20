@@ -87,7 +87,12 @@ export function Component() {
           lead="Four representative structures. Every figure is the total you repay, not a monthly payment with the rest hidden below the fold."
         />
 
-        <div className="mt-10 overflow-x-auto border border-rule bg-white">
+        <div
+          className="mt-10 overflow-x-auto border border-rule bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mint"
+          tabIndex={0}
+          role="region"
+          aria-label="Worked cost examples — scrolls horizontally"
+        >
           <table className="w-full min-w-[640px] border-collapse">
             <thead>
               <tr className="border-b border-rule bg-paper">

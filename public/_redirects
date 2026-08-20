@@ -1,0 +1,9 @@
+# Legacy URLs from the 2020 Next.js site.
+/mca      /funding/merchant-cash-advance   301
+/blog     /resources                       301
+/index    /                                301
+
+# Anything unmatched gets the real 404 page with a real 404 status.
+# Without this a static host may fall back to index.html, which serves the
+# homepage at every bad URL — a soft 404, and infinite duplicate content.
+/*        /404.html                        404

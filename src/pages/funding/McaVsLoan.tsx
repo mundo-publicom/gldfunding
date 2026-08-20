@@ -80,7 +80,12 @@ export function Component() {
           </AnswerBlock>
         </div>
 
-        <div className="mt-10 overflow-x-auto border border-rule">
+        <div
+          className="mt-10 overflow-x-auto border border-rule focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mint"
+          tabIndex={0}
+          role="region"
+          aria-label="Comparison of merchant cash advances, bank loans and SBA loans — scrolls horizontally"
+        >
           <table className="w-full min-w-[760px] border-collapse bg-white">
             <thead>
               <tr className="border-b border-rule">
