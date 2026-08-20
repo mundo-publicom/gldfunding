@@ -88,6 +88,41 @@ request. WebGL boots after `load`, and only when **every** gate passes:
 If any gate fails the poster simply stays. The chunk is excluded from
 `modulepreload` in `scripts/postbuild.mjs` so gated-out users never fetch it.
 
+## The overview video
+
+`/funding/how-it-works` carries the 2021 animated explainer. It lives there
+rather than on the homepage because the narration *is* that page's content —
+it walks Apply → Approve → Get funded in order — and because a 3.4 MB asset and
+a bright-blue cartoon palette both sit better on a consideration-stage page than
+in the homepage's first viewport. The homepage links to it instead of embedding
+a second copy.
+
+**Source asset was re-encoded**, not just re-hosted: 1920×1080 / 8.6 MB →
+1280×720 / 3.4 MB (60% smaller, no visible loss — it is flat vector animation).
+Assets live in `public/videos/`.
+
+Nothing loads until someone presses play:
+
+| Before play | On play |
+|---|---|
+| 20 KB WebP poster + 2.5 KB VTT | 3.4 MB MP4 |
+
+`preload="none"`, no autoplay, no loop — the narration means autoplaying audio
+would be hostile. Verified: the MP4 is absent from the network log until the
+play button is pressed.
+
+**Captions are a real WebVTT track** (`description.en.vtt`, 33 cues), generated
+from the narration's own word-level timings, and the full transcript renders in
+a `<details>` below the player. That is WCAG 1.2.2 (Level A) and 1.2.3 satisfied
+— an uncaptioned narrated video would have broken the AA claim below — and it
+puts ~220 words of crawlable, on-topic text on the page for answer engines.
+`VideoObject` schema with `Clip` chapters and `SeekToAction` ships with it.
+
+⚠️ **Content drift:** the narration says "your last three months of your business
+bank statements." The site now asks New York businesses for four. The video
+predates that rule. Re-record or add an on-screen note before leaning on it in
+paid campaigns.
+
 ## Motion
 
 Every animation answers: should this animate, what is its purpose, does it get

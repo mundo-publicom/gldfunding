@@ -232,6 +232,8 @@ These are hours of work and pay back before the rebuild launches:
 - [ ] Written testimonial consent on file, then enable `Review` schema
 - [ ] Wire `/apply` and contact forms to a real endpoint (see `SECURITY-NOTES.md`)
 - [ ] Create `public/og-default.png` (1200×630)
+- [ ] Review the overview video's captions (`public/videos/description.en.vtt`) — machine-generated from the audio, spot-check before launch
+- [ ] Decide on the video's "three months of bank statements" line vs. the NY four-month rule
 - [ ] Create `public/apple-touch-icon.png` (180×180) — `index.html` references it
       and the file does not exist, so it 404s on every page today
 - [ ] Redirect map above deployed and verified
