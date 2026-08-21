@@ -3,6 +3,7 @@ import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { CaretDownIcon, ListIcon, PhoneIcon, XIcon } from '@phosphor-icons/react'
 import { CTA, INDUSTRIES, SITE } from '../data/site'
 import { cn } from '../lib/cn'
+import { Logo } from './Logo'
 
 type NavItem = {
   label: string
@@ -128,14 +129,16 @@ export function Header() {
       >
       {/* Nav height capped at 72px — no agency bar eating the viewport. */}
       <div className="page flex h-[68px] items-center justify-between gap-6 lg:h-[72px]">
-        <Link to="/" className="flex shrink-0 items-center gap-2.5" aria-label={`${SITE.name} home`}>
-          <Logomark />
-          {/* On the narrowest phones the wordmark yields space to the CTA —
-              the mark still carries the brand, and "Funding" returns at 420px. */}
-          <span className="text-[1.0625rem] font-semibold tracking-[-0.02em] text-ink">
-            GLD{' '}
-            <span className="hidden text-mint-deep min-[420px]:inline">Funding</span>
-          </span>
+        {/* The lockup is one image, so nothing has to drop away on small
+            screens — the wordmark stays whole down to 320px. Sized to just
+            under the bar's inner height: the stacked lockup needs the vertical
+            room a one-line wordmark would not. */}
+        <Link
+          to="/"
+          className="flex shrink-0 items-center rounded-[2px] text-ink transition-opacity duration-150 hover:opacity-80"
+          aria-label={`${SITE.name} home`}
+        >
+          <Logo className="h-[46px] lg:h-[52px]" />
         </Link>
 
         <nav ref={navRef} className="hidden items-center gap-0.5 lg:flex" aria-label="Main">
@@ -328,20 +331,5 @@ export function Header() {
         </div>
       )}
     </>
-  )
-}
-
-function Logomark() {
-  return (
-    <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true">
-      <rect width="26" height="26" rx="5" fill="var(--color-deep)" />
-      <path
-        d="M18.5 9.4A5.6 5.6 0 0 0 7.6 11.9a5.6 5.6 0 0 0 10.9 2.6h-5"
-        stroke="var(--color-mint-glow)"
-        strokeWidth="2"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
   )
 }

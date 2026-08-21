@@ -9,6 +9,7 @@ import {
   YoutubeLogoIcon,
 } from '@phosphor-icons/react'
 import { CTA, INDUSTRIES, SITE } from '../data/site'
+import { Logo } from './Logo'
 
 const COLUMNS = [
   {
@@ -68,21 +69,9 @@ export function Footer() {
 
       <div className="page grid gap-10 py-14 md:grid-cols-2 lg:grid-cols-[1.4fr_repeat(3,1fr)]">
         <div>
-          <div className="flex items-center gap-2.5">
-            <svg width="26" height="26" viewBox="0 0 26 26" fill="none" aria-hidden="true">
-              <rect width="26" height="26" rx="5" fill="var(--color-deep-2)" />
-              <path
-                d="M18.5 9.4A5.6 5.6 0 0 0 7.6 11.9a5.6 5.6 0 0 0 10.9 2.6h-5"
-                stroke="var(--color-mint-glow)"
-                strokeWidth="2"
-                strokeLinecap="round"
-                strokeLinejoin="round"
-              />
-            </svg>
-            <span className="text-[1.0625rem] font-semibold tracking-[-0.02em] text-white">
-              GLD Funding
-            </span>
-          </div>
+          {/* Petrol ground: this is the one place the artwork runs as drawn,
+              white wordmark and all. */}
+          <Logo className="h-[46px] text-white" title={SITE.name} />
           <p className="mt-4 max-w-[38ch] text-[0.9375rem] leading-relaxed text-paper/70">
             Merchant cash advances and working capital for small businesses across the United
             States. Serving business owners since {SITE.founded}.
