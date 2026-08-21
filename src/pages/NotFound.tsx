@@ -6,7 +6,7 @@ import { SITE } from '../data/site'
 export function NotFoundBody() {
   return (
     <div className="page flex min-h-[62dvh] flex-col items-center justify-center py-20 text-center">
-      <p className="font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-mint-deep">
+      <p className="font-mono text-[0.6875rem] uppercase tracking-[0.18em] text-leaf-deep">
         404
       </p>
       <h1 className="mt-4 text-h1 font-semibold text-ink">This page isn't here</h1>

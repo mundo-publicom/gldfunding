@@ -54,7 +54,7 @@ const VERT = /* glsl */ `#version 300 es
 const FRAG = /* glsl */ `#version 300 es
   precision mediump float;
 
-  uniform vec3 uCapital;      // outbound: bright mint
+  uniform vec3 uCapital;      // outbound: bright leaf
   uniform vec3 uReceivable;   // inbound: cooler, dimmer
 
   in float vFade;

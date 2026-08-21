@@ -54,7 +54,7 @@ export function ContactForm({
             setV(empty)
             setSent(false)
           }}
-          className="mt-5 text-[0.875rem] font-medium text-mint-deep underline underline-offset-[3px]"
+          className="mt-5 text-[0.875rem] font-medium text-leaf-deep underline underline-offset-[3px]"
         >
           Send another
         </button>

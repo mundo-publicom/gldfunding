@@ -2,6 +2,8 @@ import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRightIcon, PhoneIcon } from '@phosphor-icons/react'
 import type { FlowHandle } from '../components/CapitalFlow'
+import { ATMOSPHERE, tint } from '../lib/atmosphere'
+import { claimFieldSlot, gpuFieldAllowed, releaseFieldSlot } from '../lib/gpu'
 import { CTA, PRODUCT, SITE, currency } from '../data/site'
 import { cn } from '../lib/cn'
 
@@ -25,39 +27,30 @@ export function Hero() {
     if (!canvas || !wrap) return
 
     let cancelled = false
+    let claimed = false
 
-    // --- Gate chain. Every one of these must pass. ---
-    const gates = () => {
-      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return false
-      // Never on mobile: applicants on phones need speed, not atmosphere.
-      if (window.innerWidth < 768) return false
-      if ((navigator.hardwareConcurrency ?? 4) < 4) return false
-      // Respect Save-Data and slow connections.
-      const conn = (navigator as { connection?: { saveData?: boolean; effectiveType?: string } })
-        .connection
-      if (conn?.saveData) return false
-      if (conn?.effectiveType && /2g/.test(conn.effectiveType)) return false
-      // Confirm the device can actually give us a context.
-      try {
-        const probe = document.createElement('canvas')
-        if (!probe.getContext('webgl2') && !probe.getContext('webgl')) return false
-      } catch {
-        return false
-      }
-      return true
-    }
-
+    // The gate chain and the context budget both live in lib/gpu — the hero
+    // and the ambient section fields answer to exactly the same policy.
     const boot = async () => {
-      if (cancelled || !gates()) return
+      if (cancelled || !gpuFieldAllowed()) return
+      // The hero takes its slot first; it is the one field that always wins.
+      if (!claimFieldSlot()) return
+      claimed = true
       try {
         const { createCapitalFlow } = await import('../components/CapitalFlow')
         if (cancelled) return
         const flow = createCapitalFlow(canvas)
-        if (!flow) return // context creation failed — poster stays
+        if (!flow) {
+          releaseFieldSlot() // context creation failed — poster stays
+          claimed = false
+          return
+        }
         flowRef.current = flow
         setLive(true)
       } catch {
         /* Poster stays. Nothing to report to the user. */
+        releaseFieldSlot()
+        claimed = false
       }
     }
 
@@ -87,6 +80,7 @@ export function Hero() {
       document.removeEventListener('load', start)
       flowRef.current?.destroy()
       flowRef.current = null
+      if (claimed) releaseFieldSlot()
     }
   }, [])
 
@@ -98,7 +92,7 @@ export function Hero() {
         className="pointer-events-none absolute inset-0 -z-10"
         style={{
           background:
-            'radial-gradient(58% 76% at 71% 50%, rgba(45,212,183,0.20) 0%, rgba(10,58,68,0.34) 42%, rgba(4,24,28,0) 78%), radial-gradient(38% 52% at 88% 22%, rgba(0,136,167,0.16) 0%, rgba(4,24,28,0) 70%)',
+            `radial-gradient(58% 76% at 71% 50%, ${tint(ATMOSPHERE.aGlow, 0.2)} 0%, ${tint(ATMOSPHERE.groundLift, 0.34)} 42%, ${tint(ATMOSPHERE.ground, 0)} 78%), radial-gradient(38% 52% at 88% 22%, ${tint(ATMOSPHERE.b, 0.16)} 0%, ${tint(ATMOSPHERE.ground, 0)} 70%)`,
         }}
       />
 
@@ -171,7 +165,7 @@ export function Hero() {
                 i > 0 && 'lg:border-l lg:pl-6',
               )}
             >
-              <div className="font-mono text-[1.0625rem] font-medium tabular-nums tracking-[-0.02em] text-mint-glow">
+              <div className="font-mono text-[1.0625rem] font-medium tabular-nums tracking-[-0.02em] text-leaf-glow">
                 {s.v}
               </div>
               <div className="mt-1 text-[0.8125rem] leading-snug text-paper/70">{s.l}</div>

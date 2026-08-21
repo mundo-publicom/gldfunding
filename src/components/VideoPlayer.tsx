@@ -88,11 +88,11 @@ export function VideoPlayer({
             type="button"
             onClick={() => play()}
             aria-label={`Play video: ${title} (${durationLabel})`}
-            className="group absolute inset-0 cursor-pointer bg-petrol/35 transition-colors duration-200 hover:bg-petrol/20 focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-mint-glow"
+            className="group absolute inset-0 cursor-pointer bg-petrol/35 transition-colors duration-200 hover:bg-petrol/20 focus-visible:outline-2 focus-visible:outline-offset-[-4px] focus-visible:outline-leaf-glow"
           >
             {/* Play affordance stays centred; the label rides a bottom scrim so it
                 never lands on the artwork or fights a light poster frame. */}
-            <span className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-mint-lift text-petrol shadow-panel transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-105 group-active:scale-95 sm:h-[72px] sm:w-[72px]">
+            <span className="absolute left-1/2 top-1/2 flex h-16 w-16 -translate-x-1/2 -translate-y-1/2 items-center justify-center rounded-full bg-leaf-lift text-petrol shadow-panel transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:scale-105 group-active:scale-95 sm:h-[72px] sm:w-[72px]">
               <PlayIcon size={26} weight="fill" className="ml-1" />
             </span>
 
@@ -100,7 +100,7 @@ export function VideoPlayer({
               <span className="text-[0.9375rem] font-semibold text-white sm:text-[1.0625rem]">
                 {title}
               </span>
-              <span className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-mint-glow">
+              <span className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-leaf-glow">
                 {durationLabel}
               </span>
             </span>
@@ -127,7 +127,7 @@ export function VideoPlayer({
                     key={c.at}
                     type="button"
                     onClick={() => play(c.at)}
-                    className="rounded-full border border-rule bg-white px-3.5 py-1.5 text-[0.8125rem] text-ink-2 transition-colors duration-150 hover:border-mint hover:text-mint-deep active:scale-[0.98]"
+                    className="rounded-full border border-rule bg-white px-3.5 py-1.5 text-[0.8125rem] text-ink-2 transition-colors duration-150 hover:border-leaf hover:text-leaf-deep active:scale-[0.98]"
                   >
                     <span className="font-mono tabular-nums text-ink-3">
                       {String(Math.floor(c.at / 60)).padStart(1, '0')}:

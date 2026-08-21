@@ -124,7 +124,7 @@ export function Header() {
       <header
         className={cn(
           'sticky top-0 z-50 border-b bg-white/92 backdrop-blur-md transition-[border-color,box-shadow] duration-200',
-          scrolled ? 'border-rule shadow-[0_1px_16px_-8px_rgba(4,24,28,0.25)]' : 'border-transparent',
+          scrolled ? 'border-rule shadow-[0_1px_16px_-8px_rgba(4,24,31,0.25)]' : 'border-transparent',
         )}
       >
       {/* Nav height capped at 72px — no agency bar eating the viewport. */}
@@ -161,7 +161,7 @@ export function Header() {
                   }}
                   className={cn(
                     'flex cursor-pointer items-center gap-1 rounded-full px-3 py-2 text-[0.9375rem] font-medium transition-colors duration-150',
-                    menu === item.label ? 'text-mint-deep' : 'text-ink-2 hover:text-ink',
+                    menu === item.label ? 'text-leaf-deep' : 'text-ink-2 hover:text-ink',
                   )}
                   aria-expanded={menu === item.label}
                   aria-haspopup="true"
@@ -246,7 +246,7 @@ export function Header() {
             {/* Full number where it fits. */}
             <a
               href={SITE.phoneHref}
-              className="hidden items-center gap-1.5 rounded-full px-3 py-2 font-mono text-[0.8125rem] font-medium tabular-nums text-ink-2 transition-colors duration-150 hover:text-mint-deep xl:flex"
+              className="hidden items-center gap-1.5 rounded-full px-3 py-2 font-mono text-[0.8125rem] font-medium tabular-nums text-ink-2 transition-colors duration-150 hover:text-leaf-deep xl:flex"
             >
               <PhoneIcon size={14} weight="fill" />
               {SITE.phone}
@@ -257,7 +257,7 @@ export function Header() {
             <a
               href={SITE.phoneHref}
               aria-label={`Call ${SITE.phone}`}
-              className="hidden h-10 w-10 items-center justify-center rounded-full border border-rule text-ink-2 transition-colors duration-150 hover:border-mint hover:text-mint-deep active:scale-[0.97] min-[360px]:flex xl:hidden"
+              className="hidden h-10 w-10 items-center justify-center rounded-full border border-rule text-ink-2 transition-colors duration-150 hover:border-leaf hover:text-leaf-deep active:scale-[0.97] min-[360px]:flex xl:hidden"
             >
               <PhoneIcon size={17} weight="fill" />
             </a>
@@ -309,7 +309,7 @@ export function Header() {
                       <Link
                         key={c.href}
                         to={c.href}
-                        className="py-1.5 text-[0.875rem] text-ink-3 transition-colors hover:text-mint-deep"
+                        className="py-1.5 text-[0.875rem] text-ink-3 transition-colors hover:text-leaf-deep"
                       >
                         {c.label}
                       </Link>

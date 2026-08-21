@@ -20,7 +20,7 @@ export function Testimonials() {
       >
         {TESTIMONIALS.map((t) => (
           <figure key={t.business} className="flex flex-col bg-white p-6 lg:p-7">
-            <QuotesIcon size={22} weight="fill" className="text-mint/35" aria-hidden="true" />
+            <QuotesIcon size={22} weight="fill" className="text-leaf/35" aria-hidden="true" />
             <blockquote className="mt-4 flex-1 text-[0.9375rem] leading-relaxed text-ink-2">
               {t.quote}
             </blockquote>

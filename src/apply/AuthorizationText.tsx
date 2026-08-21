@@ -61,7 +61,7 @@ export function AuthorizationText() {
           Five things, in plain language. Open any one to read the full text, or{' '}
           <a
             href="/legal/application-authorization.pdf"
-            className="text-mint-deep underline underline-offset-[3px]"
+            className="text-leaf-deep underline underline-offset-[3px]"
           >
             download the complete authorization
           </a>
@@ -73,7 +73,7 @@ export function AuthorizationText() {
         {CLAUSES.map((clause, i) => (
           <li key={clause.title}>
             <div className="flex items-start gap-3.5 py-4">
-              <span className="mt-0.5 font-mono text-[0.75rem] tabular-nums text-mint-deep">
+              <span className="mt-0.5 font-mono text-[0.75rem] tabular-nums text-leaf-deep">
                 {String(i + 1).padStart(2, '0')}
               </span>
               <div className="min-w-0 flex-1">

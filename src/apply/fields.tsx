@@ -204,7 +204,7 @@ export function YesNo({
               className={cn(
                 'rounded-[4px] border px-4 py-3.5 text-[0.9375rem] font-medium transition-all duration-150 ease-[cubic-bezier(0.23,1,0.32,1)] active:scale-[0.98]',
                 on
-                  ? 'border-mint bg-mint/8 text-mint-deep shadow-[inset_0_0_0_1px_var(--color-mint)]'
+                  ? 'border-leaf bg-leaf/8 text-leaf-deep shadow-[inset_0_0_0_1px_var(--color-leaf)]'
                   : 'border-rule bg-white text-ink-2 hover:border-ink-4',
               )}
             >
@@ -263,7 +263,7 @@ export function SignaturePad({
     ctx.lineWidth = 2
     ctx.lineCap = 'round'
     ctx.lineJoin = 'round'
-    ctx.strokeStyle = '#0d1618'
+    ctx.strokeStyle = '#0d1519'
     return ctx
   }
 
@@ -329,7 +329,7 @@ export function SignaturePad({
     canvas.height = 160
     const ctx = canvas.getContext('2d')
     if (!ctx) return
-    ctx.fillStyle = '#0d1618'
+    ctx.fillStyle = '#0d1519'
     ctx.font = 'italic 52px "Geist Variable", Georgia, serif'
     ctx.textBaseline = 'middle'
     ctx.fillText(text, 24, 84)

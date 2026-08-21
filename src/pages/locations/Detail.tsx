@@ -105,7 +105,7 @@ export function Component() {
               className={cn(
                 'mt-10 border-l-[3px] p-5',
                 state.disclosure === 'in-force'
-                  ? 'border-mint bg-paper'
+                  ? 'border-leaf bg-paper'
                   : state.disclosure === 'enacted'
                     ? 'border-warn bg-paper'
                     : 'border-rule bg-paper',
@@ -216,7 +216,7 @@ export function Component() {
               className="bg-white p-5 transition-colors duration-150 hover:bg-paper"
             >
               <h3 className="text-[0.9375rem] font-semibold text-ink">{i.short}</h3>
-              <p className="mt-1.5 font-mono text-[0.8125rem] tabular-nums text-mint-deep">
+              <p className="mt-1.5 font-mono text-[0.8125rem] tabular-nums text-leaf-deep">
                 {i.typicalRange}
               </p>
             </Link>

@@ -96,7 +96,7 @@ export function Component() {
                     key={u}
                     className="flex items-start gap-2.5 border-t border-rule pt-3 text-[0.9375rem] leading-relaxed text-ink-2"
                   >
-                    <CheckIcon size={15} weight="bold" className="mt-1 shrink-0 text-mint-deep" />
+                    <CheckIcon size={15} weight="bold" className="mt-1 shrink-0 text-leaf-deep" />
                     {u}
                   </li>
                 ))}
@@ -146,7 +146,7 @@ export function Component() {
           <div className="mt-8 grid gap-px border border-rule bg-rule sm:grid-cols-2 lg:grid-cols-3">
             {proof.map((t) => (
               <figure key={t.business} className="flex flex-col bg-white p-6">
-                <QuotesIcon size={20} weight="fill" className="text-mint/35" aria-hidden="true" />
+                <QuotesIcon size={20} weight="fill" className="text-leaf/35" aria-hidden="true" />
                 <blockquote className="mt-3.5 flex-1 text-[0.9375rem] leading-relaxed text-ink-2">
                   {t.quote}
                 </blockquote>
@@ -182,7 +182,7 @@ export function Component() {
             <Link
               key={i.slug}
               to={`/industries/${i.slug}`}
-              className="rounded-full border border-rule bg-white px-4 py-2 text-[0.875rem] text-ink-2 transition-colors duration-150 hover:border-mint hover:text-mint-deep"
+              className="rounded-full border border-rule bg-white px-4 py-2 text-[0.875rem] text-ink-2 transition-colors duration-150 hover:border-leaf hover:text-leaf-deep"
             >
               {i.short}
             </Link>

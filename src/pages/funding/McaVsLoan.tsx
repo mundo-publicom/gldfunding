@@ -81,7 +81,7 @@ export function Component() {
         </div>
 
         <div
-          className="mt-10 overflow-x-auto border border-rule focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mint"
+          className="mt-10 overflow-x-auto border border-rule focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-leaf"
           tabIndex={0}
           role="region"
           aria-label="Comparison of merchant cash advances, bank loans and SBA loans — scrolls horizontally"
@@ -92,11 +92,11 @@ export function Component() {
                 <th className="bg-paper px-5 py-4 text-left font-mono text-[0.6875rem] font-medium uppercase tracking-[0.12em] text-ink-3">
                   &nbsp;
                 </th>
-                <th className="bg-mint/8 px-5 py-4 text-left">
+                <th className="bg-leaf/8 px-5 py-4 text-left">
                   <span className="block text-[0.9375rem] font-semibold text-ink">
                     Merchant cash advance
                   </span>
-                  <span className="mt-0.5 block font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-mint-deep">
+                  <span className="mt-0.5 block font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-leaf-deep">
                     GLD Funding
                   </span>
                 </th>
@@ -120,7 +120,7 @@ export function Component() {
                   <td className="bg-paper px-5 py-3.5 text-[0.875rem] font-medium text-ink">
                     {r.label}
                   </td>
-                  <td className="bg-mint/4 px-5 py-3.5 text-[0.9375rem] text-ink-2">{r.mca}</td>
+                  <td className="bg-leaf/4 px-5 py-3.5 text-[0.9375rem] text-ink-2">{r.mca}</td>
                   <td className="px-5 py-3.5 text-[0.9375rem] text-ink-2">{r.loan}</td>
                   <td className="px-5 py-3.5 text-[0.9375rem] text-ink-2">{r.sba}</td>
                 </tr>
@@ -149,7 +149,7 @@ export function Component() {
                 'The capital pays for itself faster than the cost accrues',
               ].map((t) => (
                 <li key={t} className="flex items-start gap-2.5 text-[0.9375rem] leading-relaxed text-ink-2">
-                  <CheckIcon size={15} weight="bold" className="mt-1 shrink-0 text-mint-deep" />
+                  <CheckIcon size={15} weight="bold" className="mt-1 shrink-0 text-leaf-deep" />
                   {t}
                 </li>
               ))}

@@ -131,7 +131,7 @@ export function RateCalculator({ compact = false }: { compact?: boolean }) {
         <div className="flex flex-col justify-between gap-6 bg-petrol p-6 text-paper">
           <div>
             {/* Total repayment leads. It is the number that actually matters. */}
-            <p className="font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-mint-glow">
+            <p className="font-mono text-[0.6875rem] uppercase tracking-[0.16em] text-leaf-glow">
               Total repayment
             </p>
             <p className="mt-2 font-mono text-[clamp(2rem,4.5vw,2.75rem)] font-medium tabular-nums leading-none tracking-[-0.03em] text-white">
@@ -228,13 +228,13 @@ function Slider({
           [&::-webkit-slider-thumb]:mt-[-7px] [&::-webkit-slider-thumb]:h-5 [&::-webkit-slider-thumb]:w-5
           [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:rounded-full
           [&::-webkit-slider-thumb]:border-2 [&::-webkit-slider-thumb]:border-white
-          [&::-webkit-slider-thumb]:bg-mint-deep [&::-webkit-slider-thumb]:shadow-lift
+          [&::-webkit-slider-thumb]:bg-leaf-deep [&::-webkit-slider-thumb]:shadow-lift
           [&::-webkit-slider-thumb]:transition-transform [&::-webkit-slider-thumb]:duration-100
           active:[&::-webkit-slider-thumb]:scale-95
           [&::-moz-range-track]:h-1.5 [&::-moz-range-track]:rounded-full
           [&::-moz-range-thumb]:h-5 [&::-moz-range-thumb]:w-5 [&::-moz-range-thumb]:rounded-full
           [&::-moz-range-thumb]:border-2 [&::-moz-range-thumb]:border-white
-          [&::-moz-range-thumb]:bg-mint-deep"
+          [&::-moz-range-thumb]:bg-leaf-deep"
         style={{
           // Filled track to the thumb, neutral after it.
           ['--pct' as string]: `${pct}%`,
@@ -248,10 +248,10 @@ function Slider({
       />
       <style>{`
         #${id}::-webkit-slider-runnable-track {
-          background: linear-gradient(to right, var(--color-mint-deep) var(--pct, ${pct}%), var(--color-rule) var(--pct, ${pct}%));
+          background: linear-gradient(to right, var(--color-leaf-deep) var(--pct, ${pct}%), var(--color-rule) var(--pct, ${pct}%));
         }
         #${id}::-moz-range-track {
-          background: linear-gradient(to right, var(--color-mint-deep) var(--pct, ${pct}%), var(--color-rule) var(--pct, ${pct}%));
+          background: linear-gradient(to right, var(--color-leaf-deep) var(--pct, ${pct}%), var(--color-rule) var(--pct, ${pct}%));
         }
       `}</style>
 

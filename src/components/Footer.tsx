@@ -9,6 +9,7 @@ import {
   YoutubeLogoIcon,
 } from '@phosphor-icons/react'
 import { CTA, INDUSTRIES, SITE } from '../data/site'
+import { AmbientBackdrop } from './AmbientBackdrop'
 import { Logo } from './Logo'
 
 const COLUMNS = [
@@ -42,7 +43,9 @@ export function Footer() {
   const year = new Date().getFullYear()
 
   return (
-    <footer className="mt-auto border-t border-rule bg-petrol text-paper">
+    <footer className="relative isolate mt-auto border-t border-rule bg-petrol text-paper">
+      {/* Quietest field on the page — the footer is the exit, not a feature. */}
+      <AmbientBackdrop variant="drift" tone="dark" seed="footer" intensity={0.55} />
       {/* Closing CTA — one label per intent, same as the nav and every hero. */}
       <div className="border-b border-white/10">
         <div className="page grid gap-8 py-14 lg:grid-cols-[1.2fr_auto] lg:items-center lg:py-16">
@@ -79,7 +82,7 @@ export function Footer() {
 
           <address className="mt-6 flex flex-col gap-2.5 not-italic text-[0.875rem] text-paper/75">
             <span className="flex items-start gap-2.5">
-              <MapPinIcon size={16} className="mt-0.5 shrink-0 text-mint-glow" />
+              <MapPinIcon size={16} className="mt-0.5 shrink-0 text-leaf-glow" />
               <span>
                 {SITE.address.street}
                 <br />
@@ -88,16 +91,16 @@ export function Footer() {
             </span>
             <a
               href={SITE.phoneHref}
-              className="flex items-center gap-2.5 font-mono tabular-nums transition-colors hover:text-mint-glow"
+              className="flex items-center gap-2.5 font-mono tabular-nums transition-colors hover:text-leaf-glow"
             >
-              <PhoneIcon size={16} className="shrink-0 text-mint-glow" />
+              <PhoneIcon size={16} className="shrink-0 text-leaf-glow" />
               {SITE.phone}
             </a>
             <a
               href={`mailto:${SITE.email}`}
-              className="flex items-center gap-2.5 transition-colors hover:text-mint-glow"
+              className="flex items-center gap-2.5 transition-colors hover:text-leaf-glow"
             >
-              <EnvelopeSimpleIcon size={16} className="shrink-0 text-mint-glow" />
+              <EnvelopeSimpleIcon size={16} className="shrink-0 text-leaf-glow" />
               {SITE.email}
             </a>
           </address>
@@ -115,7 +118,7 @@ export function Footer() {
                 target="_blank"
                 rel="noreferrer noopener"
                 aria-label={label}
-                className="flex h-9 w-9 items-center justify-center rounded-full text-paper/70 transition-colors duration-150 hover:bg-white/8 hover:text-mint-glow"
+                className="flex h-9 w-9 items-center justify-center rounded-full text-paper/70 transition-colors duration-150 hover:bg-white/8 hover:text-leaf-glow"
               >
                 <Icon size={17} weight="fill" />
               </a>
@@ -125,7 +128,7 @@ export function Footer() {
 
         {COLUMNS.map((col) => (
           <nav key={col.title} aria-label={col.title}>
-            <h3 className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.16em] text-mint-glow">
+            <h3 className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.16em] text-leaf-glow">
               {col.title}
             </h3>
             <ul className="mt-4 flex flex-col gap-2.5">

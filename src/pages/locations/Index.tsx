@@ -11,7 +11,7 @@ const TRAIL = [
 ]
 
 const BADGE = {
-  'in-force': { label: 'Disclosure law', cls: 'border-mint text-mint-deep' },
+  'in-force': { label: 'Disclosure law', cls: 'border-leaf text-leaf-deep' },
   enacted: { label: 'Enacted', cls: 'border-warn text-warn' },
   none: { label: '—', cls: 'border-rule text-ink-4' },
 }
@@ -86,7 +86,7 @@ export function Component() {
                   </span>
                 </div>
                 <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-2">{s.note}</p>
-                <span className="mt-4 inline-block text-[0.875rem] font-medium text-mint-deep">
+                <span className="mt-4 inline-block text-[0.875rem] font-medium text-leaf-deep">
                   Funding in {s.name} →
                 </span>
               </Link>
@@ -101,14 +101,14 @@ export function Component() {
               <li key={s.slug} className="border-b border-rule-soft">
                 <Link
                   to={`/locations/${s.slug}`}
-                  className="flex items-center justify-between gap-3 py-2.5 text-[0.9375rem] text-ink-2 transition-colors duration-150 hover:text-mint-deep"
+                  className="flex items-center justify-between gap-3 py-2.5 text-[0.9375rem] text-ink-2 transition-colors duration-150 hover:text-leaf-deep"
                 >
                   {s.name}
                   {s.disclosure !== 'none' && (
                     <span
                       className={cn(
                         'shrink-0 font-mono text-[0.625rem] uppercase tracking-[0.1em]',
-                        s.disclosure === 'in-force' ? 'text-mint-deep' : 'text-warn',
+                        s.disclosure === 'in-force' ? 'text-leaf-deep' : 'text-warn',
                       )}
                     >
                       {BADGE[s.disclosure].label}

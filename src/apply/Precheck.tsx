@@ -104,7 +104,7 @@ export function Precheck({
       </div>
 
       {result?.ok && (
-        <div className="mt-8 border-l-[3px] border-mint bg-paper p-5 motion-safe:animate-[resultIn_320ms_cubic-bezier(0.23,1,0.32,1)]">
+        <div className="mt-8 border-l-[3px] border-leaf bg-paper p-5 motion-safe:animate-[resultIn_320ms_cubic-bezier(0.23,1,0.32,1)]">
           <p className="eyebrow">Indicative range</p>
           <p className="mt-2.5 font-mono text-[clamp(1.5rem,3.4vw,2rem)] font-medium tabular-nums leading-none tracking-[-0.03em] text-ink">
             {currency(result.low)} – {currency(result.high)}
@@ -129,7 +129,7 @@ export function Precheck({
             </p>
             <a
               href={SITE.phoneHref}
-              className="mt-3 inline-block font-medium text-mint-deep underline underline-offset-[3px]"
+              className="mt-3 inline-block font-medium text-leaf-deep underline underline-offset-[3px]"
             >
               {SITE.phone}
             </a>

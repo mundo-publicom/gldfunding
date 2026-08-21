@@ -131,7 +131,7 @@ export function Component() {
               <p className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-3">
                 {c.label}
               </p>
-              <p className="mt-2.5 font-mono text-[1.375rem] font-medium tabular-nums tracking-[-0.02em] text-mint-deep">
+              <p className="mt-2.5 font-mono text-[1.375rem] font-medium tabular-nums tracking-[-0.02em] text-leaf-deep">
                 {c.value}
               </p>
               <p className="mt-2.5 text-[0.875rem] leading-relaxed text-ink-2">{c.note}</p>

@@ -3,42 +3,47 @@
 
 /* ============================================================
    GLD Funding design tokens
-   Palette evolves the incumbent teal lineage (#0088a7 / #00d0b3)
-   into a deeper, more considered system. One accent, locked.
+   Derived from the logo: the arrow's lime is the accent, the chart bars'
+   blues are the grounds. One accent, locked.
    ============================================================ */
 
 @theme {
-  /* --- ground & surface --- */
-  --color-petrol: #04181c;
-  --color-petrol-2: #082227;
-  --color-deep: #0a3a44;
-  --color-deep-2: #0e4c58;
+  /* --- ground & surface: the mark's blues (#1691b6 / #12a8e0) taken deep --- */
+  --color-petrol: #04181f;
+  --color-petrol-2: #082833;
+  --color-deep: #0d4457;
+  --color-deep-2: #12596f;
 
-  --color-paper: #f4f7f7;
-  --color-paper-2: #e8efef;
+  --color-paper: #f4f7f6;
+  --color-paper-2: #e8eee9;
   --color-white: #ffffff;
 
-  /* --- accent (locked: every primary action is mint) --- */
-  --color-mint: #00b39a;
-  --color-mint-lift: #14cbb0;
-  --color-mint-deep: #00786a;
-  --color-mint-glow: #55e6cc;
+  /* --- accent (locked: every primary action is leaf) ---
+     leaf-lift is the logo arrow's lime, unmodified. leaf-deep is the same hue
+     dragged down until it clears 4.5:1 as text on white. --- */
+  --color-leaf: #688f25;
+  --color-leaf-lift: #97c83e;
+  --color-leaf-deep: #4c7a12;
+  --color-leaf-glow: #b2de5e;
 
   /* --- semantic: reserved, never decorative ---
-     mint-deep and warn are both sized down to 10-11px in badges, so they are
-     tuned to clear 4.5:1 on white AND on the mint/8 tint, not just on white. */
+     leaf-deep and warn are both sized down to 10-11px in badges, so they are
+     tuned to clear 4.5:1 on white AND on the leaf/8 tint, not just on white.
+     `good` stays a cool forest green — 65 degrees of hue off the accent's
+     yellow-green, so a success tick still reads as success rather than as
+     brand chrome, without going blue and fighting the accent ticks. */
   --color-rate: #c2542f;
   --color-rate-bg: #fbede8;
   --color-good: #2f7a4f;
-  --color-warn: #9a6412;
+  --color-warn: #8a6410;
 
-  /* --- neutrals, biased cool-teal so the page reads as one system --- */
-  --color-ink: #0d1618;
-  --color-ink-2: #3d4d50;
-  --color-ink-3: #5c6f72;
-  --color-ink-4: #8ba0a2;
-  --color-rule: #d3dcdd;
-  --color-rule-soft: #e4ebeb;
+  /* --- neutrals, biased to the grounds' blue so the page reads as one system --- */
+  --color-ink: #0d1519;
+  --color-ink-2: #3c4b52;
+  --color-ink-3: #5a6d75;
+  --color-ink-4: #899ca4;
+  --color-rule: #d2dbdd;
+  --color-rule-soft: #e4eaeb;
 
   /* --- type --- */
   --font-sans: 'Geist Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
@@ -70,8 +75,8 @@
   --ease-in-out-strong: cubic-bezier(0.77, 0, 0.175, 1);
   --ease-drawer: cubic-bezier(0.32, 0.72, 0, 1);
 
-  --shadow-lift: 0 1px 2px rgba(4, 24, 28, 0.05), 0 12px 32px -16px rgba(4, 24, 28, 0.22);
-  --shadow-panel: 0 1px 3px rgba(4, 24, 28, 0.06), 0 24px 60px -28px rgba(4, 24, 28, 0.3);
+  --shadow-lift: 0 1px 2px rgba(4, 24, 31, 0.05), 0 12px 32px -16px rgba(4, 24, 31, 0.22);
+  --shadow-panel: 0 1px 3px rgba(4, 24, 31, 0.06), 0 24px 60px -28px rgba(4, 24, 31, 0.3);
 
   --container-page: 1240px;
 }
@@ -126,13 +131,13 @@
   }
 
   :focus-visible {
-    outline: 2px solid var(--color-mint);
+    outline: 2px solid var(--color-leaf);
     outline-offset: 3px;
     border-radius: var(--radius-chip);
   }
 
   ::selection {
-    background: var(--color-mint);
+    background: var(--color-leaf);
     color: var(--color-white);
   }
 
@@ -177,11 +182,11 @@
     font-weight: 500;
     letter-spacing: 0.16em;
     text-transform: uppercase;
-    color: var(--color-mint-deep);
+    color: var(--color-leaf-deep);
   }
 
   .eyebrow-invert {
-    color: var(--color-mint-glow);
+    color: var(--color-leaf-glow);
   }
 
   /* --- buttons: full-pill, one accent, tactile on press --- */
@@ -219,23 +224,27 @@
     transform: none;
   }
 
+  /* The arrow's lime, carrying ink rather than white. Dragging the green dark
+     enough to hold white text lands on a muted olive that reads nothing like
+     the mark; at full strength with ink on top it is the logo's own colour and
+     clears 9:1. Same treatment both grounds — see btn-primary-invert. */
   .btn-primary {
-    background: var(--color-mint-deep);
-    color: var(--color-white);
+    background: var(--color-leaf-lift);
+    color: var(--color-petrol);
   }
 
   .btn-primary:hover:not(:disabled) {
-    background: var(--color-deep);
+    background: var(--color-leaf);
   }
 
-  /* On dark grounds the accent carries itself — no white text on mint. */
+  /* On dark grounds the accent carries itself — no white text on leaf. */
   .btn-primary-invert {
-    background: var(--color-mint-lift);
+    background: var(--color-leaf-lift);
     color: var(--color-petrol);
   }
 
   .btn-primary-invert:hover:not(:disabled) {
-    background: var(--color-mint-glow);
+    background: var(--color-leaf-glow);
   }
 
   .btn-secondary {
@@ -319,8 +328,8 @@
 
   .input:focus {
     outline: none;
-    border-color: var(--color-mint);
-    box-shadow: 0 0 0 3px rgba(0, 179, 154, 0.16);
+    border-color: var(--color-leaf);
+    box-shadow: 0 0 0 3px rgba(104, 143, 37, 0.18);
   }
 
   .input[aria-invalid='true'] {

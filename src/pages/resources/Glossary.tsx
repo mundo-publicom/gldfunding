@@ -62,7 +62,7 @@ export function Component() {
             <a
               key={l}
               href={`#letter-${l}`}
-              className="flex h-8 w-8 items-center justify-center rounded-full border border-rule font-mono text-[0.75rem] text-ink-2 transition-colors duration-150 hover:border-mint hover:text-mint-deep"
+              className="flex h-8 w-8 items-center justify-center rounded-full border border-rule font-mono text-[0.75rem] text-ink-2 transition-colors duration-150 hover:border-leaf hover:text-leaf-deep"
             >
               {l}
             </a>
@@ -72,7 +72,7 @@ export function Component() {
         <div className="mt-10">
           {letters.map((letter) => (
             <section key={letter} id={`letter-${letter}`} className="scroll-mt-28">
-              <h2 className="mt-10 border-b border-rule pb-2 font-mono text-[0.875rem] uppercase tracking-[0.18em] text-mint-deep first:mt-0">
+              <h2 className="mt-10 border-b border-rule pb-2 font-mono text-[0.875rem] uppercase tracking-[0.18em] text-leaf-deep first:mt-0">
                 {letter}
               </h2>
               <dl>

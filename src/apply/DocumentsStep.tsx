@@ -83,7 +83,7 @@ export function DocumentsStep({ data, update, errors }: StepProps) {
   return (
     <div className="flex flex-col gap-8">
       {/* The requirement is computed from step 1 and stated plainly. */}
-      <div className="border-l-[3px] border-mint bg-paper p-5">
+      <div className="border-l-[3px] border-leaf bg-paper p-5">
         <p className="text-[1.0625rem] font-semibold text-ink">
           Upload your last {months} months of business bank statements
         </p>
@@ -111,11 +111,11 @@ export function DocumentsStep({ data, update, errors }: StepProps) {
           className={cn(
             'flex flex-col items-start gap-2 rounded-[4px] border p-5 text-left transition-all duration-150 active:scale-[0.99]',
             plaidChosen
-              ? 'border-mint bg-mint/8 shadow-[inset_0_0_0_1px_var(--color-mint)]'
+              ? 'border-leaf bg-leaf/8 shadow-[inset_0_0_0_1px_var(--color-leaf)]'
               : 'border-rule bg-white hover:border-ink-4',
           )}
         >
-          <span className="flex items-center gap-2 text-mint-deep">
+          <span className="flex items-center gap-2 text-leaf-deep">
             <LightningIcon size={20} weight="fill" />
             <span className="font-mono text-[0.6875rem] uppercase tracking-[0.14em]">Fastest</span>
           </span>
@@ -134,7 +134,7 @@ export function DocumentsStep({ data, update, errors }: StepProps) {
           className={cn(
             'flex flex-col items-start gap-2 rounded-[4px] border p-5 text-left transition-all duration-150 active:scale-[0.99]',
             data.documents.method === 'upload'
-              ? 'border-mint bg-mint/8 shadow-[inset_0_0_0_1px_var(--color-mint)]'
+              ? 'border-leaf bg-leaf/8 shadow-[inset_0_0_0_1px_var(--color-leaf)]'
               : 'border-rule bg-white hover:border-ink-4',
           )}
         >
@@ -177,7 +177,7 @@ export function DocumentsStep({ data, update, errors }: StepProps) {
             }}
             className={cn(
               'flex flex-col items-center justify-center gap-3 rounded-[4px] border border-dashed px-6 py-10 text-center transition-colors duration-150',
-              dragging ? 'border-mint bg-mint/5' : 'border-rule bg-paper',
+              dragging ? 'border-leaf bg-leaf/5' : 'border-rule bg-paper',
             )}
           >
             <UploadSimpleIcon size={26} className="text-ink-3" />
@@ -187,7 +187,7 @@ export function DocumentsStep({ data, update, errors }: StepProps) {
                 <button
                   type="button"
                   onClick={() => inputRef.current?.click()}
-                  className="text-mint-deep underline underline-offset-[3px]"
+                  className="text-leaf-deep underline underline-offset-[3px]"
                 >
                   browse your files
                 </button>
@@ -234,7 +234,7 @@ export function DocumentsStep({ data, update, errors }: StepProps) {
                     ) : f.status === 'uploading' ? (
                       <div className="mt-2 h-[3px] w-full overflow-hidden rounded-full bg-rule">
                         <div
-                          className="h-full bg-mint-deep transition-[width] duration-150 ease-linear"
+                          className="h-full bg-leaf-deep transition-[width] duration-150 ease-linear"
                           style={{ width: `${f.progress}%` }}
                         />
                       </div>

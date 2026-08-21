@@ -208,8 +208,8 @@ export function Component() {
       <div className="page grid gap-10 py-12 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-16 lg:py-16">
         <div className="min-w-0">
           {restored && phase !== 'review' && (
-            <div className="mb-8 flex items-start gap-3 border-l-[3px] border-mint bg-paper p-4">
-              <CheckIcon size={17} weight="bold" className="mt-0.5 shrink-0 text-mint-deep" />
+            <div className="mb-8 flex items-start gap-3 border-l-[3px] border-leaf bg-paper p-4">
+              <CheckIcon size={17} weight="bold" className="mt-0.5 shrink-0 text-leaf-deep" />
               <p className="text-[0.9375rem] text-ink-2">
                 We picked up where you left off.{' '}
                 <button
@@ -220,7 +220,7 @@ export function Component() {
                     setStepIndex(0)
                     setRestored(false)
                   }}
-                  className="font-medium text-mint-deep underline underline-offset-[3px]"
+                  className="font-medium text-leaf-deep underline underline-offset-[3px]"
                 >
                   Start over
                 </button>
@@ -346,8 +346,8 @@ function ProgressBar({
               aria-current={i === current ? 'step' : undefined}
               className={cn(
                 'h-2 w-2 rounded-full border transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)]',
-                i < current && 'border-mint-deep bg-mint-deep',
-                i === current && 'scale-125 border-mint-deep bg-mint-deep',
+                i < current && 'border-leaf-deep bg-leaf-deep',
+                i === current && 'scale-125 border-leaf-deep bg-leaf-deep',
                 i > current && 'border-rule bg-transparent',
               )}
             />
@@ -417,7 +417,7 @@ function Review({
             <button
               type="button"
               onClick={() => onEdit(s.id)}
-              className="flex shrink-0 items-center gap-1.5 rounded-full border border-rule px-3.5 py-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-mint-deep transition-colors duration-150 hover:border-mint hover:bg-mint/6"
+              className="flex shrink-0 items-center gap-1.5 rounded-full border border-rule px-3.5 py-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-leaf-deep transition-colors duration-150 hover:border-leaf hover:bg-leaf/6"
             >
               <PencilSimpleIcon size={12} />
               Edit
@@ -526,7 +526,7 @@ function SidePanel({ data, phase }: { data: ApplicationData; phase: Phase }) {
             `${months} months of bank statements`,
           ].map((t) => (
             <li key={t} className="flex items-start gap-2.5 text-[0.875rem] leading-snug text-ink-2">
-              <CheckIcon size={14} weight="bold" className="mt-0.5 shrink-0 text-mint-deep" />
+              <CheckIcon size={14} weight="bold" className="mt-0.5 shrink-0 text-leaf-deep" />
               {t}
             </li>
           ))}
@@ -552,7 +552,7 @@ function SidePanel({ data, phase }: { data: ApplicationData; phase: Phase }) {
         <LockSimpleIcon size={15} className="mt-0.5 shrink-0" />
         <span>
           Your information is encrypted in transit and at rest, and is never sold. See our{' '}
-          <Link to="/legal/privacy" className="text-mint-deep underline underline-offset-2">
+          <Link to="/legal/privacy" className="text-leaf-deep underline underline-offset-2">
             privacy policy
           </Link>
           .
@@ -561,7 +561,7 @@ function SidePanel({ data, phase }: { data: ApplicationData; phase: Phase }) {
 
       <div className="px-1 text-[0.8125rem] leading-relaxed text-ink-3">
         Questions?{' '}
-        <a href={SITE.phoneHref} className="font-medium text-mint-deep">
+        <a href={SITE.phoneHref} className="font-medium text-leaf-deep">
           {SITE.phone}
         </a>
       </div>

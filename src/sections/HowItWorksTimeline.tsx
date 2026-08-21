@@ -79,7 +79,7 @@ export function HowItWorksTimeline({ showVideoLink = false }: { showVideoLink?: 
   }, [])
 
   return (
-    <Section tone="petrol">
+    <Section tone="petrol" ambient="stream" ambientSeed="how-it-works-timeline" ambientIntensity={0.7}>
       <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
         <div className="lg:sticky lg:top-28 lg:self-start">
           <SectionHead
@@ -95,7 +95,7 @@ export function HowItWorksTimeline({ showVideoLink = false }: { showVideoLink?: 
             {showVideoLink && (
               <Link
                 to="/funding/how-it-works"
-                className="group inline-flex items-center gap-2 text-[0.9375rem] font-medium text-mint-glow"
+                className="group inline-flex items-center gap-2 text-[0.9375rem] font-medium text-leaf-glow"
               >
                 <PlayCircleIcon size={19} weight="fill" />
                 Watch the {OVERVIEW_VIDEO.durationLabel} overview
@@ -108,7 +108,7 @@ export function HowItWorksTimeline({ showVideoLink = false }: { showVideoLink?: 
           {/* The rail: a track that fills as the reader travels the section. */}
           <div className="absolute left-[15px] top-2 bottom-2 w-px bg-white/12" aria-hidden="true">
             <div
-              className="w-px origin-top bg-mint-glow"
+              className="w-px origin-top bg-leaf-glow"
               style={{
                 height: '100%',
                 transform: `scaleY(${progress})`,
@@ -126,8 +126,8 @@ export function HowItWorksTimeline({ showVideoLink = false }: { showVideoLink?: 
                     aria-hidden="true"
                     className="absolute left-0 top-1 flex h-8 w-8 items-center justify-center rounded-full border transition-[background-color,border-color,transform] duration-300 ease-[cubic-bezier(0.23,1,0.32,1)]"
                     style={{
-                      background: on ? 'var(--color-mint-glow)' : 'var(--color-petrol)',
-                      borderColor: on ? 'var(--color-mint-glow)' : 'rgba(255,255,255,0.22)',
+                      background: on ? 'var(--color-leaf-glow)' : 'var(--color-petrol)',
+                      borderColor: on ? 'var(--color-leaf-glow)' : 'rgba(255,255,255,0.22)',
                       transform: on ? 'scale(1)' : 'scale(0.88)',
                     }}
                   >
@@ -145,7 +145,7 @@ export function HowItWorksTimeline({ showVideoLink = false }: { showVideoLink?: 
                   >
                     <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
                       <h3 className="text-h3 font-semibold text-white">{step.title}</h3>
-                      <span className="font-mono text-[0.75rem] tabular-nums uppercase tracking-[0.1em] text-mint-glow">
+                      <span className="font-mono text-[0.75rem] tabular-nums uppercase tracking-[0.1em] text-leaf-glow">
                         {step.time}
                       </span>
                     </div>

@@ -99,7 +99,7 @@ export function Component() {
             </p>
             <Link
               to="/funding/merchant-cash-advance"
-              className="group mt-6 inline-flex items-center gap-2 text-[0.9375rem] font-medium text-mint-deep"
+              className="group mt-6 inline-flex items-center gap-2 text-[0.9375rem] font-medium text-leaf-deep"
             >
               How a merchant cash advance works
               <ArrowRightIcon
@@ -112,7 +112,7 @@ export function Component() {
         </div>
       </Section>
 
-      <Section tone="paper">
+      <Section tone="paper" ambient="orbit" ambientSeed="why-a-bank-will-not">
         <SectionHead
           eyebrow="Why business owners choose us"
           title="Four things a bank will not do."
@@ -146,7 +146,7 @@ export function Component() {
       <HowItWorksTimeline showVideoLink />
 
       {/* Cost transparency, up front — the content that earns AI citations. */}
-      <Section tone="paper" id="calculator">
+      <Section tone="paper" id="calculator" ambient="converge" ambientSide="left">
         <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-14">
           <SectionHead
             eyebrow="No surprises"
@@ -157,7 +157,7 @@ export function Component() {
         </div>
       </Section>
 
-      <Section tone="white">
+      <Section tone="white" ambient="drift" ambientSeed="industries-we-fund" ambientIntensity={0.75}>
         <SectionHead
           eyebrow="Industries we fund"
           title="We know your trade's cash flow."
@@ -173,13 +173,13 @@ export function Component() {
               <h3 className="text-[1.0625rem] font-semibold tracking-[-0.015em] text-ink">
                 {ind.short}
               </h3>
-              <p className="mt-2 font-mono text-[0.8125rem] tabular-nums text-mint-deep">
+              <p className="mt-2 font-mono text-[0.8125rem] tabular-nums text-leaf-deep">
                 {ind.typicalRange}
               </p>
               <p className="mt-3 line-clamp-3 text-[0.875rem] leading-relaxed text-ink-3">
                 {ind.useCases.slice(0, 2).join(' · ')}
               </p>
-              <span className="mt-4 inline-flex items-center gap-1.5 text-[0.8125rem] font-medium text-mint-deep">
+              <span className="mt-4 inline-flex items-center gap-1.5 text-[0.8125rem] font-medium text-leaf-deep">
                 Funding for {ind.short.toLowerCase()}
                 <ArrowRightIcon
                   size={12}
@@ -201,7 +201,7 @@ export function Component() {
             <FaqList items={FAQS} />
             <Link
               to="/resources/glossary"
-              className="group mt-7 inline-flex items-center gap-2 text-[0.9375rem] font-medium text-mint-deep"
+              className="group mt-7 inline-flex items-center gap-2 text-[0.9375rem] font-medium text-leaf-deep"
             >
               Browse the full funding glossary
               <ArrowRightIcon

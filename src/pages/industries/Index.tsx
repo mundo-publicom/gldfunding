@@ -60,14 +60,14 @@ export function Component() {
             >
               <div className="flex items-baseline justify-between gap-4">
                 <h2 className="text-h3 font-semibold text-ink">{ind.name}</h2>
-                <span className="shrink-0 font-mono text-[0.8125rem] tabular-nums text-mint-deep">
+                <span className="shrink-0 font-mono text-[0.8125rem] tabular-nums text-leaf-deep">
                   {ind.typicalRange}
                 </span>
               </div>
               <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-ink-2">
                 {ind.answer}
               </p>
-              <span className="mt-5 inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-mint-deep">
+              <span className="mt-5 inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-leaf-deep">
                 Funding for {ind.short.toLowerCase()}
                 <ArrowRightIcon
                   size={13}
@@ -82,7 +82,7 @@ export function Component() {
         <p className="mt-8 max-w-[62ch] text-[0.9375rem] leading-relaxed text-ink-2">
           Not listed? We fund well beyond these eight — professional services, manufacturing,
           wholesale and more. A short restricted list applies to regulated categories.{' '}
-          <Link to="/contact" className="text-mint-deep underline underline-offset-[3px]">
+          <Link to="/contact" className="text-leaf-deep underline underline-offset-[3px]">
             Ask us about yours
           </Link>
           .

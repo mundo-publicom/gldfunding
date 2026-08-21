@@ -88,7 +88,7 @@ export function Component() {
         />
 
         <div
-          className="mt-10 overflow-x-auto border border-rule bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-mint"
+          className="mt-10 overflow-x-auto border border-rule bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-leaf"
           tabIndex={0}
           role="region"
           aria-label="Worked cost examples — scrolls horizontally"

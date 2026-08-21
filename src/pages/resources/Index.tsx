@@ -85,12 +85,12 @@ export function Component() {
               to={g.to}
               className="group flex flex-col bg-white p-6 transition-colors duration-150 hover:bg-paper"
             >
-              <span className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-mint-deep">
+              <span className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-leaf-deep">
                 {g.tag}
               </span>
               <h2 className="mt-3 text-[1.0625rem] font-semibold leading-snug text-ink">{g.title}</h2>
               <p className="mt-2.5 flex-1 text-[0.9375rem] leading-relaxed text-ink-2">{g.blurb}</p>
-              <span className="mt-5 inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-mint-deep">
+              <span className="mt-5 inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-leaf-deep">
                 Read
                 <ArrowRightIcon
                   size={13}
@@ -106,7 +106,7 @@ export function Component() {
       <Section tone="paper">
         <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div className="flex items-start gap-4">
-            <BookOpenIcon size={26} className="mt-1 shrink-0 text-mint-deep" />
+            <BookOpenIcon size={26} className="mt-1 shrink-0 text-leaf-deep" />
             <div>
               <h2 className="text-h3 font-semibold text-ink">Still have a question?</h2>
               <p className="mt-2 max-w-[52ch] text-[0.9375rem] text-ink-2">

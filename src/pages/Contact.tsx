@@ -39,12 +39,12 @@ export function Component() {
               ].map(({ Icon, label, value, href, mono }) => (
                 <div key={label} className="flex items-center gap-4 py-4">
                   <dt className="flex w-28 shrink-0 items-center gap-3 text-[0.875rem] text-ink-3">
-                    <Icon size={18} className="shrink-0 text-mint-deep" />
+                    <Icon size={18} className="shrink-0 text-leaf-deep" />
                     {label}
                   </dt>
                   <dd className={mono ? 'font-mono tabular-nums' : ''}>
                     {href ? (
-                      <a href={href} className="text-[0.9375rem] text-ink transition-colors hover:text-mint-deep">
+                      <a href={href} className="text-[0.9375rem] text-ink transition-colors hover:text-leaf-deep">
                         {value}
                       </a>
                     ) : (
@@ -55,7 +55,7 @@ export function Component() {
               ))}
               <div className="flex items-start gap-4 py-4">
                 <dt className="flex w-28 shrink-0 items-center gap-3 text-[0.875rem] text-ink-3">
-                  <MapPinIcon size={18} className="shrink-0 text-mint-deep" />
+                  <MapPinIcon size={18} className="shrink-0 text-leaf-deep" />
                   Office
                 </dt>
                 <dd className="text-[0.9375rem] leading-relaxed text-ink-2">
@@ -66,7 +66,7 @@ export function Component() {
               </div>
             </dl>
 
-            <div className="mt-8 border-l-[3px] border-mint bg-paper p-5">
+            <div className="mt-8 border-l-[3px] border-leaf bg-paper p-5">
               <p className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-3">Hours</p>
               <p className="mt-2.5 text-[0.9375rem] text-ink-2">Monday to Friday, 9:00am – 6:00pm ET</p>
             </div>

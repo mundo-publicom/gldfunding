@@ -167,7 +167,7 @@ export function Component() {
               <div className="flex gap-3">
                 <dt className="w-16 shrink-0 text-ink-3">Phone</dt>
                 <dd>
-                  <a href={SITE.phoneHref} className="font-mono tabular-nums text-mint-deep">
+                  <a href={SITE.phoneHref} className="font-mono tabular-nums text-leaf-deep">
                     {SITE.phone}
                   </a>
                 </dd>
@@ -179,7 +179,7 @@ export function Component() {
               <div className="flex gap-3">
                 <dt className="w-16 shrink-0 text-ink-3">Email</dt>
                 <dd>
-                  <a href={`mailto:${SITE.email}`} className="text-mint-deep">
+                  <a href={`mailto:${SITE.email}`} className="text-leaf-deep">
                     {SITE.email}
                   </a>
                 </dd>
@@ -187,7 +187,7 @@ export function Component() {
             </dl>
           </div>
 
-          <div className="flex flex-col justify-center border-l-[3px] border-mint bg-paper p-7">
+          <div className="flex flex-col justify-center border-l-[3px] border-leaf bg-paper p-7">
             <h2 className="text-h3 font-semibold text-ink">Prefer to talk it through?</h2>
             <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-2">
               Call and tell us what you're trying to do. If an advance is the wrong tool, we'll say

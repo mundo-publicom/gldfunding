@@ -579,7 +579,7 @@ export function AuthorizationStep({ data, update, errors }: StepProps) {
           type="checkbox"
           checked={data.authorization.certified}
           onChange={(e) => set('certified', e.target.checked)}
-          className="mt-0.5 h-[18px] w-[18px] shrink-0 cursor-pointer accent-[var(--color-mint-deep)]"
+          className="mt-0.5 h-[18px] w-[18px] shrink-0 cursor-pointer accent-[var(--color-leaf-deep)]"
           aria-describedby="cert-err"
         />
         <span className="text-[0.9375rem] leading-relaxed text-ink-2">
