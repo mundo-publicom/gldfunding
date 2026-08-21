@@ -1,6 +1,5 @@
 import type { ApplicationData, Owner, StepId } from './types'
-import { requiredStatements } from './types'
-import { PRODUCT } from '../data/site'
+import { activeOwners, emptyOwner, ownerIndexOf, requiredUploads } from './types'
 
 type Errors = Record<string, string>
 
@@ -36,6 +35,14 @@ function validateOwner(o: Owner, prefix: string, e: Errors) {
 export function validateStep(step: StepId, d: ApplicationData): Errors {
   const e: Errors = {}
 
+  // Owner steps are generated from the count given in step 1, so they are
+  // matched by position rather than by a fixed id.
+  const ownerIdx = ownerIndexOf(step)
+  if (ownerIdx !== null) {
+    validateOwner(d.owners[ownerIdx] ?? emptyOwner(), `owners.${ownerIdx}`, e)
+    return e
+  }
+
   switch (step) {
     case 'business': {
       const b = d.business
@@ -52,20 +59,6 @@ export function validateStep(step: StepId, d: ApplicationData): Errors {
       if (!req(b.monthlyRevenue)) e['business.monthlyRevenue'] = M.amount
       break
     }
-
-    case 'owner': {
-      validateOwner(d.owner, 'owner', e)
-      const pct = Number(digits(d.owner.ownership)) || 0
-      // Only demand the second-owner answer when the question was actually asked.
-      if (pct > 0 && pct < 100 && d.hasSecondOwner === null) {
-        e['hasSecondOwner'] = 'Let us know so we can skip the next step if it does not apply'
-      }
-      break
-    }
-
-    case 'owner2':
-      validateOwner(d.owner2, 'owner2', e)
-      break
 
     case 'funding': {
       if (!req(d.funding.amountRequested)) e['funding.amountRequested'] = M.amount
@@ -94,10 +87,8 @@ export function validateStep(step: StepId, d: ApplicationData): Errors {
     case 'documents': {
       if (d.documents.method === 'plaid') break
       const done = d.documents.statements.filter((f) => f.status === 'done').length
-      const need = requiredStatements(d)
-      if (done < need) {
-        e['documents'] =
-          `Add ${need - done} more statement${need - done === 1 ? '' : 's'}, or connect your bank instead`
+      if (done < requiredUploads) {
+        e['documents'] = 'Attach at least one bank statement, or connect your bank instead'
       }
       break
     }
@@ -107,10 +98,14 @@ export function validateStep(step: StepId, d: ApplicationData): Errors {
       if (!a.certified) e['authorization.certified'] = 'Tick the box to continue'
       if (!req(a.fullName)) e['authorization.fullName'] = M.required
       if (!req(a.title)) e['authorization.title'] = M.required
-      if (!a.signature) e['authorization.signature'] = 'Sign above to continue'
-      if (d.hasSecondOwner === true && !a.signature2) {
-        e['authorization.signature2'] = `A second signature is required for owners at ${PRODUCT.secondOwnerThreshold}% or more`
-      }
+      activeOwners(d).forEach((o, i) => {
+        if (a.signatures[i]) return
+        const name = `${o.firstName} ${o.lastName}`.trim()
+        e[`authorization.signatures.${i}`] =
+          i === 0 && d.ownerCount === 1
+            ? 'Sign above to continue'
+            : `A signature is required for ${name || `owner #${i + 1}`}`
+      })
       break
     }
   }

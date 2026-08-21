@@ -8,7 +8,7 @@ import {
   XLogoIcon,
   YoutubeLogoIcon,
 } from '@phosphor-icons/react'
-import { CTA, INDUSTRIES, SITE, STATES } from '../data/site'
+import { CTA, INDUSTRIES, SITE } from '../data/site'
 
 const COLUMNS = [
   {
@@ -153,27 +153,6 @@ export function Footer() {
             </ul>
           </nav>
         ))}
-      </div>
-
-      {/* Geographic surface area, linked for crawlers and for people. */}
-      <div className="border-t border-white/8">
-        <div className="page py-8">
-          <h3 className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.16em] text-paper/70">
-            Funding by state
-          </h3>
-          <ul className="mt-3 flex flex-wrap gap-x-4 gap-y-1.5">
-            {STATES.map((s) => (
-              <li key={s.slug}>
-                <Link
-                  to={`/locations/${s.slug}`}
-                  className="text-[0.8125rem] text-paper/70 transition-colors duration-150 hover:text-mint-glow"
-                >
-                  {s.name}
-                </Link>
-              </li>
-            ))}
-          </ul>
-        </div>
       </div>
 
       <div className="border-t border-white/8">

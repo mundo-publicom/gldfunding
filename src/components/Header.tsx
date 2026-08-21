@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { CaretDownIcon, ListIcon, PhoneIcon, XIcon } from '@phosphor-icons/react'
-import { CTA, INDUSTRIES, SITE, STATES } from '../data/site'
+import { CTA, INDUSTRIES, SITE } from '../data/site'
 import { cn } from '../lib/cn'
 
 type NavItem = {
@@ -10,7 +10,7 @@ type NavItem = {
   children?: { label: string; href: string; blurb?: string }[]
 }
 
-/* Five items. Holds on one line at 1024px — the old nav carried seven
+/* Four items. Holds on one line at 1024px — the old nav carried seven
    plus a phone number plus a login and was already crowding at laptop widths. */
 const NAV: NavItem[] = [
   {
@@ -30,14 +30,6 @@ const NAV: NavItem[] = [
     children: [
       { label: 'All industries', href: '/industries' },
       ...INDUSTRIES.map((i) => ({ label: i.short, href: `/industries/${i.slug}` })),
-    ],
-  },
-  {
-    label: 'Locations',
-    href: '/locations',
-    children: [
-      ...STATES.filter((s) => s.featured).map((s) => ({ label: s.name, href: `/locations/${s.slug}` })),
-      { label: 'All states', href: '/locations' },
     ],
   },
   { label: 'Partners', href: '/partners' },
@@ -210,7 +202,6 @@ export function Header() {
                       'absolute left-0 top-full z-50 mt-1 min-w-[280px] rounded-[4px] border border-rule bg-white p-1.5 shadow-panel',
                       'origin-top-left motion-safe:animate-[menuIn_160ms_cubic-bezier(0.23,1,0.32,1)]',
                       item.label === 'Industries' && 'grid grid-cols-2 gap-x-1 min-w-[420px]',
-                      item.label === 'Locations' && 'grid grid-cols-2 gap-x-1 min-w-[400px]',
                     )}
                     onPointerEnter={(e) => {
                       if (e.pointerType === 'mouse') openMenu(item.label)

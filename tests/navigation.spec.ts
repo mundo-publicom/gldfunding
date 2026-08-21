@@ -14,7 +14,6 @@ import { gotoReady } from './helpers'
 const CATEGORIES = [
   { trigger: 'Funding', child: '/funding/cost', overview: '/funding/merchant-cash-advance' },
   { trigger: 'Industries', child: '/industries/restaurants', overview: '/industries' },
-  { trigger: 'Locations', child: '/locations/new-york', overview: '/locations' },
 ]
 
 const triggerFor = (page: Page, label: string) =>
@@ -173,7 +172,9 @@ test('footer links all resolve', async ({ page }) => {
     .locator('footer a[href^="/"]')
     .evaluateAll((els) => [...new Set(els.map((e) => (e as HTMLAnchorElement).getAttribute('href')!))])
 
-  expect(hrefs.length).toBeGreaterThan(20)
+  // Trimmed when the per-state list came out of the footer; the columns and
+  // legal row are what must always be there.
+  expect(hrefs.length).toBeGreaterThan(15)
   for (const href of hrefs) {
     const res = await page.request.get(href)
     expect(res.status(), `footer → ${href}`).toBe(200)

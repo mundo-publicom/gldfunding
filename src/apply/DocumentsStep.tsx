@@ -8,7 +8,7 @@ import {
   UploadSimpleIcon,
   WarningCircleIcon,
 } from '@phosphor-icons/react'
-import { requiredStatements } from './types'
+import { requiredStatements, requiredUploads } from './types'
 import type { StepProps, UploadedFile } from './types'
 import { cn } from '../lib/cn'
 
@@ -93,6 +93,13 @@ export function DocumentsStep({ data, update, errors }: StepProps) {
             : `Three months is all we need to make a decision.`}{' '}
           Every page of each statement, as your bank issues them. PDFs are best; clear photos work
           too.
+        </p>
+        {/* The ask is the full period; the gate is one file. Most banks issue a
+            single PDF covering every month, and blocking submission on a file
+            count is where applications get abandoned. */}
+        <p className="mt-2 max-w-[62ch] text-[0.875rem] leading-relaxed text-ink-3">
+          One file is enough to continue — if your statements come as a single combined PDF, attach
+          that. Anything still missing, we'll ask for after review.
         </p>
       </div>
 
@@ -253,7 +260,8 @@ export function DocumentsStep({ data, update, errors }: StepProps) {
 
           {files.length > 0 && (
             <p className="font-mono text-[0.8125rem] tabular-nums text-ink-3">
-              {done} of {months} statements uploaded
+              {done} file{done === 1 ? '' : 's'} uploaded
+              {done >= requiredUploads && ' · enough to continue'}
             </p>
           )}
         </>

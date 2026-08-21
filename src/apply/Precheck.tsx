@@ -156,7 +156,7 @@ export function Precheck({
           />
         </button>
         <p className="mt-3.5 text-[0.8125rem] text-ink-3">
-          Seven short steps from here. No credit pull at any point in the application.
+          A few short steps from here. No credit pull at any point in the application.
         </p>
       </div>
 

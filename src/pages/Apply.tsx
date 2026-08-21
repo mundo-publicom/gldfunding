@@ -13,23 +13,23 @@ import { cn } from '../lib/cn'
 import {
   AUTH_VERSION,
   emptyApplication,
+  ownerIndexOf,
   requiredStatements,
   visibleSteps,
 } from '../apply/types'
-import type { ApplicationData, StepId } from '../apply/types'
+import type { ApplicationData, StepDef, StepId } from '../apply/types'
 import {
   AuthorizationStep,
   BusinessStep,
   DocumentsStep,
   FinancingStep,
   FundingStep,
-  Owner2Step,
   OwnerStep,
 } from '../apply/steps'
 import { Precheck } from '../apply/Precheck'
 import { validateStep } from '../apply/validate'
 
-const STORAGE_KEY = 'gld-application-v1'
+const STORAGE_KEY = 'gld-application-v2'
 
 type Phase = 'precheck' | 'form' | 'review' | 'done'
 
@@ -163,7 +163,7 @@ export function Component() {
           description="Your application has been received by GLD Funding."
           noindex
         />
-        <Confirmation reference={reference} email={data.owner.email} />
+        <Confirmation reference={reference} email={data.owners[0]?.email ?? ''} />
       </>
     )
   }
@@ -173,7 +173,7 @@ export function Component() {
       <Seo
         path="/apply"
         title="Apply for Business Funding"
-        description={`Apply for a merchant cash advance from ${currency(PRODUCT.advanceMin)} to ${currency(PRODUCT.advanceMax)}. Seven short steps, three months of bank statements, and a decision in about ${PRODUCT.decisionHours} hours.`}
+        description={`Apply for a merchant cash advance from ${currency(PRODUCT.advanceMin)} to ${currency(PRODUCT.advanceMax)}. A few short steps, your bank statements, and a decision in about ${PRODUCT.decisionHours} hours.`}
         schema={[
           breadcrumbSchema([
             { name: 'Home', path: '/' },
@@ -301,13 +301,12 @@ function StepBody({
   update: <K extends keyof ApplicationData>(key: K, value: ApplicationData[K]) => void
   errors: Record<string, string>
 }) {
+  const ownerIdx = ownerIndexOf(id)
+  if (ownerIdx !== null) return <OwnerStep {...props} index={ownerIdx} />
+
   switch (id) {
     case 'business':
       return <BusinessStep {...props} />
-    case 'owner':
-      return <OwnerStep {...props} />
-    case 'owner2':
-      return <Owner2Step {...props} />
     case 'funding':
       return <FundingStep {...props} />
     case 'financing':
@@ -374,20 +373,30 @@ function Review({
   onSubmit: () => void
   onBack: () => void
 }) {
-  const summary: Record<StepId, string> = {
-    business: data.business.legalName || '—',
-    owner: `${data.owner.firstName} ${data.owner.lastName}`.trim() || '—',
-    owner2: `${data.owner2.firstName} ${data.owner2.lastName}`.trim() || '—',
-    funding: data.funding.amountRequested || '—',
-    financing:
-      data.hasExistingFinancing === false
-        ? 'None'
-        : `${data.positions.length} position${data.positions.length === 1 ? '' : 's'}`,
-    documents:
-      data.documents.method === 'plaid'
-        ? 'Bank connection'
-        : `${data.documents.statements.filter((f) => f.status === 'done').length} of ${requiredStatements(data)} statements`,
-    authorization: data.authorization.certified ? 'Signed' : 'Not signed',
+  const summaryFor = (s: StepDef): string => {
+    if (s.ownerIndex !== undefined) {
+      const o = data.owners[s.ownerIndex]
+      return `${o?.firstName ?? ''} ${o?.lastName ?? ''}`.trim() || '—'
+    }
+    switch (s.id) {
+      case 'business':
+        return data.business.legalName || '—'
+      case 'funding':
+        return data.funding.amountRequested || '—'
+      case 'financing':
+        return data.hasExistingFinancing === false
+          ? 'None'
+          : `${data.positions.length} position${data.positions.length === 1 ? '' : 's'}`
+      case 'documents': {
+        if (data.documents.method === 'plaid') return 'Bank connection'
+        const n = data.documents.statements.filter((f) => f.status === 'done').length
+        return `${n} statement${n === 1 ? '' : 's'} attached`
+      }
+      case 'authorization':
+        return data.authorization.certified ? 'Signed' : 'Not signed'
+      default:
+        return '—'
+    }
   }
 
   return (
@@ -403,7 +412,7 @@ function Review({
             <CheckIcon size={17} weight="bold" className="shrink-0 text-good" />
             <div className="min-w-0 flex-1">
               <p className="text-[0.9375rem] font-medium text-ink">{s.title}</p>
-              <p className="mt-0.5 truncate text-[0.8125rem] text-ink-3">{summary[s.id]}</p>
+              <p className="mt-0.5 truncate text-[0.8125rem] text-ink-3">{summaryFor(s)}</p>
             </div>
             <button
               type="button"

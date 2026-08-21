@@ -71,12 +71,11 @@ export function RateCalculator({ compact = false }: { compact?: boolean }) {
   const amount = AMOUNT_STEPS[amountIdx]
   const months = TERM_STEPS[termIdx]
 
-  const { rate, total, cost, weekly, daily } = useMemo(() => {
+  const { total, cost, weekly, daily } = useMemo(() => {
     const r = factorRate(amount, months)
     const t = amount * r
     const weeks = months * 4.345
     return {
-      rate: r,
       total: t,
       cost: t - amount,
       weekly: t / weeks,
@@ -127,19 +126,6 @@ export function RateCalculator({ compact = false }: { compact?: boolean }) {
             minLabel={`${PRODUCT.termMinMonths} mo`}
             maxLabel={`${PRODUCT.termMaxMonths} mo`}
           />
-
-          <div className="rounded-[4px] border border-rule bg-paper p-4">
-            <div className="flex items-baseline justify-between gap-4">
-              <span className="text-[0.875rem] text-ink-2">Factor rate</span>
-              <span className="font-mono text-[1.125rem] font-medium tabular-nums text-ink">
-                {rate.toFixed(2)}
-              </span>
-            </div>
-            <p className="mt-2 text-[0.8125rem] leading-relaxed text-ink-3">
-              A factor rate is a multiplier, not an interest rate. At {rate.toFixed(2)}, every $1.00
-              advanced is repaid as ${rate.toFixed(2)}.
-            </p>
-          </div>
         </div>
 
         <div className="flex flex-col justify-between gap-6 bg-petrol p-6 text-paper">

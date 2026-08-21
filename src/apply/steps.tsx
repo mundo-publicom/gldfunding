@@ -1,7 +1,9 @@
 import { PlusIcon, TrashIcon } from '@phosphor-icons/react'
+import { cn } from '../lib/cn'
 import { SelectInput, SignaturePad, TextInput, YesNo } from './fields'
 import { DocumentsStep } from './DocumentsStep'
 import { AuthorizationText } from './AuthorizationText'
+import { MAX_OWNERS, OWNER_COUNT_OPTIONS, activeOwners, emptyOwner, ownerCount } from './types'
 import type { ApplicationData, Owner, Position, StepProps } from './types'
 import { PRODUCT, US_STATE_OPTIONS, INDUSTRIES } from '../data/site'
 
@@ -26,6 +28,20 @@ const INDUSTRY_OPTIONS = [
 export function BusinessStep({ data, update, errors }: StepProps) {
   const set = (k: keyof ApplicationData['business'], v: string) =>
     update('business', { ...data.business, [k]: v })
+
+  const count = ownerCount(data)
+
+  /* Grow the roster to match, never truncate it — dropping the count from
+     three to two and back must not wipe details somebody already typed. */
+  const setOwners = (n: number) => {
+    update('ownerCount', n)
+    if (data.owners.length < n) {
+      update('owners', [
+        ...data.owners,
+        ...Array.from({ length: n - data.owners.length }, emptyOwner),
+      ])
+    }
+  }
 
   return (
     <div className="flex flex-col gap-6">
@@ -145,11 +161,33 @@ export function BusinessStep({ data, update, errors }: StepProps) {
           placeholder="$50,000"
         />
       </div>
+
+      {/*
+        Asked here, once, instead of surfacing an "is there another owner?"
+        question three steps later. The answer builds the form: one owner step
+        per owner, one signature per owner on the authorization.
+      */}
+      <div className="grid gap-6 sm:grid-cols-2">
+        <SelectInput
+          label="How many owners does the business have?"
+          required
+          value={String(ownerCount(data))}
+          onChange={(v) => setOwners(Number(v))}
+          options={OWNER_COUNT_OPTIONS}
+          error={errors['ownerCount']}
+          placeholder="Select…"
+          hint={
+            count === 1
+              ? `We'll ask for one set of owner details next. Up to ${MAX_OWNERS} owners can be listed.`
+              : `We'll ask for ${count} sets of owner details — one step each — and ${count} signatures at the end.`
+          }
+        />
+      </div>
     </div>
   )
 }
 
-/* ================================================================ 2 & 3 */
+/* ============================================================ 2 … n */
 
 function OwnerFields({
   owner,
@@ -285,43 +323,38 @@ function OwnerFields({
   )
 }
 
-export function OwnerStep({ data, update, errors }: StepProps) {
-  const ownership = Number(data.owner.ownership.replace(/[^0-9.]/g, '')) || 0
-  // The trigger: anything short of full ownership raises exactly one question.
-  const askSecond = ownership > 0 && ownership < 100
+/**
+ * One owner, by position in the roster. There is no "is there another owner?"
+ * question any more — step 1 already answered it, so this step simply repeats
+ * for as many owners as the applicant declared.
+ */
+export function OwnerStep({ data, update, errors, index }: StepProps & { index: number }) {
+  const total = ownerCount(data)
+  const owner = data.owners[index] ?? emptyOwner()
+
+  const onChange = (o: Owner) => {
+    const next = activeOwners(data)
+    next[index] = o
+    // Keep any owners beyond the current count intact behind the active ones.
+    update('owners', [...next, ...data.owners.slice(next.length)])
+  }
 
   return (
     <div className="flex flex-col gap-8">
-      <OwnerFields
-        owner={data.owner}
-        onChange={(o) => update('owner', o)}
-        errors={errors}
-        prefix="owner"
-      />
-
-      {askSecond && (
-        <div className="border-t border-rule pt-8">
-          <YesNo
-            label={`Is there another owner with ${PRODUCT.secondOwnerThreshold}% or more of the business?`}
-            hint={`You listed ${ownership}% ownership. Owners at or above ${PRODUCT.secondOwnerThreshold}% must also authorize the application.`}
-            value={data.hasSecondOwner}
-            onChange={(v) => update('hasSecondOwner', v)}
-            error={errors['hasSecondOwner']}
-          />
-        </div>
+      {total > 1 && (
+        <p className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-3">
+          Owner {index + 1} of {total}
+          {index === 0 && ' · list the majority owner first'}
+        </p>
       )}
-    </div>
-  )
-}
 
-export function Owner2Step({ data, update, errors }: StepProps) {
-  return (
-    <OwnerFields
-      owner={data.owner2}
-      onChange={(o) => update('owner2', o)}
-      errors={errors}
-      prefix="owner2"
-    />
+      <OwnerFields
+        owner={owner}
+        onChange={onChange}
+        errors={errors}
+        prefix={`owners.${index}`}
+      />
+    </div>
   )
 }
 
@@ -522,6 +555,14 @@ export function AuthorizationStep({ data, update, errors }: StepProps) {
     v: ApplicationData['authorization'][K],
   ) => update('authorization', { ...data.authorization, [k]: v })
 
+  const owners = activeOwners(data)
+
+  const setSignature = (i: number, v: string) => {
+    const next = Array.from({ length: owners.length }, (_, n) => data.authorization.signatures[n] ?? '')
+    next[i] = v
+    set('signatures', next)
+  }
+
   const today = new Date().toLocaleDateString('en-US', {
     month: '2-digit',
     day: '2-digit',
@@ -570,29 +611,27 @@ export function AuthorizationStep({ data, update, errors }: StepProps) {
         />
       </div>
 
-      <SignaturePad
-        label="Electronic signature"
-        required
-        value={data.authorization.signature}
-        onChange={(v) => set('signature', v)}
-        error={errors['authorization.signature']}
-      />
-
-      {/* Owner #2's block appears only because step 3 was completed. */}
-      {data.hasSecondOwner === true && (
-        <div className="border-t border-rule pt-8">
-          <p className="mb-5 font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-3">
-            Owner #2 · {data.owner2.firstName} {data.owner2.lastName}
-          </p>
-          <SignaturePad
-            label="Owner #2 electronic signature"
-            required
-            value={data.authorization.signature2}
-            onChange={(v) => set('signature2', v)}
-            error={errors['authorization.signature2']}
-          />
-        </div>
-      )}
+      {/* Exactly as many signature blocks as there are owners — no more, no fewer. */}
+      {owners.map((o, i) => {
+        const name = `${o.firstName} ${o.lastName}`.trim()
+        return (
+          <div key={i} className={cn(i > 0 && 'border-t border-rule pt-8')}>
+            {owners.length > 1 && (
+              <p className="mb-5 font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-3">
+                Owner #{i + 1}
+                {name && ` · ${name}`}
+              </p>
+            )}
+            <SignaturePad
+              label={owners.length > 1 ? `Owner #${i + 1} electronic signature` : 'Electronic signature'}
+              required
+              value={data.authorization.signatures[i] ?? ''}
+              onChange={(v) => setSignature(i, v)}
+              error={errors[`authorization.signatures.${i}`]}
+            />
+          </div>
+        )
+      })}
 
       <div className="field max-w-[220px]">
         <span className="field-label">Date</span>

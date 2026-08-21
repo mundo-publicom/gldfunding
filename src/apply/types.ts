@@ -62,11 +62,14 @@ export type ApplicationData = {
     startDate: string
     monthlyRevenue: string
   }
-  /* --- 2. owner --- */
-  owner: Owner
-  /* --- 3. additional owner (conditional) --- */
-  hasSecondOwner: boolean | null
-  owner2: Owner
+  /*
+     --- 2…n. owners ---
+     How many owners the applicant declared in step 1. Everything downstream
+     — how many owner steps exist, how many signatures the authorization
+     needs — is derived from this one number.
+  */
+  ownerCount: number
+  owners: Owner[]
   /* --- 4. funding --- */
   funding: {
     amountRequested: string
@@ -86,8 +89,8 @@ export type ApplicationData = {
     certified: boolean
     fullName: string
     title: string
-    signature: string // data URL
-    signature2: string
+    /** One data-URL signature per owner, index-aligned with `owners`. */
+    signatures: string[]
     date: string
     /** Audit record. Must be persisted server-side to be defensible under E-SIGN/UETA. */
     audit: {
@@ -132,9 +135,8 @@ export const emptyApplication = (): ApplicationData => ({
     startDate: '',
     monthlyRevenue: '',
   },
-  owner: emptyOwner(),
-  hasSecondOwner: null,
-  owner2: emptyOwner(),
+  ownerCount: 1,
+  owners: [emptyOwner()],
   funding: { amountRequested: '', useOfFunds: '', urgency: '' },
   hasExistingFinancing: null,
   positions: [],
@@ -143,8 +145,7 @@ export const emptyApplication = (): ApplicationData => ({
     certified: false,
     fullName: '',
     title: '',
-    signature: '',
-    signature2: '',
+    signatures: [],
     date: '',
     audit: null,
   },
@@ -154,15 +155,35 @@ export const emptyApplication = (): ApplicationData => ({
    Step model.
 
    The governing rule: only show a question when GLD needs the answer.
-   `visible` decides whether a step exists at all for this applicant —
-   a skipped step is never rendered, never numbered, and never appears
-   as a greyed-out row in the review list.
+   The step list is built per applicant rather than filtered from a fixed
+   array — a step that does not apply is never rendered, never numbered,
+   and never appears as a greyed-out row in the review list.
+
+   Step 1 asks how many owners the business has, and that answer is what
+   grows the middle of the form: one full owner step each, one signature
+   each on the authorization.
    ------------------------------------------------------------------ */
+
+/** Beyond this, underwriting takes the extra owners on a separate schedule. */
+export const MAX_OWNERS = 4
+
+export const OWNER_COUNT_OPTIONS = Array.from({ length: MAX_OWNERS }, (_, i) => ({
+  value: String(i + 1),
+  label: i === 0 ? '1 owner' : `${i + 1} owners`,
+}))
+
+/** Declared owner count, clamped — a restored or hand-edited payload cannot
+    make the form generate a thousand steps. */
+export const ownerCount = (d: ApplicationData) =>
+  Math.min(Math.max(Math.trunc(d.ownerCount) || 1, 1), MAX_OWNERS)
+
+/** The owners this application actually covers, padded if the roster is short. */
+export const activeOwners = (d: ApplicationData): Owner[] =>
+  Array.from({ length: ownerCount(d) }, (_, i) => d.owners[i] ?? emptyOwner())
 
 export type StepId =
   | 'business'
-  | 'owner'
-  | 'owner2'
+  | `owner-${number}`
   | 'funding'
   | 'financing'
   | 'documents'
@@ -172,42 +193,49 @@ export type StepDef = {
   id: StepId
   title: string
   shortTitle: string
-  visible: (d: ApplicationData) => boolean
+  /** Set on owner steps only — which owner in the roster this step edits. */
+  ownerIndex?: number
 }
 
-export const STEPS: StepDef[] = [
-  { id: 'business', title: 'Business Information', shortTitle: 'Business', visible: () => true },
-  { id: 'owner', title: 'Owner Information', shortTitle: 'Owner', visible: () => true },
-  {
-    id: 'owner2',
-    title: 'Additional Owner',
-    shortTitle: 'Additional owner',
-    // Only when the primary owner told us there is one.
-    visible: (d) => d.hasSecondOwner === true,
-  },
-  { id: 'funding', title: 'Funding Information', shortTitle: 'Funding', visible: () => true },
-  {
-    id: 'financing',
-    title: 'Existing Financing',
-    shortTitle: 'Existing financing',
-    visible: () => true,
-  },
-  {
-    id: 'documents',
-    title: 'Bank Statements & Documents',
-    shortTitle: 'Bank statements',
-    visible: () => true,
-  },
-  {
-    id: 'authorization',
-    title: 'Authorization & Signature',
-    shortTitle: 'Authorization & signature',
-    visible: () => true,
-  },
-]
+/** `owner-2` → 2; anything else → null. */
+export const ownerIndexOf = (id: StepId): number | null => {
+  const m = /^owner-(\d+)$/.exec(id)
+  return m ? Number(m[1]) : null
+}
 
-export const visibleSteps = (d: ApplicationData) => STEPS.filter((s) => s.visible(d))
+export function visibleSteps(d: ApplicationData): StepDef[] {
+  const total = ownerCount(d)
+  const owners: StepDef[] = Array.from({ length: total }, (_, i) => ({
+    id: `owner-${i}` as StepId,
+    title: total === 1 ? 'Owner Information' : `Owner ${i + 1} Information`,
+    shortTitle: total === 1 ? 'Owner' : `Owner ${i + 1}`,
+    ownerIndex: i,
+  }))
 
-/** Statement months required, derived from the business's state. */
+  return [
+    { id: 'business', title: 'Business Information', shortTitle: 'Business' },
+    ...owners,
+    { id: 'funding', title: 'Funding Information', shortTitle: 'Funding' },
+    { id: 'financing', title: 'Existing Financing', shortTitle: 'Existing financing' },
+    { id: 'documents', title: 'Bank Statements & Documents', shortTitle: 'Bank statements' },
+    {
+      id: 'authorization',
+      title: 'Authorization & Signature',
+      shortTitle: 'Authorization & signature',
+    },
+  ]
+}
+
+/** Statement months we ask for, derived from the business's state. */
 export const requiredStatements = (d: ApplicationData) =>
   d.business.state === 'NY' ? PRODUCT.statementMonths.NY : PRODUCT.statementMonths.default
+
+/**
+ * Files that must actually be attached before the step will pass.
+ *
+ * We ask for the full statement period, but one file is enough to continue —
+ * most banks issue a single PDF covering every month, and holding an
+ * application hostage to a file count is how applicants abandon at the last
+ * step. Anything missing is chased after review.
+ */
+export const requiredUploads = 1
