@@ -48,7 +48,7 @@ export function Component() {
       q: `How many bank statements do ${state.name} businesses need?`,
       a: isNY
         ? `New York businesses provide four months of business bank statements, one more than our standard three. That is all that is required to submit an application.`
-        : `${state.name} businesses provide three months of business bank statements. That is all that is required to submit an application — anything further is requested only if underwriting needs it.`,
+        : `${state.name} businesses provide three months of business bank statements. That is all that is required to submit an application - anything further is requested only if underwriting needs it.`,
     },
     {
       q: `How much can a ${state.name} business get?`,
@@ -56,7 +56,7 @@ export function Component() {
     },
     {
       q: `How fast can a ${state.name} business get funded?`,
-      a: `Decisions typically come within ${PRODUCT.decisionHours} business hours, and funds arrive within ${PRODUCT.fundingHours} hours of a signed contract — same day on contracts signed before 2pm ET.`,
+      a: `Decisions typically come within ${PRODUCT.decisionHours} business hours, and funds arrive within ${PRODUCT.fundingHours} hours of a signed contract - same day on contracts signed before 2pm ET.`,
     },
   ]
 
@@ -139,7 +139,7 @@ export function Component() {
                   <h2>Local to Garden City</h2>
                   <p>
                     Our office is at {SITE.address.street}, {SITE.address.locality},{' '}
-                    {SITE.address.region} {SITE.address.postalCode} — on Long Island, serving
+                    {SITE.address.region} {SITE.address.postalCode} - on Long Island, serving
                     businesses across Nassau, Suffolk, Queens, Brooklyn, Manhattan, the Bronx, and
                     upstate. You are welcome to call or come in.
                   </p>
@@ -152,7 +152,7 @@ export function Component() {
                   <p>
                     {state.name} requires commercial financing providers to give you a written
                     disclosure of cost and terms before you sign. That means you are entitled to see
-                    the total dollar cost and repayment terms in writing — from any funder, not just
+                    the total dollar cost and repayment terms in writing - from any funder, not just
                     this one.
                   </p>
                   <p>
@@ -173,7 +173,7 @@ export function Component() {
                   <p>
                     GLD Funding provides one anyway. Every offer we make comes with a written
                     statement of the total dollar cost, the remittance amount and frequency, and the
-                    term — because you should be able to compare offers regardless of where you
+                    term - because you should be able to compare offers regardless of where you
                     happen to operate.
                   </p>
                 </>
@@ -190,7 +190,7 @@ export function Component() {
               <h2>Applying from {state.name}</h2>
               <p>
                 The application is entirely online and takes about eight minutes. You will need{' '}
-                {months} months of business bank statements — or you can connect your bank read-only
+                {months} months of business bank statements - or you can connect your bank read-only
                 and skip the upload. <Link to="/funding/qualify">Check the full criteria</Link>{' '}
                 before you start.
               </p>
@@ -258,7 +258,7 @@ export function Component() {
           <p className="max-w-[86ch]">
             Regulatory information on this page is provided for general guidance and is not legal
             advice. Commercial financing requirements change; confirm current obligations with
-            qualified counsel. GLD Funding is not a bank and does not offer loans — a merchant cash
+            qualified counsel. GLD Funding is not a bank and does not offer loans - a merchant cash
             advance is the purchase of future receivables.
           </p>
         </div>

@@ -31,7 +31,7 @@ export function BusinessStep({ data, update, errors }: StepProps) {
 
   const count = ownerCount(data)
 
-  /* Grow the roster to match, never truncate it — dropping the count from
+  /* Grow the roster to match, never truncate it - dropping the count from
      three to two and back must not wipe details somebody already typed. */
   const setOwners = (n: number) => {
     update('ownerCount', n)
@@ -179,7 +179,7 @@ export function BusinessStep({ data, update, errors }: StepProps) {
           hint={
             count === 1
               ? `We'll ask for one set of owner details next. Up to ${MAX_OWNERS} owners can be listed.`
-              : `We'll ask for ${count} sets of owner details — one step each — and ${count} signatures at the end.`
+              : `We'll ask for ${count} sets of owner details - one step each - and ${count} signatures at the end.`
           }
         />
       </div>
@@ -325,7 +325,7 @@ function OwnerFields({
 
 /**
  * One owner, by position in the roster. There is no "is there another owner?"
- * question any more — step 1 already answered it, so this step simply repeats
+ * question any more - step 1 already answered it, so this step simply repeats
  * for as many owners as the applicant declared.
  */
 export function OwnerStep({ data, update, errors, index }: StepProps & { index: number }) {
@@ -435,7 +435,7 @@ export function FinancingStep({ data, update, errors }: StepProps) {
   return (
     <div className="flex flex-col gap-8">
       {/*
-        One question first. "No" closes the step immediately — this is where
+        One question first. "No" closes the step immediately - this is where
         paper applications lose people, because they show the full grid to
         everyone regardless.
       */}
@@ -611,7 +611,7 @@ export function AuthorizationStep({ data, update, errors }: StepProps) {
         />
       </div>
 
-      {/* Exactly as many signature blocks as there are owners — no more, no fewer. */}
+      {/* Exactly as many signature blocks as there are owners - no more, no fewer. */}
       {owners.map((o, i) => {
         const name = `${o.firstName} ${o.lastName}`.trim()
         return (

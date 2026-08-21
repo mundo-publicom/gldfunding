@@ -60,7 +60,7 @@ export function Component() {
         setRestored(true)
       }
     } catch {
-      /* corrupt payload — start clean rather than trapping the applicant */
+      /* corrupt payload - start clean rather than trapping the applicant */
     }
   }, [])
 
@@ -70,7 +70,7 @@ export function Component() {
     try {
       localStorage.setItem(STORAGE_KEY, JSON.stringify({ data, phase, stepIndex }))
     } catch {
-      /* storage full or blocked — the form still works, it just won't resume */
+      /* storage full or blocked - the form still works, it just won't resume */
     }
   }, [data, phase, stepIndex])
 
@@ -194,7 +194,7 @@ export function Component() {
           </h1>
           {phase === 'precheck' && (
             <p className="mt-4 max-w-[54ch] text-lead text-ink-2">
-              Three questions first. No contact details, no personal information, no credit pull —
+              Three questions first. No contact details, no personal information, no credit pull -
               just an indicative range so you know whether it's worth continuing.
             </p>
           )}
@@ -335,7 +335,7 @@ function ProgressBar({
             Step {current + 1} of {total}
           </span>
           <span className="mx-2 text-rule" aria-hidden="true">
-            —
+            -
           </span>
           {title}
         </p>
@@ -376,13 +376,13 @@ function Review({
   const summaryFor = (s: StepDef): string => {
     if (s.ownerIndex !== undefined) {
       const o = data.owners[s.ownerIndex]
-      return `${o?.firstName ?? ''} ${o?.lastName ?? ''}`.trim() || '—'
+      return `${o?.firstName ?? ''} ${o?.lastName ?? ''}`.trim() || '-'
     }
     switch (s.id) {
       case 'business':
-        return data.business.legalName || '—'
+        return data.business.legalName || '-'
       case 'funding':
-        return data.funding.amountRequested || '—'
+        return data.funding.amountRequested || '-'
       case 'financing':
         return data.hasExistingFinancing === false
           ? 'None'
@@ -395,14 +395,14 @@ function Review({
       case 'authorization':
         return data.authorization.certified ? 'Signed' : 'Not signed'
       default:
-        return '—'
+        return '-'
     }
   }
 
   return (
     <div>
       <p className="max-w-[62ch] text-lead text-ink-2">
-        Everything you've entered, in one place. Change anything before you submit — editing brings
+        Everything you've entered, in one place. Change anything before you submit - editing brings
         you straight back here.
       </p>
 
@@ -542,7 +542,7 @@ function SidePanel({ data, phase }: { data: ApplicationData; phase: Phase }) {
             Your progress is saved
           </h2>
           <p className="mt-3 text-[0.875rem] leading-relaxed text-ink-2">
-            Close this tab and come back whenever — everything you've entered stays put on this
+            Close this tab and come back whenever - everything you've entered stays put on this
             device.
           </p>
         </div>

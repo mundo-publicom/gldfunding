@@ -58,8 +58,8 @@ export function Component() {
               <h2>Why we exist</h2>
               <p>
                 Over the past two decades banks have steadily tightened lending criteria. The
-                businesses that hold neighbourhoods together — the restaurant on the corner, the
-                shop that has been there thirty years, the contractor everyone calls — kept meeting
+                businesses that hold neighbourhoods together - the restaurant on the corner, the
+                shop that has been there thirty years, the contractor everyone calls - kept meeting
                 the same answer: strong revenue, wrong credit file.
               </p>
               <p>
@@ -72,7 +72,7 @@ export function Component() {
               <p>
                 Bank statements, not credit scores. We look at how much comes in, how consistently,
                 what balance the account holds, and how many days it goes negative. That tells us
-                what remittance a business can genuinely carry — which is the only question that
+                what remittance a business can genuinely carry - which is the only question that
                 matters.
               </p>
               <p>
@@ -84,7 +84,7 @@ export function Component() {
               <h2>What we will not do</h2>
               <p>
                 We will not fund a business into a hole. If your statements say an advance would
-                make the pressure worse rather than better, we say so — and we would rather lose the
+                make the pressure worse rather than better, we say so - and we would rather lose the
                 deal than write it. If a bank line or SBA loan is genuinely available to you,{' '}
                 <Link to="/funding/mca-vs-business-loan">take it</Link>. It is cheaper, and we will
                 tell you that too.
@@ -93,7 +93,7 @@ export function Component() {
               <h2>Transparency as policy</h2>
               <p>
                 Every offer comes with a written disclosure of total dollar cost, the remittance
-                amount and frequency, and the term — in every state, whether or not the law requires
+                amount and frequency, and the term - in every state, whether or not the law requires
                 it. <Link to="/funding/cost">Our pricing is published</Link> before you talk to
                 anyone.
               </p>

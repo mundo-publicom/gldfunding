@@ -4,7 +4,7 @@ import { SITE } from './site'
  * The GLD Funding overview video.
  *
  * Sourced from the current site (/videos/description.mp4, 2021), re-encoded
- * from 1080p/8.6 MB to 720p/3.4 MB with no visible loss — it is flat vector
+ * from 1080p/8.6 MB to 720p/3.4 MB with no visible loss - it is flat vector
  * animation, which compresses hard.
  *
  * Chapters and transcript are derived from the narration's own word timings.
@@ -41,7 +41,7 @@ export const OVERVIEW_VIDEO = {
   ],
 } as const
 
-/** VideoObject schema — makes the video itself eligible for search results. */
+/** VideoObject schema - makes the video itself eligible for search results. */
 export const videoSchema = (pagePath: string) => ({
   '@context': 'https://schema.org',
   '@type': 'VideoObject',

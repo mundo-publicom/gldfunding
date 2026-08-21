@@ -21,7 +21,7 @@ export function Component() {
       <Seo
         path="/resources/glossary"
         title="Business Funding Glossary"
-        description={`${GLOSSARY.length} merchant cash advance and business funding terms explained in plain language — factor rate, holdback, stacking, reconciliation, UCC filing and more.`}
+        description={`${GLOSSARY.length} merchant cash advance and business funding terms explained in plain language - factor rate, holdback, stacking, reconciliation, UCC filing and more.`}
         schema={[
           breadcrumbSchema(TRAIL),
           {
@@ -50,13 +50,13 @@ export function Component() {
         <div className="max-w-[68ch]">
           <AnswerBlock>
             This glossary defines the terms used in merchant cash advance agreements and
-            underwriting — factor rate, purchased amount, holdback, stacking, reconciliation, UCC
+            underwriting - factor rate, purchased amount, holdback, stacking, reconciliation, UCC
             filing and more. Each definition is written for business owners rather than for
             lawyers.
           </AnswerBlock>
         </div>
 
-        {/* Jump nav — a 41-term list needs one. */}
+        {/* Jump nav - a 41-term list needs one. */}
         <nav aria-label="Jump to letter" className="mt-9 flex flex-wrap gap-1.5 border-y border-rule py-4">
           {letters.map((l) => (
             <a
@@ -106,7 +106,7 @@ export function Component() {
           <div>
             <h2 className="text-h3 font-semibold text-ink">Term you don't see here?</h2>
             <p className="mt-2 max-w-[52ch] text-[0.9375rem] text-ink-2">
-              Call and ask before you sign anything — with any funder, not just us.
+              Call and ask before you sign anything - with any funder, not just us.
             </p>
           </div>
           <div className="flex shrink-0 flex-wrap gap-3">

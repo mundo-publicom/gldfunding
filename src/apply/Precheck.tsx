@@ -1,11 +1,11 @@
 import { useMemo, useState } from 'react'
-import { ArrowRightIcon, WarningCircleIcon } from '@phosphor-icons/react'
+import { ArrowRightIcon } from '@phosphor-icons/react'
 import { SelectInput } from './fields'
 import type { ApplicationData } from './types'
 import { INDUSTRIES, PRODUCT, SITE, currency } from '../data/site'
 
 /**
- * Pre-check — three questions, no personally identifying information.
+ * Pre-check - three questions, no personally identifying information.
  *
  * Two jobs: filter unqualified traffic before it reaches an underwriter, and
  * give qualified traffic a concrete reason to start seven steps. Nothing here
@@ -62,7 +62,7 @@ export function Precheck({
       }
     }
 
-    // Indicative only — roughly one month of revenue, bounded by the product range.
+    // Indicative only - roughly one month of revenue, bounded by the product range.
     const mid = band?.mid ?? 30_000
     const low = Math.max(PRODUCT.advanceMin, Math.round((mid * 0.6) / 5000) * 5000)
     const high = Math.min(PRODUCT.advanceMax, Math.round((mid * 1.4) / 5000) * 5000)
@@ -111,21 +111,20 @@ export function Precheck({
           </p>
           <p className="mt-3 max-w-[52ch] text-[0.9375rem] leading-relaxed text-ink-2">
             Businesses like yours typically qualify for this range. It is an estimate based on
-            revenue alone — your actual offer depends on underwriting your bank statements.
+            revenue alone - your actual offer depends on underwriting your bank statements.
           </p>
         </div>
       )}
 
       {result && !result.ok && (
-        <div className="mt-8 flex items-start gap-3 border-l-[3px] border-rate bg-rate-bg p-5">
-          <WarningCircleIcon size={19} weight="fill" className="mt-0.5 shrink-0 text-rate" />
+        <div className="mt-8 border-l-[3px] border-leaf bg-paper p-5">
           <div>
             <p className="text-[0.9375rem] font-semibold text-ink">
               You may not qualify just yet
             </p>
             <p className="mt-1.5 max-w-[52ch] text-[0.9375rem] leading-relaxed text-ink-2">
-              {result.reason} You are welcome to apply anyway — underwriting looks at the whole
-              picture — or call us and we'll tell you straight away whether it's worth your time.
+              {result.reason} You are welcome to apply anyway - underwriting looks at the whole
+              picture - or call us and we'll tell you straight away whether it's worth your time.
             </p>
             <a
               href={SITE.phoneHref}

@@ -48,12 +48,12 @@ export function Component() {
           <div>
             <AnswerBlock>
               Applying takes about eight minutes and needs {PRODUCT.statementMonths.default} months
-              of business bank statements — four in New York. Underwriting returns a decision within
+              of business bank statements - four in New York. Underwriting returns a decision within
               about {PRODUCT.decisionHours} business hours, and funds reach your account within{' '}
               {PRODUCT.fundingHours} hours of a signed contract.
             </AnswerBlock>
             <p className="mt-6 max-w-[46ch] text-[0.9375rem] leading-relaxed text-ink-2">
-              Prefer to watch? The overview covers the same ground in under a minute and a half —
+              Prefer to watch? The overview covers the same ground in under a minute and a half -
               what an advance is, how it differs from a bank loan, and the three steps end to end.
             </p>
           </div>
@@ -84,14 +84,14 @@ export function Component() {
             </p>
             <p>
               From that, underwriting works out what remittance the business can carry without
-              strain — and the offer is built backwards from that number, not from what you asked
+              strain - and the offer is built backwards from that number, not from what you asked
               for.
             </p>
 
             <h2>What you'll be asked for</h2>
             <p>
               Bank statements, and nothing else to submit. If your specific file needs something
-              further — a driver's licence, a voided check, a processing statement — an underwriter
+              further - a driver's licence, a voided check, a processing statement - an underwriter
               requests it after review, through a secure link. You are never sent back to the start.
             </p>
 
@@ -99,7 +99,7 @@ export function Component() {
             <p>
               A named underwriter calls to walk through the terms: the advance amount, total dollar
               repayment, remittance amount and frequency, and the term. You receive a written
-              disclosure of total cost before signing — in every state, whether or not the law
+              disclosure of total cost before signing - in every state, whether or not the law
               requires it.
             </p>
             <p>
@@ -111,7 +111,7 @@ export function Component() {
             <h2>After funding</h2>
             <p>
               Remittances usually begin the business day after funds arrive, on the agreed schedule.
-              If your revenue drops materially, call before a payment is missed — reconciliation is
+              If your revenue drops materially, call before a payment is missed - reconciliation is
               often possible, but only if we hear from you early.
             </p>
           </Prose>

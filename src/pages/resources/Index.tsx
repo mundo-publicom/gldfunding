@@ -66,7 +66,7 @@ export function Component() {
         trail={TRAIL}
         eyebrow="Resources"
         title="Understand the product before you take it"
-        lead="Straight explanations of how business funding actually works — including the parts that do not favour us."
+        lead="Straight explanations of how business funding actually works - including the parts that do not favour us."
       />
 
       <Section tone="white">

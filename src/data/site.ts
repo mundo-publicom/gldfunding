@@ -4,7 +4,7 @@
  * ⚠️  NUMBERS MARKED `@needs-verification` ARE PLACEHOLDERS.
  * They must be replaced with GLD's real, documented, *typical* outcomes before
  * launch. FTC substantiation rules require that advertised results be typical,
- * not best-case — and the GEO strategy depends entirely on these being real,
+ * not best-case - and the GEO strategy depends entirely on these being real,
  * because specificity is what gets cited.
  */
 
@@ -34,7 +34,7 @@ export const SITE = {
   },
 } as const
 
-/** Product parameters. @needs-verification — every value below. */
+/** Product parameters. @needs-verification - every value below. */
 export const PRODUCT = {
   advanceMin: 10_000,
   advanceMax: 500_000,
@@ -186,7 +186,7 @@ export const INDUSTRIES: Industry[] = [
     name: 'Auto repair & service',
     short: 'Auto repair',
     answer:
-      'Auto repair shops use merchant cash advances to stock parts, buy diagnostic equipment, or add a service bay. Repayment tracks card and deposit volume, so a slow week costs less than a busy one — useful in a trade where revenue swings with season and weather.',
+      'Auto repair shops use merchant cash advances to stock parts, buy diagnostic equipment, or add a service bay. Repayment tracks card and deposit volume, so a slow week costs less than a busy one - useful in a trade where revenue swings with season and weather.',
     useCases: ['Diagnostic and lift equipment', 'Parts inventory', 'Adding a service bay', 'Technician hiring and certification', 'Shop marketing and signage'],
     typicalRange: '$10,000 – $200,000',
   },

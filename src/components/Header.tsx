@@ -11,7 +11,7 @@ type NavItem = {
   children?: { label: string; href: string; blurb?: string }[]
 }
 
-/* Four items. Holds on one line at 1024px — the old nav carried seven
+/* Four items. Holds on one line at 1024px - the old nav carried seven
    plus a phone number plus a login and was already crowding at laptop widths. */
 const NAV: NavItem[] = [
   {
@@ -22,7 +22,7 @@ const NAV: NavItem[] = [
       { label: 'What it costs', href: '/funding/cost', blurb: 'Factor rates and total cost, with worked examples' },
       { label: 'Do I qualify?', href: '/funding/qualify', blurb: 'The exact thresholds we underwrite to' },
       { label: 'MCA vs. business loan', href: '/funding/mca-vs-business-loan', blurb: 'Side-by-side comparison' },
-      { label: 'How it works', href: '/funding/how-it-works', blurb: 'Apply, approve, fund — in three steps' },
+      { label: 'How it works', href: '/funding/how-it-works', blurb: 'Apply, approve, fund - in three steps' },
     ],
   },
   {
@@ -44,7 +44,7 @@ export function Header() {
   const closeTimer = useRef<ReturnType<typeof setTimeout> | null>(null)
   const navRef = useRef<HTMLElement>(null)
   /* Which pointer opened the menu. A hybrid device (touch laptop) reports
-     `hover: hover` yet is tapped with a finger, so capability queries lie —
+     `hover: hover` yet is tapped with a finger, so capability queries lie -
      the live pointerType is the only reliable signal. */
   const lastPointer = useRef<string>('mouse')
   const triggerRefs = useRef<Record<string, HTMLButtonElement | null>>({})
@@ -75,7 +75,7 @@ export function Header() {
   }, [open])
 
   /* A dropdown that only responds to hover is unreachable on every touch
-     device wide enough to get the desktop nav — iPads, Surfaces, touch
+     device wide enough to get the desktop nav - iPads, Surfaces, touch
      laptops. The trigger is a button that toggles on click/tap; hover is an
      enhancement for mice, not the only way in. */
   useEffect(() => {
@@ -88,7 +88,7 @@ export function Header() {
       if (e.key !== 'Escape') return
       const trigger = triggerRefs.current[menu]
       setMenu(null)
-      // After the close commits — focusing mid-render can be undone by the
+      // After the close commits - focusing mid-render can be undone by the
       // re-render that removes the panel.
       requestAnimationFrame(() => trigger?.focus())
     }
@@ -127,10 +127,10 @@ export function Header() {
           scrolled ? 'border-rule shadow-[0_1px_16px_-8px_rgba(4,24,31,0.25)]' : 'border-transparent',
         )}
       >
-      {/* Nav height capped at 72px — no agency bar eating the viewport. */}
+      {/* Nav height capped at 72px - no agency bar eating the viewport. */}
       <div className="page flex h-[68px] items-center justify-between gap-6 lg:h-[72px]">
         {/* The lockup is one image, so nothing has to drop away on small
-            screens — the wordmark stays whole down to 320px. Sized to just
+            screens - the wordmark stays whole down to 320px. Sized to just
             under the bar's inner height: the stacked lockup needs the vertical
             room a one-line wordmark would not. */}
         <Link
@@ -252,7 +252,7 @@ export function Header() {
               {SITE.phone}
             </a>
 
-            {/* Below xl, tap-to-call collapses to an icon but never disappears —
+            {/* Below xl, tap-to-call collapses to an icon but never disappears -
                 calling is the highest-intent action a mobile visitor takes. */}
             <a
               href={SITE.phoneHref}
@@ -262,7 +262,7 @@ export function Header() {
               <PhoneIcon size={17} weight="fill" />
             </a>
 
-            {/* One label per intent — the same words as the hero and the footer.
+            {/* One label per intent - the same words as the hero and the footer.
                 Hidden while the menu is open, which carries its own full-width CTA. */}
             <Link
               to={CTA.primaryHref}
@@ -288,7 +288,7 @@ export function Header() {
       {/*
         This panel MUST stay outside <header>. The header sets `backdrop-blur`,
         and an element with `backdrop-filter` becomes the containing block for
-        `position: fixed` descendants — so nested here, `top-… bottom-0` resolved
+        `position: fixed` descendants - so nested here, `top-… bottom-0` resolved
         against the 68px header instead of the viewport and the menu collapsed to
         a 1px sliver. Same trap applies to `filter`, `transform` and `will-change`.
       */}

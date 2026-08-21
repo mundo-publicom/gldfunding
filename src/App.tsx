@@ -4,7 +4,7 @@ import { INDUSTRIES, STATES } from './data/site'
 
 /**
  * Every route below is pre-rendered to static HTML at build time by
- * vite-react-ssg. That is the hard requirement behind the GEO strategy —
+ * vite-react-ssg. That is the hard requirement behind the GEO strategy -
  * most AI crawlers do not execute JavaScript, so every word that matters
  * has to be in the initial HTML response.
  */
@@ -64,7 +64,7 @@ export const routes: RouteRecord[] = [
 
       /* --- 404 ---
          Catch-all `*` routes are excluded from prerendering, so the explicit
-         `404` path is what emits `dist/404.html` — the file GitHub Pages (and
+         `404` path is what emits `dist/404.html` - the file GitHub Pages (and
          most static hosts) serves for an unknown URL. Keep both: the `*` route
          still handles client-side navigation to a dead link. --- */
       { path: '404', lazy: () => import('./pages/NotFound') },

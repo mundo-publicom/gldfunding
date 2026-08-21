@@ -8,7 +8,7 @@ import { asset } from '../lib/asset'
  *
  * The poster is a 20 KB WebP; the 3.4 MB MP4 is `preload="none"` and only
  * fetched when someone actually presses play. Nothing about this section is on
- * the critical path — same discipline as the WebGL hero.
+ * the critical path - same discipline as the WebGL hero.
  *
  * Captions ship as a real WebVTT track (WCAG 1.2.2, Level A) and the full
  * transcript renders below in a <details>, which serves 1.2.3, gives people who
@@ -54,7 +54,7 @@ export function VideoPlayer({
         v.readyState >= 1 ? (v.currentTime = at) : v.addEventListener('loadedmetadata', seek)
       }
       void v.play().catch(() => {
-        /* Autoplay blocked — native controls are visible, user can press play. */
+        /* Autoplay blocked - native controls are visible, user can press play. */
       })
     })
   }

@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import { CaretDownIcon, WarningIcon } from '@phosphor-icons/react'
+import { CaretDownIcon } from '@phosphor-icons/react'
 import { cn } from '../lib/cn'
 
 /**
@@ -106,16 +106,6 @@ export function AuthorizationText() {
           </li>
         ))}
       </ol>
-
-      {/* Remove this banner once counsel-approved language is in place. */}
-      <div className="mt-5 flex items-start gap-3 border-l-[3px] border-rate bg-rate-bg p-4">
-        <WarningIcon size={18} className="mt-0.5 shrink-0 text-rate" />
-        <p className="text-[0.8125rem] leading-relaxed text-ink-2">
-          <strong className="font-semibold text-ink">Placeholder text.</strong> The clauses above
-          describe intended coverage only. GLD's counsel must supply the approved authorization
-          language, aligned with the MCA agreement, before this form accepts a real submission.
-        </p>
-      </div>
     </div>
   )
 }

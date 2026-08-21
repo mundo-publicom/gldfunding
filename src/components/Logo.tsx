@@ -3,21 +3,21 @@ import { cn } from '../lib/cn'
 /**
  * The GLD Funding lockup, from the brand artwork.
  *
- * The supplied file is white-only — it was drawn for the dark grounds it
- * normally sits on — and the site is predominantly light. So the wordmark here
+ * The supplied file is white-only - it was drawn for the dark grounds it
+ * normally sits on - and the site is predominantly light. So the wordmark here
  * paints with `currentColor` and each caller sets the colour that fits its
  * ground: `text-ink` in the white header, `text-white` in the petrol footer.
  * The chart mark keeps its own brand greens and blues, which hold up on both.
  *
- * viewBox is cropped to the artwork's true bounds — the source carried ~30% dead
+ * viewBox is cropped to the artwork's true bounds - the source carried ~30% dead
  * space on the right and bottom, which left the lockup floating off-centre in
  * any box it was dropped into.
  */
 
 type LogoProps = {
   className?: string
-  /** Omit when an ancestor already names the brand — a link with an
-      aria-label, say — so screen readers do not hear it twice. */
+  /** Omit when an ancestor already names the brand - a link with an
+      aria-label, say - so screen readers do not hear it twice. */
   title?: string
 }
 

@@ -43,7 +43,7 @@ export function Section({
         'py-16 lg:py-24',
         tones[tone],
         // `isolate` is what lets the -z-10 backdrop paint above the section's
-        // own background. No overflow clipping — sections hold sticky columns.
+        // own background. No overflow clipping - sections hold sticky columns.
         ambient && 'relative isolate',
         className,
       )}
@@ -245,20 +245,13 @@ export function Prose({ children, className }: { children: ReactNode; className?
 
 export function Callout({
   children,
-  tone = 'accent',
   title,
 }: {
   children: ReactNode
-  tone?: 'accent' | 'rate'
   title?: string
 }) {
   return (
-    <div
-      className={cn(
-        'my-7 border-l-[3px] p-5',
-        tone === 'accent' ? 'border-leaf bg-paper' : 'border-rate bg-rate-bg',
-      )}
-    >
+    <div className="my-7 border-l-[3px] border-leaf bg-paper p-5">
       {title && <p className="font-semibold text-ink">{title}</p>}
       <div className={cn('text-[0.9375rem] leading-relaxed text-ink-2', title && 'mt-1.5')}>
         {children}

@@ -1,7 +1,7 @@
 import { useEffect, useRef } from 'react'
 
 /**
- * Scroll reveal. Fires once and disconnects — a section that re-animates
+ * Scroll reveal. Fires once and disconnects - a section that re-animates
  * every time it scrolls back into view reads as a bug, not as polish.
  */
 export function useReveal<T extends HTMLElement = HTMLDivElement>(threshold = 0.12) {

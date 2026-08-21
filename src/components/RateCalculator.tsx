@@ -6,7 +6,7 @@ import { CTA, PRODUCT, currency } from '../data/site'
 /**
  * Estimate the cost of an advance.
  *
- * Deliberately shows total dollar cost first, not a rate — that is the number
+ * Deliberately shows total dollar cost first, not a rate - that is the number
  * a business owner actually has to repay, and leading with it is the honest
  * presentation the disclosure regimes are driving the whole category toward.
  *
@@ -27,7 +27,7 @@ function factorRate(amount: number, months: number): number {
   return factorRateMin + (factorRateMax - factorRateMin) * blend
 }
 
-/** Count a value up to its target — draws the eye to a number that just changed. */
+/** Count a value up to its target - draws the eye to a number that just changed. */
 function useCountUp(target: number, duration = 280) {
   const [value, setValue] = useState(target)
   const fromRef = useRef(target)

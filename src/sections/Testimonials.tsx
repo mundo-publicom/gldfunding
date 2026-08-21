@@ -36,7 +36,7 @@ export function Testimonials() {
 
       {/*
         Review schema is deliberately NOT emitted yet. FTC endorsement rules
-        require genuine, typical reviews with material connections disclosed —
+        require genuine, typical reviews with material connections disclosed -
         written consent must be on file before these become machine-readable.
       */}
       <p className="mt-6 text-[0.8125rem] text-ink-3">

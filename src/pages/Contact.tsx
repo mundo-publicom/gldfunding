@@ -23,7 +23,7 @@ export function Component() {
         trail={TRAIL}
         eyebrow="Contact"
         title="Talk to someone who can answer"
-        lead="Questions about funding, an application in progress, or an existing advance — a person picks up."
+        lead="Questions about funding, an application in progress, or an existing advance - a person picks up."
       />
 
       <Section tone="white">

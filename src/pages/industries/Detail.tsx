@@ -31,15 +31,15 @@ export function Component() {
   const faqs = [
     {
       q: `How much funding can a ${ind.short.toLowerCase().replace(/s$/, '')} business get?`,
-      a: `${ind.name} typically qualify for ${ind.typicalRange} at GLD Funding. The amount is driven by average monthly deposits rather than credit score — most offers land near one month of revenue.`,
+      a: `${ind.name} typically qualify for ${ind.typicalRange} at GLD Funding. The amount is driven by average monthly deposits rather than credit score - most offers land near one month of revenue.`,
     },
     {
       q: `How fast can a ${ind.short.toLowerCase().replace(/s$/, '')} business get funded?`,
-      a: `Most applications receive a decision within ${PRODUCT.decisionHours} business hours, with funds arriving within ${PRODUCT.fundingHours} hours of a signed contract — same day on contracts signed before 2pm ET.`,
+      a: `Most applications receive a decision within ${PRODUCT.decisionHours} business hours, with funds arriving within ${PRODUCT.fundingHours} hours of a signed contract - same day on contracts signed before 2pm ET.`,
     },
     {
       q: `What do I need to apply?`,
-      a: `${PRODUCT.statementMonths.default} months of business bank statements — four if you are in New York — plus basic business and owner details. Nothing else is required to submit; anything further is requested only if your file needs it.`,
+      a: `${PRODUCT.statementMonths.default} months of business bank statements - four if you are in New York - plus basic business and owner details. Nothing else is required to submit; anything further is requested only if your file needs it.`,
     },
     {
       q: `Do I need good credit?`,

@@ -20,7 +20,7 @@ const FAQS = [
   },
   {
     q: 'What do you need from a submission?',
-    a: `A signed application and ${PRODUCT.statementMonths.default} months of business bank statements — four for New York merchants. Anything further is requested only when a specific file needs it.`,
+    a: `A signed application and ${PRODUCT.statementMonths.default} months of business bank statements - four for New York merchants. Anything further is requested only when a specific file needs it.`,
   },
   {
     q: 'What deal sizes do you fund?',
@@ -59,7 +59,7 @@ export function Component() {
         <div className="mt-10 border border-rule">
           <FeatureGrid cols={4}>
             <FeatureCard icon={<LightningIcon size={24} weight="light" />} title="Fast decisions">
-              Complete submissions get an answer within {PRODUCT.decisionHours} business hours — not
+              Complete submissions get an answer within {PRODUCT.decisionHours} business hours - not
               a queue position.
             </FeatureCard>
             <FeatureCard icon={<UsersThreeIcon size={24} weight="light" />} title="A real person">
@@ -82,12 +82,12 @@ export function Component() {
             <p>
               GLD Funding values its partners and financial organizations, and we are always looking
               for opportunities to bring capital to small business owners. Working together, we can
-              get merchants the working capital they need — and both build our portfolios doing it.
+              get merchants the working capital they need - and both build our portfolios doing it.
             </p>
 
             <h2>What we look for</h2>
             <ul>
-              <li>Complete submissions — signed application plus statements, first time</li>
+              <li>Complete submissions - signed application plus statements, first time</li>
               <li>Merchants at {currency(PRODUCT.minMonthlyRevenue)}+ monthly revenue and {PRODUCT.minMonthsInBusiness}+ months trading</li>
               <li>Existing positions disclosed up front rather than discovered in underwriting</li>
               <li>Honest expectation-setting with the merchant about cost and remittance</li>
@@ -104,7 +104,7 @@ export function Component() {
             <h2>A word on how we underwrite</h2>
             <p>
               We will decline a merchant when the statements say an advance would make their
-              position worse. That costs us both a deal occasionally — and it is why the merchants
+              position worse. That costs us both a deal occasionally - and it is why the merchants
               you send keep taking your calls afterwards.
             </p>
           </Prose>

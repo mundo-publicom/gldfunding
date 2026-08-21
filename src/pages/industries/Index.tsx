@@ -44,7 +44,7 @@ export function Component() {
       <Section tone="white">
         <div className="max-w-[68ch]">
           <AnswerBlock>
-            GLD Funding provides merchant cash advances across eight core industries — restaurants,
+            GLD Funding provides merchant cash advances across eight core industries - restaurants,
             retail, medical and dental, trucking, construction, auto repair, salons and e-commerce.
             Advances range from $10,000 to $500,000, underwritten on business deposit history rather
             than credit score.
@@ -80,7 +80,7 @@ export function Component() {
         </div>
 
         <p className="mt-8 max-w-[62ch] text-[0.9375rem] leading-relaxed text-ink-2">
-          Not listed? We fund well beyond these eight — professional services, manufacturing,
+          Not listed? We fund well beyond these eight - professional services, manufacturing,
           wholesale and more. A short restricted list applies to regulated categories.{' '}
           <Link to="/contact" className="text-leaf-deep underline underline-offset-[3px]">
             Ask us about yours

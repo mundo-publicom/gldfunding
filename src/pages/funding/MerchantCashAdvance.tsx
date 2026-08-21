@@ -41,7 +41,7 @@ const FAQS = [
   },
   {
     q: 'Can I get an advance if I already have one?',
-    a: 'Sometimes. Additional positions are underwritten case by case and depend on your revenue, the balance outstanding, and the remittance you are already carrying. Disclose existing positions on your application — undisclosed positions are the most common reason a file is declined late.',
+    a: 'Sometimes. Additional positions are underwritten case by case and depend on your revenue, the balance outstanding, and the remittance you are already carrying. Disclose existing positions on your application - undisclosed positions are the most common reason a file is declined late.',
   },
 ]
 
@@ -51,7 +51,7 @@ export function Component() {
       <Seo
         path="/funding/merchant-cash-advance"
         title="What Is a Merchant Cash Advance?"
-        description={`A merchant cash advance is the purchase of future business receivables at a discount — not a loan. Amounts from ${currency(PRODUCT.advanceMin)} to ${currency(PRODUCT.advanceMax)}, factor rates from ${PRODUCT.factorRateMin}, funding in ${PRODUCT.fundingHours} hours.`}
+        description={`A merchant cash advance is the purchase of future business receivables at a discount - not a loan. Amounts from ${currency(PRODUCT.advanceMin)} to ${currency(PRODUCT.advanceMax)}, factor rates from ${PRODUCT.factorRateMin}, funding in ${PRODUCT.fundingHours} hours.`}
         schema={[
           breadcrumbSchema(TRAIL),
           faqSchema(FAQS),
@@ -76,8 +76,8 @@ export function Component() {
           <div>
             <AnswerBlock>
               A merchant cash advance is the purchase of a business's future receivables at a
-              discount. The funder advances a lump sum — at GLD Funding, {currency(PRODUCT.advanceMin)}{' '}
-              to {currency(PRODUCT.advanceMax)} — and recovers it through fixed daily or weekly
+              discount. The funder advances a lump sum - at GLD Funding, {currency(PRODUCT.advanceMin)}{' '}
+              to {currency(PRODUCT.advanceMax)} - and recovers it through fixed daily or weekly
               remittances. It is not a loan, carries no interest rate, and requires no collateral.
             </AnswerBlock>
 
@@ -89,8 +89,8 @@ export function Component() {
 
               <h2>How the mechanics actually work</h2>
               <p>
-                You agree to sell a specific dollar amount of your future receivables — the{' '}
-                <strong>purchased amount</strong> — for a smaller sum paid to you today, the{' '}
+                You agree to sell a specific dollar amount of your future receivables - the{' '}
+                <strong>purchased amount</strong> - for a smaller sum paid to you today, the{' '}
                 <strong>purchase price</strong>. The difference between the two is the cost of the
                 advance, expressed as a <strong>factor rate</strong> rather than an interest rate.
               </p>
@@ -98,7 +98,7 @@ export function Component() {
                 Say you take {currency(50_000)} at a factor rate of 1.30. You receive{' '}
                 {currency(50_000)} now and repay {currency(65_000)} in total. That{' '}
                 {currency(15_000)} is fixed at signing. It does not accrue, compound, or grow if
-                repayment takes longer than expected — and, importantly, it does not shrink if you
+                repayment takes longer than expected - and, importantly, it does not shrink if you
                 repay faster.
               </p>
 
@@ -110,12 +110,12 @@ export function Component() {
               </p>
               <p>
                 Terms typically run {PRODUCT.termMinMonths} to {PRODUCT.termMaxMonths} months.
-                Shorter terms carry lower factor rates but larger individual remittances — the
+                Shorter terms carry lower factor rates but larger individual remittances - the
                 trade-off is between total cost and weekly cash-flow pressure, and it is the single
                 most important decision in structuring an advance.
               </p>
 
-              <Callout tone="rate" title="The honest version of the trade-off">
+              <Callout title="The honest version of the trade-off">
                 Because the cost is fixed rather than accruing, a short-term advance can be an
                 expensive way to borrow when expressed as an annualized rate. It exists to solve a
                 different problem: capital in {PRODUCT.fundingHours} hours against bank deposits,
@@ -143,7 +143,7 @@ export function Component() {
                 An advance is working capital, not long-term financing. It is a poor fit for buying
                 real estate, funding a multi-year build-out, or refinancing debt you are already
                 struggling to service. If you qualify for an SBA loan or a bank line of credit and
-                can wait the six to twelve weeks, those are almost always cheaper — see{' '}
+                can wait the six to twelve weeks, those are almost always cheaper - see{' '}
                 <Link to="/funding/mca-vs-business-loan">the side-by-side comparison</Link>.
               </p>
 

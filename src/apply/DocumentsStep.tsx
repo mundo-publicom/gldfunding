@@ -36,7 +36,7 @@ export function DocumentsStep({ data, update, errors }: StepProps) {
     for (const file of Array.from(list)) {
       const id = `${file.name}-${file.size}-${Math.random().toString(36).slice(2, 8)}`
       let error: string | undefined
-      if (file.size > MAX_BYTES) error = `Over the 25 MB limit — try splitting or compressing it.`
+      if (file.size > MAX_BYTES) error = `Over the 25 MB limit - try splitting or compressing it.`
       else if (!ACCEPTED.includes(file.type) && !/\.(pdf|jpe?g|png|heic)$/i.test(file.name))
         error = 'Needs to be a PDF or a photo (JPG, PNG, HEIC).'
 
@@ -54,7 +54,7 @@ export function DocumentsStep({ data, update, errors }: StepProps) {
     setDocs({ statements: next, method: 'upload' })
 
     // Simulated transfer. Replace with a real signed-URL upload that reports
-    // genuine progress — a fake bar on a document upload is a trust problem.
+    // genuine progress - a fake bar on a document upload is a trust problem.
     for (const f of incoming) {
       if (f.status === 'error') continue
       let pct = 0
@@ -98,12 +98,12 @@ export function DocumentsStep({ data, update, errors }: StepProps) {
             single PDF covering every month, and blocking submission on a file
             count is where applications get abandoned. */}
         <p className="mt-2 max-w-[62ch] text-[0.875rem] leading-relaxed text-ink-3">
-          One file is enough to continue — if your statements come as a single combined PDF, attach
+          One file is enough to continue - if your statements come as a single combined PDF, attach
           that. Anything still missing, we'll ask for after review.
         </p>
       </div>
 
-      {/* Plaid as the fast path — one consent screen instead of hunting for PDFs. */}
+      {/* Plaid as the fast path - one consent screen instead of hunting for PDFs. */}
       <div className="grid gap-4 sm:grid-cols-2">
         <button
           type="button"
@@ -273,14 +273,14 @@ export function DocumentsStep({ data, update, errors }: StepProps) {
         </p>
       )}
 
-      {/* Everything else is a stip, requested after review — not a barrier to submitting. */}
+      {/* Everything else is a stip, requested after review - not a barrier to submitting. */}
       <div className="border-t border-rule pt-6">
         <h3 className="text-[0.9375rem] font-semibold text-ink">
           That's everything we need to submit
         </h3>
         <p className="mt-2 max-w-[64ch] text-[0.9375rem] leading-relaxed text-ink-2">
-          If your file needs anything further — a driver's licence, a voided check, a processing
-          statement — underwriting will request it after review, through a secure link. You will
+          If your file needs anything further - a driver's licence, a voided check, a processing
+          statement - underwriting will request it after review, through a secure link. You will
           never be asked to fill this application in again.
         </p>
       </div>

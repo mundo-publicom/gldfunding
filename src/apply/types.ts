@@ -65,8 +65,8 @@ export type ApplicationData = {
   /*
      --- 2…n. owners ---
      How many owners the applicant declared in step 1. Everything downstream
-     — how many owner steps exist, how many signatures the authorization
-     needs — is derived from this one number.
+     - how many owner steps exist, how many signatures the authorization
+     needs - is derived from this one number.
   */
   ownerCount: number
   owners: Owner[]
@@ -156,7 +156,7 @@ export const emptyApplication = (): ApplicationData => ({
 
    The governing rule: only show a question when GLD needs the answer.
    The step list is built per applicant rather than filtered from a fixed
-   array — a step that does not apply is never rendered, never numbered,
+   array - a step that does not apply is never rendered, never numbered,
    and never appears as a greyed-out row in the review list.
 
    Step 1 asks how many owners the business has, and that answer is what
@@ -172,7 +172,7 @@ export const OWNER_COUNT_OPTIONS = Array.from({ length: MAX_OWNERS }, (_, i) => 
   label: i === 0 ? '1 owner' : `${i + 1} owners`,
 }))
 
-/** Declared owner count, clamped — a restored or hand-edited payload cannot
+/** Declared owner count, clamped - a restored or hand-edited payload cannot
     make the form generate a thousand steps. */
 export const ownerCount = (d: ApplicationData) =>
   Math.min(Math.max(Math.trunc(d.ownerCount) || 1, 1), MAX_OWNERS)
@@ -193,7 +193,7 @@ export type StepDef = {
   id: StepId
   title: string
   shortTitle: string
-  /** Set on owner steps only — which owner in the roster this step edits. */
+  /** Set on owner steps only - which owner in the roster this step edits. */
   ownerIndex?: number
 }
 
@@ -233,7 +233,7 @@ export const requiredStatements = (d: ApplicationData) =>
 /**
  * Files that must actually be attached before the step will pass.
  *
- * We ask for the full statement period, but one file is enough to continue —
+ * We ask for the full statement period, but one file is enough to continue -
  * most banks issue a single PDF covering every month, and holding an
  * application hostage to a file count is how applicants abandon at the last
  * step. Anything missing is chased after review.

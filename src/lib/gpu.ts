@@ -1,8 +1,8 @@
 /**
  * Shared GPU-backdrop policy.
  *
- * Every animated field on the site — the hero's capital flow and the ambient
- * section fields — goes through the same gate chain and the same slot budget.
+ * Every animated field on the site - the hero's capital flow and the ambient
+ * section fields - goes through the same gate chain and the same slot budget.
  * Written once here so the answer to "may I paint pixels?" cannot drift
  * between components.
  */
@@ -65,7 +65,7 @@ export function waitForFieldSlot(cb: () => void): () => void {
   }
 }
 
-/** Stable 32-bit hash of a string — turns a section id into a repeatable seed. */
+/** Stable 32-bit hash of a string - turns a section id into a repeatable seed. */
 export function hashSeed(input: string): number {
   let h = 2166136261
   for (let i = 0; i < input.length; i++) {

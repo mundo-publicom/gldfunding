@@ -13,7 +13,7 @@ const TRAIL = [
 const BADGE = {
   'in-force': { label: 'Disclosure law', cls: 'border-leaf text-leaf-deep' },
   enacted: { label: 'Enacted', cls: 'border-warn text-warn' },
-  none: { label: '—', cls: 'border-rule text-ink-4' },
+  none: { label: '-', cls: 'border-rule text-ink-4' },
 }
 
 export function Component() {
@@ -27,7 +27,7 @@ export function Component() {
       <Seo
         path="/locations"
         title="Merchant Cash Advances by State"
-        description={`GLD Funding provides working capital to small businesses in ${STATES.length} states. Commercial financing disclosure requirements differ by state — see what applies where you operate.`}
+        description={`GLD Funding provides working capital to small businesses in ${STATES.length} states. Commercial financing disclosure requirements differ by state - see what applies where you operate.`}
         schema={[
           breadcrumbSchema(TRAIL),
           {
@@ -47,7 +47,7 @@ export function Component() {
         trail={TRAIL}
         eyebrow="Where we fund"
         title="Funding across the United States"
-        lead="Commercial financing rules genuinely differ by state — disclosure obligations, registration, and permitted terms. Find what applies where you operate."
+        lead="Commercial financing rules genuinely differ by state - disclosure obligations, registration, and permitted terms. Find what applies where you operate."
       />
 
       <Section tone="white">
@@ -64,7 +64,7 @@ export function Component() {
           <SectionHead
             eyebrow="States with disclosure requirements"
             title="Where the law already requires cost transparency."
-            lead="These states mandate a written disclosure of total cost and terms at the point of offer — several including an APR-comparable figure."
+            lead="These states mandate a written disclosure of total cost and terms at the point of offer - several including an APR-comparable figure."
           />
 
           <div ref={ref} className="stagger mt-8 grid gap-px border border-rule bg-rule sm:grid-cols-2">
@@ -128,7 +128,7 @@ export function Component() {
             Since 2022, a growing number of states have brought commercial financing under
             disclosure regimes that look a lot like consumer lending rules. New York, California,
             Utah, Virginia, Connecticut, Georgia and Florida all now require providers to give
-            business owners a written summary of what financing actually costs — in several cases
+            business owners a written summary of what financing actually costs - in several cases
             including an annualized rate comparable to an APR.
           </p>
           <p>

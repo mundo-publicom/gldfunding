@@ -18,7 +18,7 @@ const TRAIL = [
   { name: 'What it costs', path: '/funding/cost' },
 ]
 
-/** Worked examples. Illustrative — replace with GLD's real pricing grid. */
+/** Worked examples. Illustrative - replace with GLD's real pricing grid. */
 const EXAMPLES = [
   { amount: 25_000, factor: 1.35, months: 6 },
   { amount: 50_000, factor: 1.28, months: 9 },
@@ -29,7 +29,7 @@ const EXAMPLES = [
 const FAQS = [
   {
     q: 'How much does a merchant cash advance cost?',
-    a: `Cost is expressed as a factor rate, typically between ${PRODUCT.factorRateMin} and ${PRODUCT.factorRateMax} at GLD Funding. At a factor rate of 1.28, a ${currency(50_000)} advance is repaid as ${currency(64_000)} — a cost of capital of ${currency(14_000)}. The rate depends on your revenue consistency, time in business, industry, and the term you choose.`,
+    a: `Cost is expressed as a factor rate, typically between ${PRODUCT.factorRateMin} and ${PRODUCT.factorRateMax} at GLD Funding. At a factor rate of 1.28, a ${currency(50_000)} advance is repaid as ${currency(64_000)} - a cost of capital of ${currency(14_000)}. The rate depends on your revenue consistency, time in business, industry, and the term you choose.`,
   },
   {
     q: 'Does repaying early save me money?',
@@ -70,7 +70,7 @@ export function Component() {
           <AnswerBlock>
             A merchant cash advance is priced with a factor rate, typically{' '}
             {PRODUCT.factorRateMin} to {PRODUCT.factorRateMax}. At a factor rate of 1.28, a{' '}
-            {currency(50_000)} advance is repaid as {currency(64_000)} — a cost of{' '}
+            {currency(50_000)} advance is repaid as {currency(64_000)} - a cost of{' '}
             {currency(14_000)}. The rate is fixed at signing and does not accrue over time.
           </AnswerBlock>
         </div>
@@ -91,7 +91,7 @@ export function Component() {
           className="mt-10 overflow-x-auto border border-rule bg-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-leaf"
           tabIndex={0}
           role="region"
-          aria-label="Worked cost examples — scrolls horizontally"
+          aria-label="Worked cost examples - scrolls horizontally"
         >
           <table className="w-full min-w-[640px] border-collapse">
             <thead>
@@ -151,7 +151,7 @@ export function Component() {
             <h2>What drives your rate</h2>
             <p>
               Two structural factors do most of the work. <strong>Term length</strong> is the
-              biggest single input — shorter terms price lower because the funder's capital is at
+              biggest single input - shorter terms price lower because the funder's capital is at
               risk for less time. <strong>Advance size</strong> is next: larger advances carry
               proportionally lower rates because the underwriting cost is spread further.
             </p>
@@ -208,7 +208,7 @@ export function Component() {
             <p>
               If your business is in New York, California, Utah, Virginia, Connecticut, Georgia or
               Florida, state law requires the funder to give you a standardized written disclosure
-              before you sign — including total cost, an APR-comparable figure, and repayment terms.
+              before you sign - including total cost, an APR-comparable figure, and repayment terms.
             </p>
             <p>
               GLD Funding provides that disclosure on every offer regardless of state.{' '}

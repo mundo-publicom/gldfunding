@@ -25,7 +25,7 @@ import { useRevealGroup } from '../lib/useReveal'
 const FAQS = [
   {
     q: 'What is a merchant cash advance?',
-    a: `A merchant cash advance is the purchase of a business's future receivables at a discount, not a loan. GLD Funding advances a lump sum — typically between ${currency(PRODUCT.advanceMin)} and ${currency(PRODUCT.advanceMax)} — and recovers it through fixed daily or weekly remittances tied to your revenue.`,
+    a: `A merchant cash advance is the purchase of a business's future receivables at a discount, not a loan. GLD Funding advances a lump sum - typically between ${currency(PRODUCT.advanceMin)} and ${currency(PRODUCT.advanceMax)} - and recovers it through fixed daily or weekly remittances tied to your revenue.`,
   },
   {
     q: 'How fast can I get funded?',
@@ -37,7 +37,7 @@ const FAQS = [
   },
   {
     q: 'What documents do I need to apply?',
-    a: `Your last three months of business bank statements — four months for New York businesses. That is all that is required to submit. Anything else is requested only if your specific file calls for it, after review.`,
+    a: `Your last three months of business bank statements - four months for New York businesses. That is all that is required to submit. Anything else is requested only if your specific file calls for it, after review.`,
   },
   {
     q: 'Is collateral required?',
@@ -145,13 +145,13 @@ export function Component() {
 
       <HowItWorksTimeline showVideoLink />
 
-      {/* Cost transparency, up front — the content that earns AI citations. */}
+      {/* Cost transparency, up front - the content that earns AI citations. */}
       <Section tone="paper" id="calculator" ambient="converge" ambientSide="left">
         <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-14">
           <SectionHead
             eyebrow="No surprises"
             title="See the cost before you talk to anybody."
-            lead="Most funders make you apply to find out what you'll pay. Model it here first — total repayment, cost of capital, and what leaves your account each week."
+            lead="Most funders make you apply to find out what you'll pay. Model it here first - total repayment, cost of capital, and what leaves your account each week."
           />
           <RateCalculator />
         </div>

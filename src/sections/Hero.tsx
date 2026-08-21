@@ -10,7 +10,7 @@ import { cn } from '../lib/cn'
 /**
  * The hero.
  *
- * LCP element is the headline over a CSS-painted ground — no image request,
+ * LCP element is the headline over a CSS-painted ground - no image request,
  * no shader, nothing to wait on. WebGL initialises after `load`, behind four
  * gates, then cross-fades over the poster in 400ms. If any gate fails the
  * poster simply stays and nobody ever sees a blank hero.
@@ -29,7 +29,7 @@ export function Hero() {
     let cancelled = false
     let claimed = false
 
-    // The gate chain and the context budget both live in lib/gpu — the hero
+    // The gate chain and the context budget both live in lib/gpu - the hero
     // and the ambient section fields answer to exactly the same policy.
     const boot = async () => {
       if (cancelled || !gpuFieldAllowed()) return
@@ -41,7 +41,7 @@ export function Hero() {
         if (cancelled) return
         const flow = createCapitalFlow(canvas)
         if (!flow) {
-          releaseFieldSlot() // context creation failed — poster stays
+          releaseFieldSlot() // context creation failed - poster stays
           claimed = false
           return
         }
@@ -59,7 +59,7 @@ export function Hero() {
     if (document.readyState === 'complete') start()
     else window.addEventListener('load', start, { once: true })
 
-    // Pause when scrolled away — no cycles spent on pixels nobody is looking at.
+    // Pause when scrolled away - no cycles spent on pixels nobody is looking at.
     const io =
       typeof IntersectionObserver !== 'undefined'
         ? new IntersectionObserver(
@@ -111,7 +111,7 @@ export function Hero() {
 
       {/* min-h uses dvh so iOS Safari's collapsing address bar cannot shift it. */}
       <div className="page relative flex min-h-[min(76dvh,760px)] items-center py-16 lg:min-h-[min(82dvh,820px)] lg:py-24">
-        {/* Asymmetric split — the value prop owns the left, the field breathes right. */}
+        {/* Asymmetric split - the value prop owns the left, the field breathes right. */}
         <div className="max-w-[46rem] lg:max-w-[38rem] xl:max-w-[42rem]">
           <p className="eyebrow eyebrow-invert">
             Working capital · Funded in {PRODUCT.fundingHours} hours

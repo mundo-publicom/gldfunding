@@ -17,7 +17,7 @@ import {
  * any gate fails the poster is simply what the section has. Nothing here is
  * ever the LCP element and nothing here is ever load-bearing.
  *
- * Unlike the hero it does not boot on load — it boots when the section is
+ * Unlike the hero it does not boot on load - it boots when the section is
  * within a screen of the viewport, and pauses the moment it leaves.
  */
 
@@ -64,7 +64,7 @@ export function AmbientBackdrop({
   /** 'auto' derives a variant from the seed, so every section differs but never changes between visits. */
   variant?: AmbientVariant | 'auto'
   tone?: 'light' | 'dark'
-  /** Any stable string — a section id, a page title. Drives variant, layout and particle placement. */
+  /** Any stable string - a section id, a page title. Drives variant, layout and particle placement. */
   seed?: string
   /** 0–1 multiplier on the field's opacity, for sections that need it quieter still. */
   intensity?: number

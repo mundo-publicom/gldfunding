@@ -10,7 +10,7 @@ const STEPS = [
     n: '01',
     title: 'Apply',
     time: '8 minutes',
-    body: 'Answer three questions to see an indicative range, then complete the application. Attach your last three months of business bank statements — four in New York — or connect your bank read-only and skip the upload entirely.',
+    body: 'Answer three questions to see an indicative range, then complete the application. Attach your last three months of business bank statements - four in New York - or connect your bank read-only and skip the upload entirely.',
   },
   {
     n: '02',
@@ -22,14 +22,14 @@ const STEPS = [
     n: '03',
     title: 'Get funded',
     time: `${PRODUCT.fundingHours} hours`,
-    body: 'Sign electronically and the advance lands in your business account — same day on contracts signed before 2pm ET. Remittances begin on the schedule you agreed, and nothing is hidden behind it.',
+    body: 'Sign electronically and the advance lands in your business account - same day on contracts signed before 2pm ET. Remittances begin on the schedule you agreed, and nothing is hidden behind it.',
   },
 ]
 
 /**
  * Scroll-scrubbed three-step timeline.
  *
- * Pure CSS transforms driven by one scroll listener — no WebGL, no additional
+ * Pure CSS transforms driven by one scroll listener - no WebGL, no additional
  * JS beyond this component. The rail fills as the reader travels, so the motion
  * is explaining the process rather than decorating it.
  */

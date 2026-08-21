@@ -48,7 +48,7 @@ const CRITERIA = [
   {
     label: 'Industry',
     value: 'Most',
-    note: 'A short restricted list applies — call us if you are unsure about yours.',
+    note: 'A short restricted list applies - call us if you are unsure about yours.',
   },
 ]
 
@@ -58,7 +58,7 @@ const STRENGTHENS = [
   'Few or no negative days across the statement period',
   'Three or more years of trading history',
   'Existing positions disclosed up front',
-  'Complete statements — every page, as the bank issues them',
+  'Complete statements - every page, as the bank issues them',
 ]
 
 const WEAKENS = [
@@ -73,7 +73,7 @@ const WEAKENS = [
 const FAQS = [
   {
     q: 'What credit score do I need for a merchant cash advance?',
-    a: 'None. GLD Funding does not set a minimum credit score. Underwriting is based on business bank deposit history — how much comes in, how consistently, and what balance the account holds. Business owners declined by banks on credit grounds are routinely approved here.',
+    a: 'None. GLD Funding does not set a minimum credit score. Underwriting is based on business bank deposit history - how much comes in, how consistently, and what balance the account holds. Business owners declined by banks on credit grounds are routinely approved here.',
   },
   {
     q: 'Can I qualify with a past bankruptcy?',
@@ -81,7 +81,7 @@ const FAQS = [
   },
   {
     q: 'I have been in business less than six months. Any options?',
-    a: `Six months of trading history is our practical minimum, because underwriting needs enough statements to read a pattern. If you are close, call us — a strong deposit history over four or five months is sometimes workable. Under three months, an advance is not the right product yet.`,
+    a: `Six months of trading history is our practical minimum, because underwriting needs enough statements to read a pattern. If you are close, call us - a strong deposit history over four or five months is sometimes workable. Under three months, an advance is not the right product yet.`,
   },
   {
     q: 'Does applying hurt my credit?',
@@ -93,7 +93,7 @@ const FAQS = [
   },
   {
     q: 'What if I already have an advance from another funder?',
-    a: 'Additional positions are underwritten case by case, based on your revenue, the balance outstanding, and the remittance load you already carry. Disclose every existing position on the application — undisclosed positions discovered during underwriting are the most common cause of a late decline.',
+    a: 'Additional positions are underwritten case by case, based on your revenue, the balance outstanding, and the remittance load you already carry. Disclose every existing position on the application - undisclosed positions discovered during underwriting are the most common cause of a late decline.',
   },
 ]
 
@@ -120,7 +120,7 @@ export function Component() {
           <AnswerBlock>
             GLD Funding requires {currency(PRODUCT.minMonthlyRevenue)} in average monthly revenue,
             at least {PRODUCT.minMonthsInBusiness} months in business, and a business bank account.
-            There is no minimum credit score and no collateral requirement — approval is based on
+            There is no minimum credit score and no collateral requirement - approval is based on
             deposit history rather than your credit file.
           </AnswerBlock>
         </div>
@@ -193,12 +193,12 @@ export function Component() {
               Bank statements answer that question directly. They show what actually arrives, how
               regularly, what cushion the account holds, and whether the business runs close to the
               edge. That is why an owner who took a credit hit during a bad year can be a perfectly
-              good file today — the statements describe the business now, not five years ago.
+              good file today - the statements describe the business now, not five years ago.
             </p>
 
             <h2>What to have ready</h2>
             <p>
-              {PRODUCT.statementMonths.default} months of business bank statements — four if you are
+              {PRODUCT.statementMonths.default} months of business bank statements - four if you are
               in New York. Complete statements, every page, exactly as your bank issues them.
               Screenshots and partial exports slow underwriting down more than anything else.
             </p>
@@ -215,7 +215,7 @@ export function Component() {
 
             <h2>If you do not qualify yet</h2>
             <p>
-              Call us anyway. Sometimes the gap is small and worth waiting out — another two months
+              Call us anyway. Sometimes the gap is small and worth waiting out - another two months
               of trading, or one clean statement period without negative days, changes the answer.
               We would rather tell you that in five minutes than take an application that was never
               going to work.
@@ -236,7 +236,7 @@ export function Component() {
           <div>
             <h2 className="text-h3 font-semibold text-ink">Find out in about a minute.</h2>
             <p className="mt-2 max-w-[52ch] text-[0.9375rem] text-ink-2">
-              Three questions — revenue, time in business, industry. No contact details required to
+              Three questions - revenue, time in business, industry. No contact details required to
               see your range.
             </p>
           </div>

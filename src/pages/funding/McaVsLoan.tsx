@@ -42,11 +42,11 @@ const FAQS = [
   },
   {
     q: 'When does a merchant cash advance make more sense than a loan?',
-    a: `When speed decides the outcome — a truck off the road, an equipment failure, inventory that has to be bought this week — or when a bank has already declined you. An advance funds in about ${PRODUCT.fundingHours} hours against bank statements, with no collateral and no credit-score minimum.`,
+    a: `When speed decides the outcome - a truck off the road, an equipment failure, inventory that has to be bought this week - or when a bank has already declined you. An advance funds in about ${PRODUCT.fundingHours} hours against bank statements, with no collateral and no credit-score minimum.`,
   },
   {
     q: 'Can I use an advance to pay off a bank loan?',
-    a: 'It is almost never a good idea. Replacing cheaper long-term debt with more expensive short-term capital increases both cost and cash-flow pressure. The reverse — refinancing an advance into a bank loan once you qualify — is usually the right move.',
+    a: 'It is almost never a good idea. Replacing cheaper long-term debt with more expensive short-term capital increases both cost and cash-flow pressure. The reverse - refinancing an advance into a bank loan once you qualify - is usually the right move.',
   },
   {
     q: 'Do merchant cash advances build business credit?',
@@ -60,7 +60,7 @@ export function Component() {
       <Seo
         path="/funding/mca-vs-business-loan"
         title="Merchant Cash Advance vs. Business Loan"
-        description={`Side-by-side comparison of merchant cash advances, bank loans and SBA loans — speed, cost, credit requirements, collateral and repayment. An advance funds in ${PRODUCT.fundingHours} hours; an SBA loan takes 6–12 weeks.`}
+        description={`Side-by-side comparison of merchant cash advances, bank loans and SBA loans - speed, cost, credit requirements, collateral and repayment. An advance funds in ${PRODUCT.fundingHours} hours; an SBA loan takes 6–12 weeks.`}
         schema={[breadcrumbSchema(TRAIL), faqSchema(FAQS)]}
       />
 
@@ -84,7 +84,7 @@ export function Component() {
           className="mt-10 overflow-x-auto border border-rule focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-leaf"
           tabIndex={0}
           role="region"
-          aria-label="Comparison of merchant cash advances, bank loans and SBA loans — scrolls horizontally"
+          aria-label="Comparison of merchant cash advances, bank loans and SBA loans - scrolls horizontally"
         >
           <table className="w-full min-w-[760px] border-collapse bg-white">
             <thead>
@@ -162,7 +162,7 @@ export function Component() {
               {[
                 'You can wait four to twelve weeks for funding',
                 'Your credit and financials will clear a bank\'s criteria',
-                'You are funding something long-lived — property, a major build-out',
+                'You are funding something long-lived - property, a major build-out',
                 'You want the lowest available cost of capital',
                 'Building business credit matters to you',
               ].map((t) => (
@@ -181,13 +181,13 @@ export function Component() {
           <h2>The comparison nobody makes for you</h2>
           <p>
             Most funders in this category avoid this page, because an honest comparison does not
-            always favour the advance. We would rather you make the right decision — including the
-            decision to go elsewhere — than take an advance that was the wrong tool.
+            always favour the advance. We would rather you make the right decision - including the
+            decision to go elsewhere - than take an advance that was the wrong tool.
           </p>
 
           <h2>Work out whether the maths clears</h2>
           <p>
-            The useful question is not "is this expensive?" — it is "does the capital earn more than
+            The useful question is not "is this expensive?" - it is "does the capital earn more than
             it costs?" A {currency(50_000)} advance at a 1.28 factor costs {currency(14_000)}. If
             that {currency(50_000)} buys inventory you sell at a {currency(30_000)} margin inside
             the term, the advance made you {currency(16_000)}. If it covers a shortfall that
@@ -196,7 +196,7 @@ export function Component() {
 
           <Callout title="The test">
             Write down what the capital will do, what it will return, and when. If you cannot state
-            a return that exceeds the cost within the term, an advance is not the answer — no matter
+            a return that exceeds the cost within the term, an advance is not the answer - no matter
             how quickly it funds.
           </Callout>
 
@@ -204,7 +204,7 @@ export function Component() {
           <p>
             Plenty of businesses use an advance to get through a moment, strengthen their financials
             over the following year, and then qualify for a bank line at a fraction of the cost.
-            That is a perfectly good arc — and it is the direction the refinancing should run.
+            That is a perfectly good arc - and it is the direction the refinancing should run.
           </p>
           <p>
             What does not work is the reverse: using an advance to service existing debt. If that is

@@ -8,7 +8,7 @@ const empty: Values = { name: '', email: '', phone: '', business: '', topic: '',
 
 /**
  * ⚠️ Posts nowhere yet. Wire to a real endpoint with server-side validation,
- * rate limiting and bot protection before launch — see SECURITY-NOTES.md.
+ * rate limiting and bot protection before launch - see SECURITY-NOTES.md.
  */
 export function ContactForm({
   topics,

@@ -44,9 +44,9 @@ export function Footer() {
 
   return (
     <footer className="relative isolate mt-auto border-t border-rule bg-petrol text-paper">
-      {/* Quietest field on the page — the footer is the exit, not a feature. */}
+      {/* Quietest field on the page - the footer is the exit, not a feature. */}
       <AmbientBackdrop variant="drift" tone="dark" seed="footer" intensity={0.55} />
-      {/* Closing CTA — one label per intent, same as the nav and every hero. */}
+      {/* Closing CTA - one label per intent, same as the nav and every hero. */}
       <div className="border-b border-white/10">
         <div className="page grid gap-8 py-14 lg:grid-cols-[1.2fr_auto] lg:items-center lg:py-16">
           <div>

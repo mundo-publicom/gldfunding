@@ -1,12 +1,12 @@
 /**
- * Capital-flow field — the hero's WebGL scene.
+ * Capital-flow field - the hero's WebGL scene.
  *
  * Raw WebGL, no framework. The scene is a single draw call of gl.POINTS with a
  * custom shader pair; every particle's position is computed on the GPU from a
  * time uniform, so there is no per-frame CPU work and no buffer re-upload.
  *
  * three.js was the obvious reach here and cost 125 KB gzipped for one draw
- * call — 39% over the hero's budget. This module is ~4 KB and does the same
+ * call - 39% over the hero's budget. This module is ~4 KB and does the same
  * thing. It is dynamically imported after first paint, only when every gate in
  * Hero.tsx passes, and is never the LCP element.
  */
@@ -126,7 +126,7 @@ export function createCapitalFlow(canvas: HTMLCanvasElement): FlowHandle | null 
     nodes.push([source[0] + Math.cos(a) * r * 1.15, source[1] + Math.sin(a) * r * 0.9])
   }
 
-  // Interleaved: seed, speed, size, back, targetX, targetY — 6 floats per particle.
+  // Interleaved: seed, speed, size, back, targetX, targetY - 6 floats per particle.
   const STRIDE = 6
   const data = new Float32Array(COUNT * STRIDE)
   for (let i = 0; i < COUNT; i++) {
@@ -173,7 +173,7 @@ export function createCapitalFlow(canvas: HTMLCanvasElement): FlowHandle | null 
   gl.uniform3f(uCapital, 0x55 / 255, 0xe6 / 255, 0xcc / 255)
   gl.uniform3f(uReceivable, 0x7f / 255, 0xd9 / 255, 0xcb / 255)
 
-  // Additive blending against a transparent canvas — the poster shows through.
+  // Additive blending against a transparent canvas - the poster shows through.
   gl.enable(gl.BLEND)
   gl.blendFunc(gl.SRC_ALPHA, gl.ONE)
   gl.clearColor(0, 0, 0, 0)

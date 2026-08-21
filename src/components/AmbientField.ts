@@ -1,13 +1,13 @@
 /**
- * Ambient field — the section-level sibling of the hero's capital flow.
+ * Ambient field - the section-level sibling of the hero's capital flow.
  *
  * Same discipline: one draw call of gl.POINTS, every position computed on the
  * GPU from a time uniform, no per-frame CPU work and no buffer re-upload. What
  * changes between sections is a mode uniform and a seeded attribute buffer, so
  * four visually distinct motions cost one shader pair, not four.
  *
- * The variants are the hero's idea broken into its parts — capital drifting,
- * circling, streaming, and converging — so the page reads as one system rather
+ * The variants are the hero's idea broken into its parts - capital drifting,
+ * circling, streaming, and converging - so the page reads as one system rather
  * than a gallery of effects.
  */
 
@@ -44,23 +44,23 @@ const VERT = /* glsl */ `#version 300 es
     float fade;
 
     if (uMode == 0) {
-      // Drift — capital settling upward through the section. Slowest of the four.
+      // Drift - capital settling upward through the section. Slowest of the four.
       pos = vec2(aVarA + sin(uTime * aSpeed * 2.4 + aPhase * TAU) * aVarB * 0.28,
                  mix(-1.18, 1.18, t));
       fade = sin(t * PI);
     } else if (uMode == 1) {
-      // Orbit — a wide ring turning around the section's centre of gravity.
+      // Orbit - a wide ring turning around the section's centre of gravity.
       float a = aVarA + uTime * aSpeed * 1.7;
       pos = uCenter + vec2(cos(a), sin(a)) * aVarB * vec2(1.0, 0.72);
       // No path ends to fade at, so breathe instead of blinking.
       fade = 0.34 + 0.4 * (0.5 + 0.5 * sin(uTime * aSpeed * 3.1 + aPhase * TAU));
     } else if (uMode == 2) {
-      // Stream — lanes crossing the section, the way a wire moves.
+      // Stream - lanes crossing the section, the way a wire moves.
       float x = mix(-1.22, 1.22, t);
       pos = vec2(x, aVarA + sin(x * 1.5 + aPhase * TAU) * aVarB * 0.1);
       fade = sin(t * PI);
     } else {
-      // Converge — receivables spiralling home to a single node.
+      // Converge - receivables spiralling home to a single node.
       float a = aVarA + t * 2.3;
       float r = (1.0 - t) * aVarB;
       pos = uCenter + vec2(cos(a), sin(a)) * r * vec2(1.0, 0.68);
@@ -94,7 +94,7 @@ const FRAG = /* glsl */ `#version 300 es
 
     float alpha = smoothstep(0.5, 0.02, d) * vFade * uAlpha;
     vec3 c = mix(uColorA, uColorB, smoothstep(0.55, 1.0, vTint));
-    // Premultiplied — see the blend setup below.
+    // Premultiplied - see the blend setup below.
     fragColor = vec4(c * alpha, alpha);
   }
 `
@@ -121,7 +121,7 @@ export type AmbientOptions = {
   variant: AmbientVariant
   /** Light sections composite the field over paper; dark ones add light to it. */
   tone: 'light' | 'dark'
-  /** Any 32-bit integer. Same seed, same field — renders stay repeatable. */
+  /** Any 32-bit integer. Same seed, same field - renders stay repeatable. */
   seed: number
   /** Which half of the section the ring variants hang in. */
   anchor: 'left' | 'right'
@@ -168,7 +168,7 @@ export function createAmbientField(
   const STRIDE = 6 // seed, speed, size, varA, varB, phase
 
   // The ring variants hang in one half of the section so the field never sits
-  // symmetrically behind the copy. The caller picks the half — the poster is
+  // symmetrically behind the copy. The caller picks the half - the poster is
   // anchored to the same side, so ground and field always agree.
   const centre: [number, number] = [anchor === 'left' ? -0.44 : 0.44, (rand() - 0.5) * 0.3]
 
@@ -264,7 +264,7 @@ export function createAmbientField(
   const resize = () => {
     const rect = canvas.getBoundingClientRect()
     if (!rect.width || !rect.height) return
-    // Ambient work runs at a lower ceiling than the hero — it is atmosphere.
+    // Ambient work runs at a lower ceiling than the hero - it is atmosphere.
     const dpr = Math.min(window.devicePixelRatio || 1, 1.5)
     const w = Math.round(rect.width * dpr)
     const h = Math.round(rect.height * dpr)
