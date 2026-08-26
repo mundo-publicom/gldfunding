@@ -17,8 +17,8 @@ export function NotFoundBody() {
       <ul className="mt-9 grid w-full max-w-2xl gap-px border border-rule bg-rule sm:grid-cols-2">
         {[
           { to: '/funding/merchant-cash-advance', t: 'What is an MCA?', d: 'How an advance works' },
-          { to: '/funding/cost', t: 'What it costs', d: 'Factor rates and worked examples' },
-          { to: '/funding/qualify', t: 'Do I qualify?', d: 'The exact thresholds' },
+          { to: '/funding/mca-vs-business-loan', t: 'MCA vs. business loan', d: 'A side-by-side comparison' },
+          { to: '/funding/how-it-works', t: 'How it works', d: 'Apply, review, get funded' },
           { to: '/apply', t: 'Check eligibility', d: 'A few simple questions, no credit pull' },
         ].map((l) => (
           <li key={l.to}>

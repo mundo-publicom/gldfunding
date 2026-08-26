@@ -14,6 +14,29 @@ import { builtRoutes } from './routes'
 
 type Broken = { status: number | string; url: string; foundOn: string[] }
 
+/**
+ * The 404 page is deliberately excluded from `builtRoutes()` - it is not a real
+ * route, and every unknown URL serves it. That exclusion meant its own links
+ * were never crawled, and it went on offering pages that had been deleted.
+ * Checked here against the routes the build actually emitted.
+ */
+test('the 404 page only offers pages that exist', async ({ page }) => {
+  const routes = new Set(builtRoutes())
+
+  await page.goto('/404', { waitUntil: 'domcontentloaded' })
+
+  const hrefs = await page
+    .locator('main a[href^="/"], .page a[href^="/"]')
+    .evaluateAll((els) =>
+      [...new Set(els.map((e) => (e as HTMLAnchorElement).getAttribute('href')!))],
+    )
+
+  expect(hrefs.length, 'the 404 page should suggest somewhere to go').toBeGreaterThan(2)
+
+  const dead = hrefs.filter((h) => !routes.has(h.split('#')[0].split('?')[0]))
+  expect(dead.join(', '), `404 page links to non-existent pages: ${dead.join(', ')}`).toHaveLength(0)
+})
+
 test.describe('link integrity', () => {
   test.describe.configure({ timeout: 300_000 })
 
@@ -88,8 +111,27 @@ test.describe('link integrity', () => {
     const api = await pwRequest.newContext({ baseURL })
     const broken: Broken[] = []
 
+    /*
+     * Ground truth is the set of HTML files the build emitted, NOT the HTTP
+     * status. `vite preview` answers an unknown path with an SPA fallback to
+     * dist/index.html: status 200, homepage body. That is neither an error nor
+     * the not-found body, so a link to a deleted page sailed through the status
+     * and soft-404 checks below. Membership in the emitted route set cannot be
+     * fooled that way, and it is what the production host will actually serve.
+     */
+    const emitted = new Set(builtRoutes())
+    for (const [url, from] of internalLinks) {
+      const path = url.replace(origin, '') || '/'
+      if (!emitted.has(path)) {
+        broken.push({ status: 'not-in-build', url, foundOn: [...from] })
+      }
+    }
+
+    const alreadyFlagged = new Set(broken.map((b) => b.url))
+
     const checkAll = async (map: Map<string, Set<string>>, method: 'GET' | 'HEAD') => {
       for (const [url, from] of map) {
+        if (alreadyFlagged.has(url)) continue
         try {
           const r = await api.fetch(url, { method, maxRedirects: 5 })
           // A static host answers an unknown path with the 404 page. Catch both

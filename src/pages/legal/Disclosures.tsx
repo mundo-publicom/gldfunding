@@ -49,8 +49,7 @@ export function Component() {
           The annualized cost of a short-term advance is substantially higher than the factor rate
           makes it look - a 1.28 factor over nine months annualizes well above 28%. Several states
           require an APR-comparable figure on every commercial financing offer for exactly this
-          reason. Where that figure is required, it appears on your offer.{' '}
-          <Link to="/funding/cost">See worked examples</Link>.
+          reason. Where that figure is required, it appears on your offer.
         </Callout>
 
         <h2>Written cost disclosure on every offer</h2>

@@ -75,8 +75,8 @@ export function Component() {
           <Link to={CTA.primaryHref} className="btn btn-primary">
             {CTA.primary}
           </Link>
-          <Link to="/funding/cost" className="btn btn-secondary">
-            See what it costs
+          <Link to="/funding/merchant-cash-advance" className="btn btn-secondary">
+            How an advance works
           </Link>
         </div>
       </PageHero>
