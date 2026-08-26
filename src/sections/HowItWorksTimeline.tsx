@@ -1,30 +1,26 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link } from 'react-router-dom'
-import { CTA, PRODUCT } from '../data/site'
-import { OVERVIEW_VIDEO } from '../data/video'
+import { CTA } from '../data/site'
 import { Section, SectionHead } from '../components/ui'
-import { PlayCircleIcon } from '@phosphor-icons/react'
 
 const STEPS = [
   {
     n: '01',
     title: 'Apply',
-    time: '8 minutes',
-    body: 'Answer three questions to see an indicative range, then complete the application. Attach your last three months of business bank statements - four in New York - or connect your bank read-only and skip the upload entirely.',
+    body: 'Complete a simple application and provide recent business bank statements.',
   },
   {
     n: '02',
-    title: 'Approve',
-    time: `${PRODUCT.decisionHours} hours`,
-    body: 'Underwriting reviews your deposit history and builds an offer around how your business actually moves money. A named underwriter calls to walk you through the terms, including a written disclosure of total dollar cost.',
+    title: 'Review',
+    body: 'Our underwriting team reviews your business and presents available funding options.',
   },
   {
     n: '03',
-    title: 'Get funded',
-    time: `${PRODUCT.fundingHours} hours`,
-    body: 'Sign electronically and the advance lands in your business account - same day on contracts signed before 2pm ET. Remittances begin on the schedule you agreed, and nothing is hidden behind it.',
+    title: 'Get Funded',
+    body: 'Review your terms, sign electronically, and receive funds directly into your business account.',
   },
 ]
+
 
 /**
  * Scroll-scrubbed three-step timeline.
@@ -33,7 +29,7 @@ const STEPS = [
  * JS beyond this component. The rail fills as the reader travels, so the motion
  * is explaining the process rather than decorating it.
  */
-export function HowItWorksTimeline({ showVideoLink = false }: { showVideoLink?: boolean } = {}) {
+export function HowItWorksTimeline() {
   const wrapRef = useRef<HTMLDivElement>(null)
   const [progress, setProgress] = useState(0)
   const [active, setActive] = useState(0)
@@ -85,22 +81,13 @@ export function HowItWorksTimeline({ showVideoLink = false }: { showVideoLink?: 
           <SectionHead
             invert
             eyebrow="How it works"
-            title="Three steps. Most of it happens while you're working."
-            lead="No branch visit, no business plan, no six-week underwriting committee."
+            title="Three steps, start to funded."
+            lead="Apply, review, get funded. Same-day funding is available once your file is complete."
           />
-          <div className="mt-8 flex flex-wrap items-center gap-x-5 gap-y-3">
+          <div className="mt-8">
             <Link to={CTA.primaryHref} className="btn btn-primary-invert">
               {CTA.primary}
             </Link>
-            {showVideoLink && (
-              <Link
-                to="/funding/how-it-works"
-                className="group inline-flex items-center gap-2 text-[0.9375rem] font-medium text-leaf-glow"
-              >
-                <PlayCircleIcon size={19} weight="fill" />
-                Watch the {OVERVIEW_VIDEO.durationLabel} overview
-              </Link>
-            )}
           </div>
         </div>
 
@@ -143,12 +130,7 @@ export function HowItWorksTimeline({ showVideoLink = false }: { showVideoLink?: 
                     className="transition-opacity duration-500 ease-[cubic-bezier(0.23,1,0.32,1)]"
                     style={{ opacity: on ? 1 : 0.72 }}
                   >
-                    <div className="flex flex-wrap items-baseline gap-x-3 gap-y-1">
-                      <h3 className="text-h3 font-semibold text-white">{step.title}</h3>
-                      <span className="font-mono text-[0.75rem] tabular-nums uppercase tracking-[0.1em] text-leaf-glow">
-                        {step.time}
-                      </span>
-                    </div>
+                    <h3 className="text-h3 font-semibold text-white">{step.title}</h3>
                     <p className="mt-3 max-w-[54ch] text-[1.0625rem] leading-relaxed text-paper/80">
                       {step.body}
                     </p>

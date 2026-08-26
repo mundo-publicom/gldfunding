@@ -114,38 +114,7 @@ test.describe('SEO / GEO surface', () => {
   })
 })
 
-test.describe('overview video', () => {
-  test('does not download until played, and is captioned', async ({ page }) => {
-    const media: string[] = []
-    page.on('request', (r) => {
-      if (/\.(mp4|webm)$/.test(r.url())) media.push(r.url())
-    })
-
-    await page.goto('/funding/how-it-works', { waitUntil: 'networkidle' })
-    await page.waitForTimeout(800)
-    expect(media, 'the MP4 must not load before play').toHaveLength(0)
-
-    const video = page.locator('video')
-    await expect(video).toHaveAttribute('preload', 'none')
-    await expect(page.locator('video track[kind="captions"]')).toHaveCount(1)
-
-    await page.getByRole('button', { name: /Play video/i }).click()
-    await page.waitForFunction(() => {
-      const v = document.querySelector('video')
-      return !!v && !v.paused && v.currentTime > 0
-    }, { timeout: 20_000 })
-
-    expect(media.length, 'MP4 loads on play').toBeGreaterThan(0)
-
-    const cues = await page.evaluate(() => document.querySelector('video')?.textTracks[0]?.cues?.length ?? 0)
-    expect(cues, 'caption cues parsed').toBeGreaterThan(10)
-  })
-
-  test('transcript is in the HTML for crawlers', async ({ page, isMobile }) => {
-    test.skip(!!isMobile, 'artifact-level, runs once on desktop')
-    const res = await page.request.get('/funding/how-it-works')
-    const html = await res.text()
-    expect(html).toContain('Unlike traditional bank loans')
-    expect(html).toContain('"@type":"VideoObject"')
-  })
-})
+/* The overview-video suite was removed with the video itself: its narration
+   asserts "no personal guarantees", "three months of statements" and "funds in
+   only 24 hours", none of which the site claims any more. Restore these tests
+   alongside a re-recorded video. */

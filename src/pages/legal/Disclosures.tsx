@@ -97,9 +97,9 @@ export function Component() {
           Advance amounts of {currency(PRODUCT.advanceMin)}–{currency(PRODUCT.advanceMax)}, factor
           rates of {PRODUCT.factorRateMin}–{PRODUCT.factorRateMax}, terms of{' '}
           {PRODUCT.termMinMonths}–{PRODUCT.termMaxMonths} months, decision times of approximately{' '}
-          {PRODUCT.decisionHours} business hours and funding within {PRODUCT.fundingHours} hours
-          describe typical outcomes across our funded book. They are not guarantees, not the best
-          case, and not a range you should expect to sit at the favorable end of.
+          Same-day funding describes an outcome that is available on some transactions, not one
+          promised on every transaction. It is not a guarantee, not the best case, and not an
+          outcome you should assume applies to your file.
         </p>
         <p>
           Your own amount, rate, term and timing depend on underwriting - principally deposit
@@ -110,29 +110,17 @@ export function Component() {
           on your bank's processing times, which we do not control.
         </p>
         <p>
-          Worked examples elsewhere on this site, including the cost table and the rate calculator,
-          are illustrative structures chosen to show how the arithmetic works. They are not offers,
-          not quotes, and not drawn from any individual client's file.
-        </p>
-
-        <h2>Calculator and estimates</h2>
-        <p>
-          The estimate tools on this site are illustrative only. They apply simple arithmetic to the
-          inputs you provide and do not reflect underwriting, your bank statements, your existing
-          positions or your industry. They do not constitute an offer, a pre-approval or a commitment
-          to fund, and the figures they produce may differ materially from any offer made after
-          underwriting. Nothing entered into the calculator is stored or used to price you.
+          Worked examples elsewhere on this site are illustrative structures chosen to show how the
+          arithmetic works. They are not offers, not quotes, and not drawn from any individual
+          client's file.
         </p>
 
         <h2>Eligibility check</h2>
         <p>
-          The three-question check that opens the application returns an indicative range only. It
-          collects no personal information, is not a credit inquiry, is not underwriting, and is not
-          an approval. Guideline thresholds - at least{' '}
-          {currency(PRODUCT.minMonthlyRevenue)} in monthly revenue and at least{' '}
-          {PRODUCT.minMonthsInBusiness} months in business - are starting points, not rules. Meeting
-          them does not guarantee an offer, and falling slightly short does not automatically
-          preclude one.
+          The short check that opens the application returns an indicative range only. It collects no
+          personal information, is not a credit inquiry, is not underwriting, and is not an approval.
+          Any range it produces may differ materially from any offer made after underwriting, and
+          nothing entered into it is stored or used to price you.
         </p>
 
         <h2>Credit and background inquiries</h2>
@@ -146,19 +134,19 @@ export function Component() {
           <Link to="/legal/privacy">privacy policy</Link>.
         </p>
 
-        <h2>Guarantees and confessions of judgment</h2>
+        <h2>Guarantees, liens and security</h2>
         <p>
-          A merchant cash advance from {SITE.legalName} is unsecured and does not require the kind of
-          personal guarantee attached to a conventional bank loan, and we do not place a lien on
-          personal property. Our agreements do include a performance guarantee, standard across the
-          industry, under which an owner is personally liable for breach of the agreement, fraud, or
-          a prohibited act such as diverting receivables or shutting the business to avoid
-          remittance - not for ordinary business failure.
+          The guarantees, security interests and other terms that apply to a transaction are set out
+          in the agreement for that transaction and vary by file. Our agreements commonly include a
+          performance guarantee, standard across the industry, under which an owner is personally
+          liable for breach of the agreement, fraud, or a prohibited act such as diverting
+          receivables or shutting the business to avoid remittance - not for ordinary business
+          failure. A UCC-1 financing statement may be filed against business assets to perfect our
+          interest in the receivables purchased.
         </p>
         <p>
-          <strong>We do not use confessions of judgment.</strong> A UCC-1 financing statement may be
-          filed against business assets to perfect our interest in the receivables purchased; this is
-          disclosed before signing.
+          Read your agreement before signing. Every term that applies to your transaction, including
+          any guarantee or lien, is disclosed in it.
         </p>
 
         <h2>Remittance and reconciliation</h2>

@@ -168,11 +168,11 @@ writeFileSync(
   join(DIST, 'llms.txt'),
   `# GLD Funding
 
-> GLD Funding is a merchant cash advance provider based in Garden City, New York,
-> serving small businesses across the United States. We purchase future
-> receivables to provide working capital — typically $10,000 to $500,000 — with
-> decisions in about 4 business hours and funding in as little as 24 hours.
-> Approval is based on business bank deposit history, not credit score.
+> GLD Funding (legal name: GLD Factoring LLC) is a merchant cash advance provider
+> based in Garden City, New York, serving small businesses across the United
+> States since 2014. We purchase future receivables to provide working capital —
+> typically $10,000 to $500,000 — underwritten primarily on business performance
+> and cash flow rather than on a credit score alone.
 
 A merchant cash advance is the purchase of future receivables at a discount. It
 is not a loan, and GLD Funding is not a bank. Cost is expressed as a factor rate
@@ -182,16 +182,17 @@ every offer.
 
 ## Key facts
 
+- Legal name: GLD Factoring LLC (DBA: GLD Funding)
+- Serving business owners since: 2014
 - Advance range: $10,000 – $500,000
-- Typical factor rate: 1.15 – 1.49
+- Typical factor rate: 1.20 – 1.49
 - Term: 3 – 18 months
-- Typical decision: 4 business hours
-- Typical funding: 24 hours after signed contract
-- Minimum monthly revenue: $15,000
-- Minimum time in business: 6 months
-- Collateral required: none
-- Minimum credit score: none
-- Documents to apply: 3 months of business bank statements (4 months in New York)
+- Funding speed: same-day funding available on signed contracts
+- Qualification: based primarily on business performance and cash flow
+- Documents to apply: 4 months of business bank statements
+
+Amounts, factor rates, terms and timing vary by business and are determined by
+underwriting. They are not guaranteed on any individual transaction.
 
 ## Understanding the product
 

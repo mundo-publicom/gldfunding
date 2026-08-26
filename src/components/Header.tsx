@@ -19,10 +19,8 @@ const NAV: NavItem[] = [
     href: '/funding/merchant-cash-advance',
     children: [
       { label: 'What is an MCA?', href: '/funding/merchant-cash-advance', blurb: 'How an advance works, start to finish' },
-      { label: 'What it costs', href: '/funding/cost', blurb: 'Factor rates and total cost, with worked examples' },
-      { label: 'Do I qualify?', href: '/funding/qualify', blurb: 'The exact thresholds we underwrite to' },
       { label: 'MCA vs. business loan', href: '/funding/mca-vs-business-loan', blurb: 'Side-by-side comparison' },
-      { label: 'How it works', href: '/funding/how-it-works', blurb: 'Apply, approve, fund - in three steps' },
+      { label: 'How it works', href: '/funding/how-it-works', blurb: 'Apply, review, get funded' },
     ],
   },
   {
@@ -262,6 +260,15 @@ export function Header() {
               <PhoneIcon size={17} weight="fill" />
             </a>
 
+            {/* Existing clients are a different intent from new applicants, so
+                this stays a plain link and never competes with the CTA button. */}
+            <a
+              href={SITE.loginUrl}
+              className="hidden rounded-full px-3 py-2 text-[0.9375rem] font-medium text-ink-2 transition-colors duration-150 hover:text-leaf-deep lg:inline-flex"
+            >
+              Client login
+            </a>
+
             {/* One label per intent - the same words as the hero and the footer.
                 Hidden while the menu is open, which carries its own full-width CTA. */}
             <Link
@@ -325,6 +332,9 @@ export function Header() {
               <a href={SITE.phoneHref} className="btn btn-secondary btn-lg">
                 <PhoneIcon size={16} weight="fill" />
                 {SITE.phone}
+              </a>
+              <a href={SITE.loginUrl} className="btn btn-secondary btn-lg">
+                Client login
               </a>
             </div>
           </nav>

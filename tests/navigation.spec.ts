@@ -12,7 +12,7 @@ import { gotoReady } from './helpers'
  */
 
 const CATEGORIES = [
-  { trigger: 'Funding', child: '/funding/cost', overview: '/funding/merchant-cash-advance' },
+  { trigger: 'Funding', child: '/funding/mca-vs-business-loan', overview: '/funding/merchant-cash-advance' },
   { trigger: 'Industries', child: '/industries/restaurants', overview: '/industries' },
 ]
 
@@ -137,8 +137,8 @@ test.describe('mobile menu', () => {
     const box = await panel.boundingBox()
     expect(box!.height, 'panel must fill the viewport, not collapse').toBeGreaterThan(400)
 
-    await panel.locator('a[href="/funding/cost"]').first().click()
-    await expect(page).toHaveURL(/\/funding\/cost$/)
+    await panel.locator('a[href="/funding/mca-vs-business-loan"]').first().click()
+    await expect(page).toHaveURL(/\/funding\/mca-vs-business-loan$/)
     await expect(page.locator('#mobile-menu')).toHaveCount(0)
   })
 

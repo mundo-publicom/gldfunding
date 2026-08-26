@@ -113,9 +113,7 @@ export function Hero() {
       <div className="page relative flex min-h-[min(76dvh,760px)] items-center py-16 lg:min-h-[min(82dvh,820px)] lg:py-24">
         {/* Asymmetric split - the value prop owns the left, the field breathes right. */}
         <div className="max-w-[46rem] lg:max-w-[38rem] xl:max-w-[42rem]">
-          <p className="eyebrow eyebrow-invert">
-            Working capital · Funded in {PRODUCT.fundingHours} hours
-          </p>
+          <p className="eyebrow eyebrow-invert">Working capital · Same-day funding</p>
 
           <h1 className="mt-5 text-display font-semibold text-white">
             Funded by
@@ -124,8 +122,8 @@ export function Hero() {
           </h1>
 
           <p className="mt-6 max-w-[38ch] text-lead text-paper/80">
-            Advances from {currency(PRODUCT.advanceMin)} to {currency(PRODUCT.advanceMax)}. Decisions
-            in hours, not weeks. No collateral, no credit-score minimum.
+            Advances from {currency(PRODUCT.advanceMin)} to {currency(PRODUCT.advanceMax)}, based on
+            your business performance and cash flow rather than a credit score alone.
           </p>
 
           <div className="mt-9 flex flex-wrap items-center gap-3">
@@ -149,10 +147,10 @@ export function Hero() {
       <div className="relative border-t border-white/10">
         <div className="page grid grid-cols-2 lg:grid-cols-4">
           {[
-            { v: `${PRODUCT.decisionHours} hours`, l: 'Typical decision time' },
-            { v: `${PRODUCT.fundingHours} hours`, l: 'Funds in your account' },
-            { v: 'No minimum', l: 'Credit score requirement' },
-            { v: `${new Date().getFullYear() - SITE.founded}+ years`, l: 'Funding small business' },
+            { v: 'Same day', l: 'Funding available' },
+            { v: '4 months', l: 'Bank statements to apply' },
+            { v: 'Beyond credit', l: 'How we qualify you' },
+            { v: `${new Date().getFullYear() - SITE.founded}+ years`, l: 'Funding small businesses' },
           ].map((s, i) => (
             <div
               key={s.l}

@@ -10,10 +10,10 @@
 
 export const SITE = {
   name: 'GLD Funding',
-  legalName: 'GLD Funding LLC',
+  legalName: 'GLD Factoring LLC',
   domain: 'https://www.gldfunding.com',
-  tagline: 'Working capital for small business, funded in 24 hours.',
-  founded: 2004,
+  tagline: 'Working capital for small business.',
+  founded: 2014,
   phone: '1 (877) 498-4344',
   phoneHref: 'tel:+18774984344',
   fax: '1 (516) 941-0758',
@@ -38,19 +38,26 @@ export const SITE = {
 export const PRODUCT = {
   advanceMin: 10_000,
   advanceMax: 500_000,
-  factorRateMin: 1.15,
+  factorRateMin: 1.2,
   factorRateMax: 1.49,
   termMinMonths: 3,
   termMaxMonths: 18,
-  decisionHours: 4,
-  fundingHours: 24,
+  /**
+   * Internal underwriting guideline, NOT published as a public criterion.
+   * Drives the pre-check nudge inside the application only - the site no
+   * longer advertises thresholds a given file may not actually be held to.
+   */
   minMonthlyRevenue: 15_000,
   minMonthsInBusiness: 6,
   /** Ownership % at or above which a second owner must also authorize. */
   secondOwnerThreshold: 20,
-  /** Statement months required at application, by state. NY runs longer. */
-  statementMonths: { NY: 4, default: 3 },
+  /** Statement months required at application. One number, every state. */
+  statementMonths: 4,
 } as const
+
+/** Factor rate as displayed - two decimals, so 1.2 never renders as "1.2". */
+export const factorRange = () =>
+  `${PRODUCT.factorRateMin.toFixed(2)}\u2013${PRODUCT.factorRateMax.toFixed(2)}`
 
 export const CTA = {
   /** ONE label per intent, used in nav, every hero, and the footer. */
@@ -141,7 +148,7 @@ export const INDUSTRIES: Industry[] = [
     name: 'Restaurants & food service',
     short: 'Restaurants',
     answer:
-      'Restaurants can use a merchant cash advance to cover equipment repair, seasonal payroll, inventory, or a build-out, repaying through a fixed daily or weekly remittance tied to card and deposit volume. GLD Funding typically advances $10,000 to $250,000 to restaurants with at least six months of trading history.',
+      'Restaurants can use a merchant cash advance to cover equipment repair, seasonal payroll, inventory, or a build-out, repaying through a fixed daily or weekly remittance. GLD Funding typically advances $10,000 to $250,000 to restaurants, underwritten on business performance and cash flow.',
     useCases: ['Kitchen equipment repair or replacement', 'Seasonal staffing and payroll gaps', 'Inventory and supplier deposits', 'Dining room build-out or expansion', 'Bridging a slow month'],
     typicalRange: '$10,000 – $250,000',
   },
@@ -150,7 +157,7 @@ export const INDUSTRIES: Industry[] = [
     name: 'Retail & specialty stores',
     short: 'Retail',
     answer:
-      'Retailers use merchant cash advances to buy inventory ahead of a selling season, fund a store refit, or cover rent during a slow quarter. Because repayment flexes with card volume, retail businesses with uneven monthly sales often find an advance easier to carry than a fixed-payment loan.',
+      'Retailers use merchant cash advances to buy inventory ahead of a selling season, fund a store refit, or cover rent during a slow quarter. Approval is based on business performance and deposit history, so retailers with strong sales but an uneven monthly pattern are frequently approved where a bank declines.',
     useCases: ['Seasonal inventory buys', 'Store refit or relocation', 'Point-of-sale and systems upgrades', 'Marketing pushes before peak season', 'Covering rent through a slow quarter'],
     typicalRange: '$10,000 – $200,000',
   },
@@ -168,7 +175,7 @@ export const INDUSTRIES: Industry[] = [
     name: 'Trucking & logistics',
     short: 'Trucking',
     answer:
-      'Trucking and logistics operators use merchant cash advances for fuel, repairs, insurance premiums, and driver payroll while invoices sit unpaid. Funding usually lands within 24 hours of a signed contract, which matters when a truck is off the road and the repair bill is due now.',
+      'Trucking and logistics operators use merchant cash advances for fuel, repairs, insurance premiums, and driver payroll while invoices sit unpaid. Same-day funding is available once a contract is signed, which matters when a truck is off the road and the repair bill is due now.',
     useCases: ['Emergency repairs and downtime', 'Fuel and operating float', 'Insurance premium payments', 'Driver payroll between settlements', 'Adding a truck or trailer'],
     typicalRange: '$15,000 – $300,000',
   },
@@ -186,7 +193,7 @@ export const INDUSTRIES: Industry[] = [
     name: 'Auto repair & service',
     short: 'Auto repair',
     answer:
-      'Auto repair shops use merchant cash advances to stock parts, buy diagnostic equipment, or add a service bay. Repayment tracks card and deposit volume, so a slow week costs less than a busy one - useful in a trade where revenue swings with season and weather.',
+      'Auto repair shops use merchant cash advances to stock parts, buy diagnostic equipment, or add a service bay. Underwriting reads shop deposit history rather than a personal credit file, which suits a trade where revenue swings with season and weather.',
     useCases: ['Diagnostic and lift equipment', 'Parts inventory', 'Adding a service bay', 'Technician hiring and certification', 'Shop marketing and signage'],
     typicalRange: '$10,000 – $200,000',
   },
@@ -195,7 +202,7 @@ export const INDUSTRIES: Industry[] = [
     name: 'Salons & spas',
     short: 'Salons & spas',
     answer:
-      'Salons, barbershops and spas use merchant cash advances to fit out stations, buy retail stock, or fund a second location. Advances are typically smaller and shorter than in other trades, and approval leans on card processing volume rather than the owner’s personal credit.',
+      'Salons, barbershops and spas use merchant cash advances to fit out stations, buy retail stock, or fund a second location. Advances are typically smaller and shorter than in other trades, and approval leans on business performance and deposit volume.',
     useCases: ['Station and chair fit-out', 'Retail product stock', 'Opening a second location', 'Booking and POS systems', 'Stylist recruitment and training'],
     typicalRange: '$10,000 – $150,000',
   },
@@ -204,7 +211,7 @@ export const INDUSTRIES: Industry[] = [
     name: 'E-commerce & online retail',
     short: 'E-commerce',
     answer:
-      'E-commerce businesses use merchant cash advances to fund inventory and advertising ahead of a sales peak, repaying as revenue arrives. For sellers whose cash is locked in stock for 60 to 90 days, an advance smooths the gap between paying a supplier and collecting from customers.',
+      'E-commerce businesses use merchant cash advances to fund inventory and advertising ahead of a sales peak. For sellers whose cash is locked in stock for 60 to 90 days, an advance smooths the gap between paying a supplier and collecting from customers.',
     useCases: ['Inventory ahead of Q4', 'Advertising and customer acquisition', 'Supplier deposits and freight', 'Warehouse and 3PL costs', 'Platform and fulfilment expansion'],
     typicalRange: '$10,000 – $250,000',
   },
@@ -278,10 +285,10 @@ export const US_STATE_OPTIONS = STATES.map((s) => ({ value: s.abbr, label: s.nam
   a.label.localeCompare(b.label),
 )
 
-/** Statement months for a given state abbreviation. Drives step 6 of the application. */
-export function statementMonthsFor(stateAbbr: string | undefined): number {
-  if (stateAbbr === 'NY') return PRODUCT.statementMonths.NY
-  return PRODUCT.statementMonths.default
+/** Statement months required. Uniform nationwide - kept as a function so the
+ *  call sites stay put if a state-specific rule ever returns. */
+export function statementMonthsFor(_stateAbbr?: string): number {
+  return PRODUCT.statementMonths
 }
 
 export const currency = (n: number) =>

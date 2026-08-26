@@ -32,8 +32,6 @@ export function builtRoutes(): string[] {
 export const KEY_ROUTES = [
   '/',
   '/funding/merchant-cash-advance',
-  '/funding/cost',
-  '/funding/qualify',
   '/funding/mca-vs-business-loan',
   '/funding/how-it-works',
   '/industries',
@@ -42,7 +40,6 @@ export const KEY_ROUTES = [
   '/locations/new-york',
   '/locations/texas',
   '/resources',
-  '/resources/glossary',
   '/apply',
   '/about',
   '/partners',

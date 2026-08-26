@@ -66,7 +66,7 @@ export const orgSchema = () => ({
   faxNumber: SITE.fax,
   foundingDate: String(SITE.founded),
   description:
-    'GLD Funding provides merchant cash advances and working capital to small businesses across the United States, with decisions in hours and funding in as little as 24 hours.',
+    'GLD Funding provides merchant cash advances and working capital to small businesses across the United States, underwritten primarily on business performance and cash flow.',
   address: {
     '@type': 'PostalAddress',
     streetAddress: SITE.address.street,

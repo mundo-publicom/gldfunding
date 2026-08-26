@@ -8,7 +8,7 @@ import {
   Section,
   SectionHead,
 } from '../../components/ui'
-import { RateCalculator } from '../../components/RateCalculator'
+import { EligibilityCta } from '../../components/EligibilityCta'
 import { Seo, breadcrumbSchema, faqSchema, localBusinessSchema } from '../../lib/seo'
 import { CTA, INDUSTRIES, PRODUCT, SITE, STATES, TESTIMONIALS, currency } from '../../data/site'
 import { NotFoundBody } from '../NotFound'
@@ -26,8 +26,10 @@ export function Component() {
 
   if (!state) return <NotFoundBody />
 
+  /* Statement count is uniform nationwide now; `isNY` survives only for the
+     state's disclosure-law prose and LocalBusiness schema. */
   const isNY = state.abbr === 'NY'
-  const months = isNY ? PRODUCT.statementMonths.NY : PRODUCT.statementMonths.default
+  const months = PRODUCT.statementMonths
   const local = TESTIMONIALS.filter((t) => t.location === state.name)
 
   const trail = [
@@ -46,17 +48,15 @@ export function Component() {
     },
     {
       q: `How many bank statements do ${state.name} businesses need?`,
-      a: isNY
-        ? `New York businesses provide four months of business bank statements, one more than our standard three. That is all that is required to submit an application.`
-        : `${state.name} businesses provide three months of business bank statements. That is all that is required to submit an application - anything further is requested only if underwriting needs it.`,
+      a: `${state.name} businesses provide four months of business bank statements. That is all that is required to submit an application - anything further is requested only if underwriting needs it.`,
     },
     {
       q: `How much can a ${state.name} business get?`,
-      a: `Advances range from ${currency(PRODUCT.advanceMin)} to ${currency(PRODUCT.advanceMax)}, typically sized around one month of revenue. Approval requires ${currency(PRODUCT.minMonthlyRevenue)} in average monthly deposits and ${PRODUCT.minMonthsInBusiness} months in business.`,
+      a: `Advances range from ${currency(PRODUCT.advanceMin)} to ${currency(PRODUCT.advanceMax)}, typically sized around one month of revenue. The amount available to you is determined by underwriting your business performance and cash flow.`,
     },
     {
       q: `How fast can a ${state.name} business get funded?`,
-      a: `Decisions typically come within ${PRODUCT.decisionHours} business hours, and funds arrive within ${PRODUCT.fundingHours} hours of a signed contract - same day on contracts signed before 2pm ET.`,
+      a: `Once we have a complete file, underwriting moves quickly and same-day funding is available on signed contracts. Actual timing depends on underwriting and your bank.`,
     },
   ]
 
@@ -65,7 +65,7 @@ export function Component() {
       <Seo
         path={`/locations/${state.slug}`}
         title={`Merchant Cash Advance in ${state.name}`}
-        description={`Working capital of ${currency(PRODUCT.advanceMin)}–${currency(PRODUCT.advanceMax)} for ${state.name} businesses. ${months} months of bank statements, decisions in ${PRODUCT.decisionHours} hours, and a written cost disclosure on every offer.`}
+        description={`Working capital of ${currency(PRODUCT.advanceMin)}–${currency(PRODUCT.advanceMax)} for ${state.name} businesses. ${months} months of bank statements, fast decisions, and a written cost disclosure on every offer.`}
         schema={[
           breadcrumbSchema(trail),
           faqSchema(faqs),
@@ -95,9 +95,9 @@ export function Component() {
             <AnswerBlock>
               GLD Funding provides merchant cash advances to {state.name} businesses from{' '}
               {currency(PRODUCT.advanceMin)} to {currency(PRODUCT.advanceMax)}. {state.name}{' '}
-              applicants submit {months} months of business bank statements, receive a decision in
-              about {PRODUCT.decisionHours} business hours, and are funded within{' '}
-              {PRODUCT.fundingHours} hours of signing.
+              applicants submit {months} months of business bank statements. Approval is based
+              primarily on business performance and cash flow, and same-day funding is available on
+              signed contracts.
             </AnswerBlock>
 
             {/* The substantive part: what actually differs by state. */}
@@ -189,16 +189,14 @@ export function Component() {
 
               <h2>Applying from {state.name}</h2>
               <p>
-                The application is entirely online and takes about eight minutes. You will need{' '}
-                {months} months of business bank statements - or you can connect your bank read-only
-                and skip the upload. <Link to="/funding/qualify">Check the full criteria</Link>{' '}
-                before you start.
+                The application is entirely online. You will need {months} months of business bank
+                statements - or you can connect your bank read-only and skip the upload.
               </p>
             </Prose>
           </div>
 
           <div className="lg:sticky lg:top-28 lg:self-start">
-            <RateCalculator compact />
+            <EligibilityCta />
           </div>
         </div>
       </Section>
@@ -269,7 +267,7 @@ export function Component() {
               See what your {state.name} business qualifies for.
             </h2>
             <p className="mt-2 max-w-[52ch] text-[0.9375rem] text-ink-2">
-              Three questions. No personal information, no credit pull.
+              Answer a few simple questions to get started. No credit pull.
             </p>
           </div>
           <Link to={CTA.primaryHref} className="btn btn-primary btn-lg shrink-0">

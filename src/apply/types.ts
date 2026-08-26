@@ -227,8 +227,7 @@ export function visibleSteps(d: ApplicationData): StepDef[] {
 }
 
 /** Statement months we ask for, derived from the business's state. */
-export const requiredStatements = (d: ApplicationData) =>
-  d.business.state === 'NY' ? PRODUCT.statementMonths.NY : PRODUCT.statementMonths.default
+export const requiredStatements = (_d: ApplicationData) => PRODUCT.statementMonths
 
 /**
  * Files that must actually be attached before the step will pass.

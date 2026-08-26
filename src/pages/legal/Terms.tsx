@@ -45,7 +45,7 @@ export function Component() {
           dollar cost, remittance amount and frequency, and expected term.
         </p>
         <p>
-          The calculators and estimate tools on this site are illustrative. They do not price your
+          The estimate tools on this site are illustrative. They do not price your
           business, do not reflect underwriting, and the figures they produce may differ materially
           from any offer you receive. See our <Link to="/legal/disclosures">disclosures</Link>.
         </p>
@@ -157,7 +157,7 @@ export function Component() {
           content, availability or practices, and a link is not an endorsement.
         </p>
         <p>
-          Educational content on this site - including the glossary, industry pages and the
+          Educational content on this site - including the resource guides, industry pages and the
           regulatory summaries on state pages - is general information, not legal, tax, accounting
           or financial advice, and is current only as of its last update. Confirm current
           obligations with qualified counsel before relying on any of it.
@@ -169,7 +169,7 @@ export function Component() {
           kind. To the fullest extent permitted by law, we disclaim all warranties, express or
           implied, including merchantability, fitness for a particular purpose, title and
           non-infringement. We do not warrant that the site will be uninterrupted, timely, secure or
-          error-free, that defects will be corrected, or that any content, estimate or calculator
+          error-free, that defects will be corrected, or that any content or estimate
           output is accurate, complete or current. Some jurisdictions do not allow the exclusion of
           certain warranties, so parts of this section may not apply to you.
         </p>
@@ -180,8 +180,8 @@ export function Component() {
           employees, agents, service providers or licensors will be liable for any indirect,
           incidental, special, consequential, exemplary or punitive damages, or for any loss of
           profits, revenue, business, goodwill, data or business opportunity, arising out of or
-          relating to your use of - or inability to use - this site, its content, or any estimate,
-          calculator output or information obtained through it. This applies regardless of the legal
+          relating to your use of - or inability to use - this site, its content, or any estimate
+          output or information obtained through it. This applies regardless of the legal
           theory and even if we have been advised of the possibility of such damages.
         </p>
         <p>

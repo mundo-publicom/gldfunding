@@ -1,10 +1,9 @@
 import { Link } from 'react-router-dom'
 import { AnswerBlock, FaqList, PageHero, Prose, Section, SectionHead } from '../../components/ui'
 import { HowItWorksTimeline } from '../../sections/HowItWorksTimeline'
-import { VideoPlayer } from '../../components/VideoPlayer'
+import { EligibilityCta } from '../../components/EligibilityCta'
 import { Seo, breadcrumbSchema, faqSchema } from '../../lib/seo'
-import { OVERVIEW_VIDEO, videoSchema } from '../../data/video'
-import { CTA, PRODUCT } from '../../data/site'
+import { CTA } from '../../data/site'
 
 const TRAIL = [
   { name: 'Home', path: '/' },
@@ -12,14 +11,21 @@ const TRAIL = [
   { name: 'How it works', path: '/funding/how-it-works' },
 ]
 
+/*
+ * The 2021 overview video was removed from this page, and its transcript data
+ * deleted, rather than re-cut. The narration - and therefore the published
+ * transcript and the VideoObject schema built from it - states "no personal
+ * guarantees", "three months of statements" and "funds in only 24 hours", none
+ * of which the site claims any more, and a transcript has to match the audio.
+ * A re-recorded video can drop straight back in: `components/VideoPlayer.tsx`
+ * is untouched and carries no claims of its own. The old media still sits in
+ * `public/videos/` and should be replaced or removed there too.
+ */
+
 const FAQS = [
   {
-    q: 'How long does the application take?',
-    a: 'About eight minutes if you have your bank statements to hand, or less if you connect your bank read-only instead of uploading. Your progress saves as you go, so you can stop and come back.',
-  },
-  {
     q: 'What happens after I submit?',
-    a: `Underwriting reviews your deposit history and builds an offer. Most applicants hear back within ${PRODUCT.decisionHours} business hours from a named underwriter who walks through the terms, including a written disclosure of the total dollar cost.`,
+    a: 'Our underwriting team reviews your business and your bank statements, then a member of the funding team contacts you with the options available, including a written disclosure of the total dollar cost.',
   },
   {
     q: 'When do remittances start?',
@@ -27,7 +33,11 @@ const FAQS = [
   },
   {
     q: 'Do I have to accept the offer?',
-    a: 'No. Submitting an application obligates you to nothing. You see the full cost in writing before you sign, and you are free to decline or take it elsewhere.',
+    a: 'No. Submitting an application obligates you to nothing. You see the full cost in writing before you sign, and you are free to decline.',
+  },
+  {
+    q: 'How long does the application take?',
+    a: 'Most applicants finish in one sitting with their bank statements to hand, or faster by connecting their bank read-only instead of uploading. Your progress saves as you go, so you can stop and come back.',
   },
 ]
 
@@ -37,37 +47,29 @@ export function Component() {
       <Seo
         path="/funding/how-it-works"
         title="How Funding Works, Step by Step"
-        description={`Apply in about eight minutes, get a decision in ${PRODUCT.decisionHours} business hours, and receive funds within ${PRODUCT.fundingHours} hours of signing. Three steps, no branch visit, no business plan.`}
-        schema={[breadcrumbSchema(TRAIL), faqSchema(FAQS), videoSchema('/funding/how-it-works')]}
+        description="Apply, review, get funded. Complete a simple application with four months of business bank statements, review the options our underwriting team presents, and receive funds directly into your business account."
+        schema={[breadcrumbSchema(TRAIL), faqSchema(FAQS)]}
       />
 
       <PageHero trail={TRAIL} eyebrow="The process" title="How it works" />
 
       <Section tone="white">
-        <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-start lg:gap-14">
+        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-start lg:gap-14">
           <div>
             <AnswerBlock>
-              Applying takes about eight minutes and needs {PRODUCT.statementMonths.default} months
-              of business bank statements - four in New York. Underwriting returns a decision within
-              about {PRODUCT.decisionHours} business hours, and funds reach your account within{' '}
-              {PRODUCT.fundingHours} hours of a signed contract.
+              Applying takes one sitting and needs four months of business bank statements. Our
+              underwriting team reviews your business and presents the funding options available.
+              Once you review and sign, funds are sent directly to your business account - same-day
+              funding is available.
             </AnswerBlock>
-            <p className="mt-6 max-w-[46ch] text-[0.9375rem] leading-relaxed text-ink-2">
-              Prefer to watch? The overview covers the same ground in under a minute and a half -
-              what an advance is, how it differs from a bank loan, and the three steps end to end.
+            <p className="mt-6 max-w-[52ch] text-[0.9375rem] leading-relaxed text-ink-2">
+              Three steps, no branch visit and no business plan. The section below walks through
+              each one, and the notes further down cover what underwriting is actually doing while
+              you wait.
             </p>
           </div>
 
-          <VideoPlayer
-            src={OVERVIEW_VIDEO.src}
-            poster={OVERVIEW_VIDEO.poster}
-            captions={OVERVIEW_VIDEO.captions}
-            title={OVERVIEW_VIDEO.title}
-            durationLabel={OVERVIEW_VIDEO.durationLabel}
-            description={OVERVIEW_VIDEO.description}
-            chapters={[...OVERVIEW_VIDEO.chapters]}
-            transcript={[...OVERVIEW_VIDEO.transcript]}
-          />
+          <EligibilityCta />
         </div>
       </Section>
 
@@ -79,8 +81,8 @@ export function Component() {
             <h2>What underwriting is doing while you wait</h2>
             <p>
               Reading your statements. Specifically: total monthly deposits, how consistently they
-              arrive, your average daily balance, how many days the account went negative, and
-              whether any existing advances are already taking remittances.
+              arrive, your average daily balance, and whether any existing advances are already
+              taking remittances.
             </p>
             <p>
               From that, underwriting works out what remittance the business can carry without
@@ -90,17 +92,17 @@ export function Component() {
 
             <h2>What you'll be asked for</h2>
             <p>
-              Bank statements, and nothing else to submit. If your specific file needs something
-              further - a driver's licence, a voided check, a processing statement - an underwriter
-              requests it after review, through a secure link. You are never sent back to the start.
+              Four months of business bank statements, and nothing else to submit. If your specific
+              file needs something further - a driver's licence, a voided check, a processing
+              statement - a member of the team requests it after review, through a secure link. You
+              are never sent back to the start.
             </p>
 
             <h2>Reviewing the offer</h2>
             <p>
-              A named underwriter calls to walk through the terms: the advance amount, total dollar
-              repayment, remittance amount and frequency, and the term. You receive a written
-              disclosure of total cost before signing - in every state, whether or not the law
-              requires it.
+              Someone from the funding team walks you through the terms: the advance amount, total
+              dollar repayment, remittance amount and frequency, and the term. You receive a written
+              disclosure of total cost before signing.
             </p>
             <p>
               Take the time you need. Ask what the total repayment is, what gets debited and how
@@ -111,8 +113,7 @@ export function Component() {
             <h2>After funding</h2>
             <p>
               Remittances usually begin the business day after funds arrive, on the agreed schedule.
-              If your revenue drops materially, call before a payment is missed - reconciliation is
-              often possible, but only if we hear from you early.
+              If your revenue drops materially, call before a payment is missed.
             </p>
           </Prose>
 
@@ -128,9 +129,11 @@ export function Component() {
       <Section tone="paper">
         <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <h2 className="text-h3 font-semibold text-ink">Start with three questions.</h2>
+            <h2 className="text-h3 font-semibold text-ink">
+              See what your business may qualify for.
+            </h2>
             <p className="mt-2 max-w-[52ch] text-[0.9375rem] text-ink-2">
-              No contact details needed to see your indicative range.
+              Answer a few simple questions to get started.
             </p>
           </div>
           <Link to={CTA.primaryHref} className="btn btn-primary btn-lg shrink-0">

@@ -17,8 +17,6 @@ const COLUMNS = [
     title: 'Funding',
     links: [
       { label: 'What is an MCA?', href: '/funding/merchant-cash-advance' },
-      { label: 'What it costs', href: '/funding/cost' },
-      { label: 'Do I qualify?', href: '/funding/qualify' },
       { label: 'MCA vs. business loan', href: '/funding/mca-vs-business-loan' },
       { label: 'How it works', href: '/funding/how-it-works' },
     ],
@@ -33,7 +31,6 @@ const COLUMNS = [
       { label: 'About us', href: '/about' },
       { label: 'Partners & ISOs', href: '/partners' },
       { label: 'Resources', href: '/resources' },
-      { label: 'Glossary', href: '/resources/glossary' },
       { label: 'Contact', href: '/contact' },
     ],
   },
@@ -54,8 +51,8 @@ export function Footer() {
               See what your business qualifies for.
             </h2>
             <p className="mt-3 max-w-[46ch] text-[1.0625rem] leading-relaxed text-paper/75">
-              Three questions, no personal information, no credit pull. You'll get an indicative
-              range before we ask for anything else.
+              Answer a few simple questions to get started. No personal information and no credit
+              pull to see whether an advance is a fit.
             </p>
           </div>
           <div className="flex flex-wrap gap-3">

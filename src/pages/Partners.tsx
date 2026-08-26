@@ -16,11 +16,11 @@ const FAQS = [
   },
   {
     q: 'How quickly do submissions get a decision?',
-    a: `Most complete submissions receive a decision within ${PRODUCT.decisionHours} business hours. A dedicated relationship manager handles your files rather than a general queue.`,
+    a: 'Complete submissions are turned around quickly. A dedicated relationship manager handles your files rather than a general queue.',
   },
   {
     q: 'What do you need from a submission?',
-    a: `A signed application and ${PRODUCT.statementMonths.default} months of business bank statements - four for New York merchants. Anything further is requested only when a specific file needs it.`,
+    a: `A signed application and ${PRODUCT.statementMonths} months of business bank statements. Anything further is requested only when a specific file needs it.`,
   },
   {
     q: 'What deal sizes do you fund?',
@@ -34,7 +34,7 @@ export function Component() {
       <Seo
         path="/partners"
         title="ISO & Broker Partnerships"
-        description={`Partner with GLD Funding. Decisions in ${PRODUCT.decisionHours} business hours, deal sizes from ${currency(PRODUCT.advanceMin)} to ${currency(PRODUCT.advanceMax)}, and a dedicated relationship manager on every file.`}
+        description={`Partner with GLD Funding. Fast decisions, deal sizes from ${currency(PRODUCT.advanceMin)} to ${currency(PRODUCT.advanceMax)}, and a dedicated relationship manager on every file.`}
         schema={[breadcrumbSchema(TRAIL), faqSchema(FAQS)]}
       />
 
@@ -49,18 +49,16 @@ export function Component() {
         <div className="max-w-[68ch]">
           <AnswerBlock>
             GLD Funding partners with independent sales organizations, brokers and advisors to fund
-            small business merchants. Submissions receive a decision within about{' '}
-            {PRODUCT.decisionHours} business hours, deal sizes run {currency(PRODUCT.advanceMin)} to{' '}
-            {currency(PRODUCT.advanceMax)}, and every partner works with a dedicated relationship
-            manager.
+            small business merchants. Submissions are turned around quickly, deal sizes run{' '}
+            {currency(PRODUCT.advanceMin)} to {currency(PRODUCT.advanceMax)}, and every partner
+            works with a dedicated relationship manager.
           </AnswerBlock>
         </div>
 
         <div className="mt-10 border border-rule">
           <FeatureGrid cols={4}>
             <FeatureCard icon={<LightningIcon size={24} weight="light" />} title="Fast decisions">
-              Complete submissions get an answer within {PRODUCT.decisionHours} business hours - not
-              a queue position.
+              Complete submissions get a quick answer from a named contact - not a queue position.
             </FeatureCard>
             <FeatureCard icon={<UsersThreeIcon size={24} weight="light" />} title="A real person">
               A dedicated relationship manager who knows your book, not a shared inbox.

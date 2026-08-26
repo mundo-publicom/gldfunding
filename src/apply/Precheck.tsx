@@ -5,11 +5,12 @@ import type { ApplicationData } from './types'
 import { INDUSTRIES, PRODUCT, SITE, currency } from '../data/site'
 
 /**
- * Pre-check - three questions, no personally identifying information.
+ * Pre-check - a few short questions, no personally identifying information.
  *
  * Two jobs: filter unqualified traffic before it reaches an underwriter, and
  * give qualified traffic a concrete reason to start seven steps. Nothing here
- * is stored against a person, and nothing is a credit pull.
+ * is stored against a person, and nothing is a credit pull. The thresholds it
+ * reads are internal guidelines and are deliberately not named in the copy.
  */
 
 const REVENUE_BANDS = [
@@ -57,8 +58,8 @@ export function Precheck({
       return {
         ok: false as const,
         reason: tooSmall
-          ? `Most approvals start around ${currency(PRODUCT.minMonthlyRevenue)} in monthly revenue.`
-          : `Most approvals need at least ${PRODUCT.minMonthsInBusiness} months of trading history.`,
+          ? 'Businesses at this revenue level are harder for us to structure funding around.'
+          : 'Businesses this new are harder for us to structure funding around.',
       }
     }
 

@@ -20,7 +20,6 @@ const fmtSize = (b: number) =>
 
 export function DocumentsStep({ data, update, errors }: StepProps) {
   const months = requiredStatements(data)
-  const stateName = data.business.state
   const inputRef = useRef<HTMLInputElement>(null)
   const [dragging, setDragging] = useState(false)
 
@@ -88,9 +87,6 @@ export function DocumentsStep({ data, update, errors }: StepProps) {
           Upload your last {months} months of business bank statements
         </p>
         <p className="mt-1.5 max-w-[62ch] text-[0.9375rem] leading-relaxed text-ink-2">
-          {stateName === 'NY'
-            ? 'New York businesses need four months rather than the usual three.'
-            : `Three months is all we need to make a decision.`}{' '}
           Every page of each statement, as your bank issues them. PDFs are best; clear photos work
           too.
         </p>

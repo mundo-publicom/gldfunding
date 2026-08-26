@@ -8,9 +8,9 @@ import {
   Section,
   SectionHead,
 } from '../../components/ui'
-import { RateCalculator } from '../../components/RateCalculator'
+import { EligibilityCta } from '../../components/EligibilityCta'
 import { Seo, breadcrumbSchema, faqSchema, productSchema } from '../../lib/seo'
-import { CTA, INDUSTRIES, PRODUCT, TESTIMONIALS, currency } from '../../data/site'
+import { CTA, INDUSTRIES, PRODUCT, TESTIMONIALS, currency, factorRange } from '../../data/site'
 import { NotFoundBody } from '../NotFound'
 
 export function Component() {
@@ -35,15 +35,15 @@ export function Component() {
     },
     {
       q: `How fast can a ${ind.short.toLowerCase().replace(/s$/, '')} business get funded?`,
-      a: `Most applications receive a decision within ${PRODUCT.decisionHours} business hours, with funds arriving within ${PRODUCT.fundingHours} hours of a signed contract - same day on contracts signed before 2pm ET.`,
+      a: `Once we have a complete file, underwriting moves quickly and same-day funding is available on signed contracts. Actual timing depends on underwriting and your bank.`,
     },
     {
       q: `What do I need to apply?`,
-      a: `${PRODUCT.statementMonths.default} months of business bank statements - four if you are in New York - plus basic business and owner details. Nothing else is required to submit; anything further is requested only if your file needs it.`,
+      a: `Four months of business bank statements plus basic business and owner details. Nothing else is required to submit; anything further is requested only if your file needs it.`,
     },
     {
       q: `Do I need good credit?`,
-      a: `No. There is no minimum credit score. Underwriting reads your deposit history to understand how the business actually moves money, which is why ${ind.short.toLowerCase()} owners declined by banks are frequently approved here.`,
+      a: `We look beyond just a credit score. Underwriting reads business performance and cash flow to understand how the business actually moves money, which is why ${ind.short.toLowerCase()} owners declined by banks are frequently approved here.`,
     },
   ]
 
@@ -52,7 +52,7 @@ export function Component() {
       <Seo
         path={`/industries/${ind.slug}`}
         title={`${ind.name} Funding & Merchant Cash Advances`}
-        description={`Working capital of ${ind.typicalRange} for ${ind.name.toLowerCase()}. Decisions in ${PRODUCT.decisionHours} hours, funding in ${PRODUCT.fundingHours}. No collateral, no minimum credit score.`}
+        description={`Working capital of ${ind.typicalRange} for ${ind.name.toLowerCase()}, based on business performance and cash flow. Fast decisions and same-day funding available.`}
         schema={[
           breadcrumbSchema(trail),
           faqSchema(faqs),
@@ -111,9 +111,9 @@ export function Component() {
                 across a year can look erratic across any given month.
               </p>
               <p>
-                We have funded this trade for two decades, so the pattern reads as normal rather
-                than as a red flag. That is the practical difference between applying here and
-                applying to an institution that has never underwritten your sector.
+                We have funded this trade for years, so the pattern reads as normal rather than as
+                a red flag. That is the practical difference between applying here and applying to
+                an institution that has never underwritten your sector.
               </p>
 
               <h2>What to expect</h2>
@@ -124,15 +124,15 @@ export function Component() {
                 sized so the remittance does not strain the account.
               </p>
               <p>
-                Cost is expressed as a factor rate between {PRODUCT.factorRateMin} and{' '}
-                {PRODUCT.factorRateMax}. <Link to="/funding/cost">See worked examples</Link>, or
-                model your own with the calculator.
+                Cost is expressed as a factor rate, typically in the {factorRange()} range. Your
+                own rate depends on underwriting, and every offer comes with a written disclosure of
+                the total dollar cost.
               </p>
             </Prose>
           </div>
 
           <div className="lg:sticky lg:top-28 lg:self-start">
-            <RateCalculator compact />
+            <EligibilityCta />
           </div>
         </div>
       </Section>
@@ -195,7 +195,7 @@ export function Component() {
               Ready to see your range?
             </h2>
             <p className="mt-2 max-w-[52ch] text-[0.9375rem] text-ink-2">
-              Advances from {currency(PRODUCT.advanceMin)}. Three questions to find out.
+              Advances from {currency(PRODUCT.advanceMin)}. Answer a few simple questions to get started.
             </p>
           </div>
           <Link to={CTA.primaryHref} className="btn btn-primary btn-lg group shrink-0">

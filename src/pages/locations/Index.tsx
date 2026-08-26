@@ -161,7 +161,7 @@ export function Component() {
           <div>
             <h2 className="text-h3 font-semibold text-ink">Wherever you are, start the same way.</h2>
             <p className="mt-2 max-w-[52ch] text-[0.9375rem] text-ink-2">
-              Three questions to see your indicative range.
+              Answer a few simple questions to get started.
             </p>
           </div>
           <Link to={CTA.primaryHref} className="btn btn-primary btn-lg shrink-0">

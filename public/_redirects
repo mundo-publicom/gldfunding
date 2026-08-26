@@ -3,6 +3,12 @@
 /blog     /resources                       301
 /index    /                                301
 
+# Pages removed in the 2026 content revision. 301 so their accumulated
+# authority lands on the nearest surviving page instead of a 404.
+/resources/glossary   /resources                       301
+/funding/cost         /funding/merchant-cash-advance   301
+/funding/qualify      /apply                           301
+
 # Anything unmatched gets the real 404 page with a real 404 status.
 # Without this a static host may fall back to index.html, which serves the
 # homepage at every bad URL — a soft 404, and infinite duplicate content.

@@ -15,40 +15,23 @@ const GUIDES = [
   {
     to: '/funding/merchant-cash-advance',
     title: 'What is a merchant cash advance?',
-    blurb: 'How an advance works, how remittances are collected, and what it is genuinely suited to.',
+    blurb: 'What it is, how it works, how payments are handled, and how to apply.',
     tag: 'Fundamentals',
   },
   {
-    to: '/funding/cost',
-    title: 'How much does an MCA cost?',
-    blurb: 'Factor rates explained, four worked examples, and how to compare offers honestly.',
-    tag: 'Cost',
-  },
-  {
-    to: '/funding/qualify',
-    title: 'Do I qualify?',
-    blurb: 'The exact thresholds, plus what strengthens and weakens a file once you clear them.',
-    tag: 'Qualifying',
-  },
-  {
     to: '/funding/mca-vs-business-loan',
-    title: 'MCA vs. business loan vs. SBA',
-    blurb: 'A side-by-side comparison, including when the honest answer is to take the loan instead.',
+    title: 'MCA vs. business loan',
+    blurb: 'A side-by-side comparison of a merchant cash advance and a traditional business loan.',
     tag: 'Comparison',
   },
   {
     to: '/funding/how-it-works',
-    title: 'How funding works, step by step',
+    title: 'How funding works',
     blurb: 'What happens between submitting an application and money reaching your account.',
     tag: 'Process',
   },
-  {
-    to: '/resources/glossary',
-    title: 'Funding glossary',
-    blurb: 'Forty terms you will meet in an advance agreement, in plain language.',
-    tag: 'Reference',
-  },
 ]
+
 
 export function Component() {
   const ref = useRevealGroup()
@@ -58,7 +41,7 @@ export function Component() {
       <Seo
         path="/resources"
         title="Small Business Funding Resources"
-        description="Plain-language guides to merchant cash advances: what they cost, who qualifies, how they compare to bank loans, and the terms you'll meet in an agreement."
+        description="Plain-language guides to merchant cash advances: what they are, how they compare to a traditional business loan, and how funding works step by step."
         schema={[breadcrumbSchema(TRAIL)]}
       />
 
@@ -66,15 +49,15 @@ export function Component() {
         trail={TRAIL}
         eyebrow="Resources"
         title="Understand the product before you take it"
-        lead="Straight explanations of how business funding actually works - including the parts that do not favour us."
+        lead="Straight explanations of how business funding actually works, before you apply."
       />
 
       <Section tone="white">
         <div className="max-w-[68ch]">
           <AnswerBlock>
-            These guides explain merchant cash advances in plain language: how they are priced, who
-            qualifies, how they compare to bank and SBA loans, and what every term in an agreement
-            means. Written for business owners, not for search engines.
+            Three short guides explaining merchant cash advances in plain language: what they are,
+            how they compare to a traditional business loan, and what happens between applying and
+            getting funded.
           </AnswerBlock>
         </div>
 

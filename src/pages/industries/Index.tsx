@@ -38,7 +38,7 @@ export function Component() {
         trail={TRAIL}
         eyebrow="Industries"
         title="Funding built around how your trade actually earns"
-        lead="Twenty years funding the same industries means underwriting already knows why a restaurant's deposits dip in February and why a contractor's arrive in lumps."
+        lead="Years of funding the same industries means underwriting already knows why a restaurant's deposits dip in February and why a contractor's arrive in lumps."
       />
 
       <Section tone="white">
@@ -94,7 +94,7 @@ export function Component() {
           <div>
             <h2 className="text-h3 font-semibold text-ink">See what your business qualifies for.</h2>
             <p className="mt-2 max-w-[52ch] text-[0.9375rem] text-ink-2">
-              Three questions, no personal information, no credit pull.
+              Answer a few simple questions to get started. No credit pull.
             </p>
           </div>
           <Link to={CTA.primaryHref} className="btn btn-primary btn-lg shrink-0">

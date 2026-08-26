@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import {
   ArrowLeftIcon,
   ArrowRightIcon,
@@ -47,14 +47,22 @@ export function Component() {
   const steps = useMemo(() => visibleSteps(data), [data])
   const step = steps[Math.min(stepIndex, steps.length - 1)]
 
-  /* --- restore in-progress application --- */
+  const [searchParams] = useSearchParams()
+
+  /* --- restore in-progress application, then apply the requested amount ---
+     Both live in one effect because order matters: restoring replaces `data`
+     wholesale, so an amount applied first would be thrown away. The amount is
+     the `?amount=$50,000` handed over by the eligibility CTA, and it is only
+     written into an empty field - a restored draft or a typed value wins. */
   useEffect(() => {
+    let next: ApplicationData | null = null
     try {
       const raw = localStorage.getItem(STORAGE_KEY)
-      if (!raw) return
-      const saved = JSON.parse(raw) as { data: ApplicationData; phase: Phase; stepIndex: number }
+      const saved = raw
+        ? (JSON.parse(raw) as { data: ApplicationData; phase: Phase; stepIndex: number })
+        : null
       if (saved?.data) {
-        setData(saved.data)
+        next = saved.data
         setPhase(saved.phase === 'done' ? 'precheck' : saved.phase)
         setStepIndex(saved.stepIndex ?? 0)
         setRestored(true)
@@ -62,6 +70,15 @@ export function Component() {
     } catch {
       /* corrupt payload - start clean rather than trapping the applicant */
     }
+
+    const amount = searchParams.get('amount')
+    setData((current) => {
+      const base = next ?? current
+      if (!amount || base.funding.amountRequested) return next ?? current
+      return { ...base, funding: { ...base.funding, amountRequested: amount } }
+    })
+    // Mount only - a later query change must not reopen a half-filled draft.
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   /* --- save on every change; business owners fill these in between customers --- */
@@ -173,7 +190,7 @@ export function Component() {
       <Seo
         path="/apply"
         title="Apply for Business Funding"
-        description={`Apply for a merchant cash advance from ${currency(PRODUCT.advanceMin)} to ${currency(PRODUCT.advanceMax)}. A few short steps, your bank statements, and a decision in about ${PRODUCT.decisionHours} hours.`}
+        description={`Apply for a merchant cash advance from ${currency(PRODUCT.advanceMin)} to ${currency(PRODUCT.advanceMax)}. A few short steps, your bank statements, and a review by our underwriting team.`}
         schema={[
           breadcrumbSchema([
             { name: 'Home', path: '/' },
@@ -194,8 +211,8 @@ export function Component() {
           </h1>
           {phase === 'precheck' && (
             <p className="mt-4 max-w-[54ch] text-lead text-ink-2">
-              Three questions first. No contact details, no personal information, no credit pull -
-              just an indicative range so you know whether it's worth continuing.
+              A few simple questions first. No contact details, no personal information, no credit
+              pull - just an indicative range so you know whether it's worth continuing.
             </p>
           )}
         </div>
@@ -478,7 +495,7 @@ function Confirmation({ reference, email }: { reference: string; email: string }
             Expected callback
           </dt>
           <dd className="mt-1.5 text-[0.9375rem] font-medium text-ink">
-            Within {PRODUCT.decisionHours} business hours
+            Once underwriting has reviewed your file
           </dd>
         </div>
       </dl>

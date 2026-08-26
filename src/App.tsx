@@ -21,8 +21,6 @@ export const routes: RouteRecord[] = [
         path: 'funding/merchant-cash-advance',
         lazy: () => import('./pages/funding/MerchantCashAdvance'),
       },
-      { path: 'funding/cost', lazy: () => import('./pages/funding/Cost') },
-      { path: 'funding/qualify', lazy: () => import('./pages/funding/Qualify') },
       {
         path: 'funding/mca-vs-business-loan',
         lazy: () => import('./pages/funding/McaVsLoan'),
@@ -47,7 +45,6 @@ export const routes: RouteRecord[] = [
 
       /* --- Resources --- */
       { path: 'resources', lazy: () => import('./pages/resources/Index') },
-      { path: 'resources/glossary', lazy: () => import('./pages/resources/Glossary') },
 
       /* --- Conversion --- */
       { path: 'apply', lazy: () => import('./pages/Apply') },
