@@ -53,6 +53,12 @@
   --text-display: clamp(2.75rem, 6vw, 5.25rem);
   --text-display--line-height: 0.94;
   --text-display--letter-spacing: -0.04em;
+  /* Sits between h1 and display: the home hero headline is a full sentence,
+     so it needs a step that holds two lines inside the copy column rather
+     than the poster-sized `display`. */
+  --text-hero: clamp(2.375rem, 4.4vw, 3.5rem);
+  --text-hero--line-height: 1.04;
+  --text-hero--letter-spacing: -0.035em;
   --text-h1: clamp(2.25rem, 4.6vw, 3.75rem);
   --text-h1--line-height: 1;
   --text-h1--letter-spacing: -0.035em;
@@ -377,6 +383,82 @@
     .reveal {
       opacity: 1;
       transform: none;
+    }
+  }
+
+  /* ============================================================
+     Hero slideshow
+     Frames cross-fade; the frame on screen drifts on a slow, paused-when-
+     hidden scale. The drift NEVER resets - a leaving frame pauses where it
+     is, so the crossfade is between two still-drifting images and there is
+     no snap-back on the way out. Timing lives in Hero.tsx and arrives here
+     as custom properties, so the dwell and the progress ring can never
+     disagree.
+     ============================================================ */
+
+  .hero-frame {
+    position: absolute;
+    inset: 0;
+    opacity: 0;
+    overflow: hidden;
+    transition: opacity var(--hero-fade, 900ms) var(--ease-out-strong);
+  }
+
+  .hero-frame[data-active='true'] {
+    opacity: 1;
+  }
+
+  .hero-frame img {
+    height: 100%;
+    width: 100%;
+    object-fit: cover;
+    animation: hero-drift 26s linear infinite alternate;
+    animation-play-state: paused;
+    will-change: transform;
+  }
+
+  .hero-frame[data-active='true'] img {
+    animation-play-state: running;
+  }
+
+  @keyframes hero-drift {
+    from {
+      transform: scale(1.04);
+    }
+    to {
+      transform: scale(1.17);
+    }
+  }
+
+  /* The progress ring: one ring for the whole strip, translated onto the
+     active dot. `stroke-dashoffset` runs the dwell, so the ring is a literal
+     read-out of when the next frame arrives. */
+  .hero-ring {
+    fill: none;
+    stroke: var(--color-leaf-glow);
+    stroke-width: 1.25;
+    stroke-dasharray: 72.26; /* 2πr, r = 11.5 */
+    stroke-dashoffset: 72.26;
+    animation: hero-ring var(--hero-dwell, 6500ms) linear forwards;
+  }
+
+  @keyframes hero-ring {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+
+  /* No autoplay and no drift against a stated preference. The frame simply
+     sits still at its opening scale and the dots stay usable by hand. */
+  @media (prefers-reduced-motion: reduce) {
+    .hero-frame img {
+      animation: none;
+      transform: scale(1.04);
+    }
+
+    .hero-ring {
+      animation: none;
+      stroke-dashoffset: 0;
     }
   }
 

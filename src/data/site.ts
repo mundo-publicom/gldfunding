@@ -62,6 +62,13 @@ export const factorRange = () =>
 export const CTA = {
   /** ONE label per intent, used in nav, every hero, and the footer. */
   primary: 'Check eligibility',
+  /**
+   * The home hero only. Same intent and same href as `primary`, but the home
+   * hero is the one surface a stranger meets first, and the approved hero copy
+   * opens with the softer invitation rather than the qualifying verb. Every
+   * other surface - nav, footer, section CTAs - stays on `primary`.
+   */
+  heroPrimary: 'Get Started',
   primaryHref: '/apply',
   /** Reserved for applicants who have already pre-qualified. */
   apply: 'Apply now',
