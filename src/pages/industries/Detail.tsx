@@ -10,7 +10,7 @@ import {
 } from '../../components/ui'
 import { EligibilityCta } from '../../components/EligibilityCta'
 import { Seo, breadcrumbSchema, faqSchema, productSchema } from '../../lib/seo'
-import { CTA, INDUSTRIES, PRODUCT, TESTIMONIALS, currency, factorRange } from '../../data/site'
+import { CTA, INDUSTRIES, PRODUCT, TESTIMONIALS, currency } from '../../data/site'
 import { NotFoundBody } from '../NotFound'
 
 export function Component() {
@@ -124,9 +124,8 @@ export function Component() {
                 sized so the remittance does not strain the account.
               </p>
               <p>
-                Cost is expressed as a factor rate, typically in the {factorRange()} range. Your
-                own rate depends on underwriting, and every offer comes with a written disclosure of
-                the total dollar cost.
+                Cost is expressed as a factor rate. Your own rate depends on underwriting, and
+                every offer comes with a written disclosure of the total dollar cost.
               </p>
             </Prose>
           </div>

@@ -2,7 +2,7 @@ import { Link } from 'react-router-dom'
 import { CheckIcon, MinusIcon } from '@phosphor-icons/react'
 import { AnswerBlock, FaqList, PageHero, Section, SectionHead } from '../../components/ui'
 import { Seo, breadcrumbSchema, faqSchema } from '../../lib/seo'
-import { CTA, PRODUCT, factorRange } from '../../data/site'
+import { CTA, PRODUCT } from '../../data/site'
 
 const TRAIL = [
   { name: 'Home', path: '/' },
@@ -18,7 +18,7 @@ type Row = { label: string; mca: string; loan: string }
 const ROWS: Row[] = [
   { label: 'Product type', mca: 'Purchase of future receivables', loan: 'Debt' },
   { label: 'Time to funding', mca: 'Same-day funding available', loan: '1–4 weeks' },
-  { label: 'Cost basis', mca: `Factor rate ${factorRange()}`, loan: 'Interest rate' },
+  { label: 'Cost basis', mca: 'Factor rate', loan: 'Interest rate' },
   { label: 'Typical annualized cost', mca: 'Higher', loan: 'Lower' },
   { label: 'Qualification', mca: 'Business performance and cash flow', loan: 'Credit score and financials' },
   { label: 'Paperwork', mca: '4 months of bank statements', loan: 'Financials, tax returns, business plan' },

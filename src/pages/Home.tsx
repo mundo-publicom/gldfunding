@@ -19,7 +19,7 @@ import {
   SectionHead,
 } from '../components/ui'
 import { Seo, faqSchema, localBusinessSchema, orgSchema, productSchema } from '../lib/seo'
-import { INDUSTRIES, PRODUCT, currency, factorRange } from '../data/site'
+import { INDUSTRIES, PRODUCT, currency } from '../data/site'
 import { useRevealGroup } from '../lib/useReveal'
 
 const FAQS = [
@@ -41,7 +41,7 @@ const FAQS = [
   },
   {
     q: 'How much does a merchant cash advance cost?',
-    a: `Cost is expressed as a factor rate rather than an interest rate, typically in the ${factorRange()} range. At a factor rate of 1.25, a ${currency(50_000)} advance is repaid as ${currency(62_500)}. Every offer includes a written disclosure of total dollar cost and terms.`,
+    a: `Cost is expressed as a factor rate rather than an interest rate. At a factor rate of 1.25, a ${currency(50_000)} advance is repaid as ${currency(62_500)}. Every offer includes a written disclosure of total dollar cost and terms.`,
   },
   {
     q: 'How do I apply?',

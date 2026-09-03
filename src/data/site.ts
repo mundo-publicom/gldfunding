@@ -38,6 +38,10 @@ export const SITE = {
 export const PRODUCT = {
   advanceMin: 10_000,
   advanceMax: 500_000,
+  /**
+   * Internal underwriting bounds only. Do not publish a public factor-rate
+   * range on the website (including 1.20–1.49 or 1.20–1.50).
+   */
   factorRateMin: 1.2,
   factorRateMax: 1.49,
   termMinMonths: 3,
@@ -54,10 +58,6 @@ export const PRODUCT = {
   /** Statement months required at application. One number, every state. */
   statementMonths: 4,
 } as const
-
-/** Factor rate as displayed - two decimals, so 1.2 never renders as "1.2". */
-export const factorRange = () =>
-  `${PRODUCT.factorRateMin.toFixed(2)}\u2013${PRODUCT.factorRateMax.toFixed(2)}`
 
 export const CTA = {
   /** ONE label per intent, used in nav, every hero, and the footer. */

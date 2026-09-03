@@ -1,6 +1,5 @@
 import { Link } from 'react-router-dom'
 import { Seo, breadcrumbSchema } from '../../lib/seo'
-import { Callout } from '../../components/ui'
 import { PRODUCT, SITE, currency } from '../../data/site'
 import { LegalPage } from './Legal'
 
@@ -15,7 +14,7 @@ export function Component() {
       />
       <LegalPage
         title="Disclosures"
-        updated="August 2026"
+        updated="September 2026"
         intro="What we tell you before you sign, and how the figures on this site are substantiated."
       >
         <h2>Product nature</h2>
@@ -37,20 +36,6 @@ export function Component() {
           Funding is available for business or commercial purposes only. It is not available for
           personal, family or household use, and every applicant certifies this at signing.
         </p>
-
-        <h2>How cost is expressed</h2>
-        <p>
-          A factor rate is a multiplier, not a percentage rate. At a factor rate of 1.28, a{' '}
-          {currency(50_000)} advance is repaid as {currency(64_000)} - a cost of capital of{' '}
-          {currency(14_000)}. Because remittances begin immediately and the cost does not accrue over
-          time, repaying early does not reduce the total unless the agreement expressly says so.
-        </p>
-        <Callout title="A factor rate is not an APR.">
-          The annualized cost of a short-term advance is substantially higher than the factor rate
-          makes it look - a 1.28 factor over nine months annualizes well above 28%. Several states
-          require an APR-comparable figure on every commercial financing offer for exactly this
-          reason. Where that figure is required, it appears on your offer.
-        </Callout>
 
         <h2>Written cost disclosure on every offer</h2>
         <p>
@@ -93,12 +78,11 @@ export function Component() {
 
         <h2>Figures used on this website</h2>
         <p>
-          Advance amounts of {currency(PRODUCT.advanceMin)}–{currency(PRODUCT.advanceMax)}, factor
-          rates of {PRODUCT.factorRateMin}–{PRODUCT.factorRateMax}, terms of{' '}
-          {PRODUCT.termMinMonths}–{PRODUCT.termMaxMonths} months, decision times of approximately{' '}
-          Same-day funding describes an outcome that is available on some transactions, not one
-          promised on every transaction. It is not a guarantee, not the best case, and not an
-          outcome you should assume applies to your file.
+          Advance amounts of {currency(PRODUCT.advanceMin)}–{currency(PRODUCT.advanceMax)} and terms
+          of {PRODUCT.termMinMonths}–{PRODUCT.termMaxMonths} months describe typical outcomes on this
+          site, not a quote for any individual file. Same-day funding describes an outcome that is
+          available on some transactions, not one promised on every transaction. It is not a
+          guarantee, not the best case, and not an outcome you should assume applies to your file.
         </p>
         <p>
           Your own amount, rate, term and timing depend on underwriting - principally deposit
