@@ -1,5 +1,6 @@
 import { test, expect } from '@playwright/test'
 import type { Page } from '@playwright/test'
+import { INDUSTRIES } from '../src/data/site'
 import { builtRoutes } from './routes'
 import { gotoReady } from './helpers'
 
@@ -179,4 +180,23 @@ test('footer links all resolve', async ({ page }) => {
     const res = await page.request.get(href)
     expect(res.status(), `footer → ${href}`).toBe(200)
   }
+})
+
+test('footer Industries column lists every industry', async ({ page }) => {
+  await gotoReady(page, '/')
+  const column = page.locator('footer nav[aria-label="Industries"]')
+  await expect(column.locator('a[href="/industries"]')).toBeVisible()
+  await expect(column.locator('a[href="/industries/salons-spas"]')).toBeVisible()
+  await expect(column.locator('a[href="/industries/ecommerce"]')).toBeVisible()
+
+  const hrefs = await column.locator('a[href]').evaluateAll((els) =>
+    els.map((e) => (e as HTMLAnchorElement).getAttribute('href')!),
+  )
+  const expected = ['/industries', ...INDUSTRIES.map((i) => `/industries/${i.slug}`)]
+  expect(hrefs).toEqual(expected)
+
+  const overflows = await page.evaluate(
+    () => document.documentElement.scrollWidth > document.documentElement.clientWidth,
+  )
+  expect(overflows, 'footer industries column caused horizontal overflow').toBe(false)
 })

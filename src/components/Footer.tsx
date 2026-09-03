@@ -23,7 +23,10 @@ const COLUMNS = [
   },
   {
     title: 'Industries',
-    links: INDUSTRIES.slice(0, 6).map((i) => ({ label: i.short, href: `/industries/${i.slug}` })),
+    links: [
+      { label: 'All industries', href: '/industries' },
+      ...INDUSTRIES.map((i) => ({ label: i.short, href: `/industries/${i.slug}` })),
+    ],
   },
   {
     title: 'Company',
