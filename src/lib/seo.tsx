@@ -15,7 +15,7 @@ type SeoProps = {
 
 export function Seo({ title, description, path, schema = [], image, noindex, modified }: SeoProps) {
   const url = `${SITE.domain}${path === '/' ? '' : path}`
-  // Don't double the brand on titles that already name it ("Contact GLD Funding").
+  // Don't double the brand on titles that already name it ("Contact GLD Factoring LLC DBA GLD Funding").
   const fullTitle =
     path === '/' || title.includes(SITE.name) ? title : `${title} | ${SITE.name}`
   const ogImage = `${SITE.domain}${image ?? '/og-default.png'}`
@@ -66,7 +66,7 @@ export const orgSchema = () => ({
   faxNumber: SITE.fax,
   foundingDate: String(SITE.founded),
   description:
-    'GLD Funding provides merchant cash advances and working capital to small businesses across the United States, underwritten primarily on business performance and cash flow.',
+    'GLD Factoring LLC DBA GLD Funding provides merchant cash advances and working capital to small businesses across the United States, underwritten primarily on business performance and cash flow.',
   address: {
     '@type': 'PostalAddress',
     streetAddress: SITE.address.street,

@@ -17,7 +17,7 @@ const TRAIL = [
 const FAQS = [
   {
     q: 'Is a merchant cash advance a loan?',
-    a: "No. A merchant cash advance is the purchase of a business's future receivables at a discount. Because it is a purchase rather than a loan, there is no interest rate, and providers like GLD Funding are not banks or lenders.",
+    a: "No. A merchant cash advance is the purchase of a business's future receivables at a discount. Because it is a purchase rather than a loan, there is no interest rate, and providers like GLD Factoring LLC DBA GLD Funding are not banks or lenders.",
   },
   {
     q: 'How is a factor rate different from an interest rate?',
@@ -64,7 +64,7 @@ export function Component() {
           <div>
             <AnswerBlock>
               A merchant cash advance is the purchase of a business's future receivables at a
-              discount. The funder advances a lump sum - at GLD Funding,{' '}
+              discount. The funder advances a lump sum - at GLD Factoring LLC DBA GLD Funding,{' '}
               {currency(PRODUCT.advanceMin)} to {currency(PRODUCT.advanceMax)} - and recovers it
               through fixed daily or weekly remittances. It is not a loan and carries no interest
               rate.

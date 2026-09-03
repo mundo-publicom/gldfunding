@@ -22,7 +22,7 @@ const CLAUSES = [
     title: 'Accuracy of information',
     summary:
       'You confirm that everything in this application, and every document attached to it, is true, accurate and complete.',
-    full: '[PLACEHOLDER — counsel to supply] The undersigned represents and warrants that all information and documents submitted in connection with this application are true, accurate and complete in all material respects, and agrees to promptly notify GLD Funding of any material change.',
+    full: '[PLACEHOLDER — counsel to supply] The undersigned represents and warrants that all information and documents submitted in connection with this application are true, accurate and complete in all material respects, and agrees to promptly notify GLD Factoring LLC DBA GLD Funding of any material change.',
   },
   {
     title: 'Business purpose',
@@ -33,14 +33,14 @@ const CLAUSES = [
   {
     title: 'Credit and background authorization',
     summary:
-      'You authorize GLD Funding to obtain business and personal credit reports and background information to evaluate this application and any renewal.',
-    full: '[PLACEHOLDER — counsel to supply] The undersigned authorizes GLD Funding and its assigns to obtain consumer and business credit reports and other background information from any source, for the purpose of evaluating this application, and on an ongoing basis in connection with any funding provided.',
+      'You authorize GLD Factoring LLC DBA GLD Funding to obtain business and personal credit reports and background information to evaluate this application and any renewal.',
+    full: '[PLACEHOLDER — counsel to supply] The undersigned authorizes GLD Factoring LLC DBA GLD Funding and its assigns to obtain consumer and business credit reports and other background information from any source, for the purpose of evaluating this application, and on an ongoing basis in connection with any funding provided.',
   },
   {
     title: 'Financial and banking verification',
     summary:
-      'You authorize GLD Funding to verify the bank and financial information you have provided, including contacting your bank or processor directly.',
-    full: '[PLACEHOLDER — counsel to supply] The undersigned authorizes GLD Funding to verify all financial information provided, including by contacting the business’s financial institutions, payment processors and references, and authorizes those parties to release such information.',
+      'You authorize GLD Factoring LLC DBA GLD Funding to verify the bank and financial information you have provided, including contacting your bank or processor directly.',
+    full: '[PLACEHOLDER — counsel to supply] The undersigned authorizes GLD Factoring LLC DBA GLD Funding to verify all financial information provided, including by contacting the business’s financial institutions, payment processors and references, and authorizes those parties to release such information.',
   },
   {
     title: 'Electronic communications and signature',

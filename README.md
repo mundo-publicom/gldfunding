@@ -1,4 +1,4 @@
-# GLD Funding
+# GLD Factoring LLC DBA GLD Factoring LLC DBA GLD Factoring LLC DBA GLD Factoring LLC DBA GLD Factoring LLC DBA GLD Factoring LLC DBA GLD Funding
 
 Rebuild of [gldfunding.com](https://www.gldfunding.com) — a merchant cash advance
 provider in Garden City, NY.

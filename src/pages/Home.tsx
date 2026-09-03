@@ -25,7 +25,7 @@ import { useRevealGroup } from '../lib/useReveal'
 const FAQS = [
   {
     q: 'What is a merchant cash advance?',
-    a: `A merchant cash advance is the purchase of a business's future receivables at a discount, not a loan. GLD Funding advances a lump sum - typically between ${currency(PRODUCT.advanceMin)} and ${currency(PRODUCT.advanceMax)} - and recovers it through fixed daily or weekly remittances.`,
+    a: `A merchant cash advance is the purchase of a business's future receivables at a discount, not a loan. GLD Factoring LLC DBA GLD Funding advances a lump sum - typically between ${currency(PRODUCT.advanceMin)} and ${currency(PRODUCT.advanceMax)} - and recovers it through fixed daily or weekly remittances.`,
   },
   {
     q: 'How fast can I get funded?',
@@ -57,7 +57,7 @@ export function Component() {
     <>
       <Seo
         path="/"
-        title="Merchant Cash Advance & Small Business Funding | GLD Funding"
+        title="Merchant Cash Advance & Small Business Funding | GLD Factoring LLC DBA GLD Funding"
         description={`Working capital from ${currency(PRODUCT.advanceMin)} to ${currency(PRODUCT.advanceMax)} for small businesses, based on business performance and cash flow. Fast decisions, same-day funding, and a simple application.`}
         schema={[
           orgSchema(),
@@ -79,14 +79,14 @@ export function Component() {
       <Section tone="white" className="!py-14 lg:!py-16">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:items-start lg:gap-16">
           <div>
-            <p className="eyebrow">What GLD Funding does</p>
+            <p className="eyebrow">What GLD Factoring LLC DBA GLD Funding does</p>
             <h2 className="mt-3 text-h2 font-semibold text-ink">
               Capital that reads your bank statements, not your credit file.
             </h2>
           </div>
           <div>
             <AnswerBlock>
-              GLD Funding provides working capital to businesses based primarily on business
+              GLD Factoring LLC DBA GLD Funding provides working capital to businesses based primarily on business
               performance and cash flow. Our streamlined process means less paperwork, faster
               decisions, and funding structured around your business.
             </AnswerBlock>

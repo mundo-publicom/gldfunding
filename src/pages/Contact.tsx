@@ -14,8 +14,8 @@ export function Component() {
     <>
       <Seo
         path="/contact"
-        title="Contact GLD Funding"
-        description={`Call ${SITE.phone} or send a message. GLD Funding is at ${SITE.address.street}, ${SITE.address.locality}, ${SITE.address.region} ${SITE.address.postalCode}.`}
+        title="Contact GLD Factoring LLC DBA GLD Funding"
+        description={`Call ${SITE.phone} or send a message. GLD Factoring LLC DBA GLD Funding is at ${SITE.address.street}, ${SITE.address.locality}, ${SITE.address.region} ${SITE.address.postalCode}.`}
         schema={[breadcrumbSchema(TRAIL), localBusinessSchema()]}
       />
 

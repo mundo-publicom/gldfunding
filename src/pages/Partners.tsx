@@ -11,7 +11,7 @@ const TRAIL = [
 
 const FAQS = [
   {
-    q: 'Who can partner with GLD Funding?',
+    q: 'Who can partner with GLD Factoring LLC DBA GLD Funding?',
     a: 'Independent sales organizations, brokers, accountants, equipment vendors, POS resellers, and anyone who advises small business owners on capital. We work with both established ISOs and individuals building a book.',
   },
   {
@@ -34,7 +34,7 @@ export function Component() {
       <Seo
         path="/partners"
         title="ISO & Broker Partnerships"
-        description={`Partner with GLD Funding. Fast decisions, deal sizes from ${currency(PRODUCT.advanceMin)} to ${currency(PRODUCT.advanceMax)}, and a dedicated relationship manager on every file.`}
+        description={`Partner with GLD Factoring LLC DBA GLD Funding. Fast decisions, deal sizes from ${currency(PRODUCT.advanceMin)} to ${currency(PRODUCT.advanceMax)}, and a dedicated relationship manager on every file.`}
         schema={[breadcrumbSchema(TRAIL), faqSchema(FAQS)]}
       />
 
@@ -42,13 +42,13 @@ export function Component() {
         trail={TRAIL}
         eyebrow="Partners & ISOs"
         title="Bring us your merchants. We'll get them funded."
-        lead="GLD Funding works with ISOs, brokers and advisors who need a funder that answers fast, prices honestly, and treats their merchants well."
+        lead="GLD Factoring LLC DBA GLD Funding works with ISOs, brokers and advisors who need a funder that answers fast, prices honestly, and treats their merchants well."
       />
 
       <Section tone="white">
         <div className="max-w-[68ch]">
           <AnswerBlock>
-            GLD Funding partners with independent sales organizations, brokers and advisors to fund
+            GLD Factoring LLC DBA GLD Funding partners with independent sales organizations, brokers and advisors to fund
             small business merchants. Submissions are turned around quickly, deal sizes run{' '}
             {currency(PRODUCT.advanceMin)} to {currency(PRODUCT.advanceMax)}, and every partner
             works with a dedicated relationship manager.
@@ -78,7 +78,7 @@ export function Component() {
           <Prose>
             <h2>Why partner with us</h2>
             <p>
-              GLD Funding values its partners and financial organizations, and we are always looking
+              GLD Factoring LLC DBA GLD Funding values its partners and financial organizations, and we are always looking
               for opportunities to bring capital to small business owners. Working together, we can
               get merchants the working capital they need - and both build our portfolios doing it.
             </p>

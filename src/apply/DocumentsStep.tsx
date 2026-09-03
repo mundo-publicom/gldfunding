@@ -153,7 +153,7 @@ export function DocumentsStep({ data, update, errors }: StepProps) {
               You'll connect your bank on the next screen
             </p>
             <p className="mt-1 text-[0.875rem] leading-relaxed text-ink-2">
-              GLD Funding receives read-only access to statement data. We can never move money, and
+            GLD Factoring LLC DBA GLD Funding receives read-only access to statement data. We can never move money, and
               you can revoke access at any time.
             </p>
           </div>

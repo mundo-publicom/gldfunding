@@ -169,7 +169,7 @@ export function Footer() {
       <div className="border-t border-white/8">
         <div className="page py-6">
           <p className="max-w-[92ch] text-[0.75rem] leading-relaxed text-paper/65">
-            A merchant cash advance is the purchase of future receivables, not a loan. GLD Funding
+            A merchant cash advance is the purchase of future receivables, not a loan. GLD Factoring LLC DBA GLD Funding
             is not a bank and does not offer loans. Funding amounts, factor rates, and terms vary by
             business and are determined by underwriting. Approval times and funding speed reflect
             typical outcomes and are not guaranteed. Where required by state law, a written

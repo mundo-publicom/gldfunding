@@ -1,7 +1,7 @@
 import { cn } from '../lib/cn'
 
 /**
- * The GLD Funding lockup, from the brand artwork.
+ * The GLD Factoring LLC DBA GLD Funding lockup, from the brand artwork.
  *
  * The supplied file is white-only - it was drawn for the dark grounds it
  * normally sits on - and the site is predominantly light. So the wordmark here

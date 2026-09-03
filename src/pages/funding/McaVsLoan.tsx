@@ -81,7 +81,7 @@ export function Component() {
                     Merchant cash advance
                   </span>
                   <span className="mt-0.5 block font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-leaf-deep">
-                    GLD Funding
+                    GLD Factoring LLC DBA GLD Funding
                   </span>
                 </th>
                 <th className="bg-paper px-5 py-4 text-left">

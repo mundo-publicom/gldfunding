@@ -177,7 +177,7 @@ export function Component() {
         <Seo
           path="/apply"
           title="Application received"
-          description="Your application has been received by GLD Funding."
+          description="Your application has been received by GLD Factoring LLC DBA GLD Funding."
           noindex
         />
         <Confirmation reference={reference} email={data.owners[0]?.email ?? ''} />
@@ -476,7 +476,7 @@ function Confirmation({ reference, email }: { reference: string; email: string }
       <h1 className="mt-7 text-h1 font-semibold text-ink">Application received</h1>
 
       <p className="mt-5 max-w-[52ch] text-lead text-ink-2">
-        Thank you for applying with GLD Funding. Your application and documents have been
+        Thank you for applying with GLD Factoring LLC DBA GLD Funding. Your application and documents have been
         successfully received. A member of our funding team will review your information and
         contact you regarding the next steps.
       </p>

@@ -10,7 +10,7 @@ export function Component() {
       <Seo
         path="/legal/disclosures"
         title="Disclosures"
-        description="GLD Funding's disclosure policy - how a merchant cash advance is priced, what every offer discloses in writing, state commercial financing disclosure requirements, and how the figures on this site are substantiated."
+        description="GLD Factoring LLC DBA GLD Funding's disclosure policy - how a merchant cash advance is priced, what every offer discloses in writing, state commercial financing disclosure requirements, and how the figures on this site are substantiated."
         schema={[breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Disclosures', path: '/legal/disclosures' }])]}
       />
       <LegalPage

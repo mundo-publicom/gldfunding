@@ -10,7 +10,7 @@ export function Component() {
       <Seo
         path="/legal/privacy"
         title="Privacy Policy"
-        description="How GLD Funding collects, uses, protects and retains business and personal information submitted through this site, including bank data, credit information and signature records."
+        description="How GLD Factoring LLC DBA GLD Funding collects, uses, protects and retains business and personal information submitted through this site, including bank data, credit information and signature records."
         schema={[breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Privacy policy', path: '/legal/privacy' }])]}
       />
       <LegalPage
@@ -20,7 +20,7 @@ export function Component() {
       >
         <h2>Who this policy covers</h2>
         <p>
-          This policy applies to {SITE.legalName} ("GLD Funding", "we", "us"), to this website at{' '}
+          This policy applies to {SITE.legalName} ("GLD Factoring LLC DBA GLD Funding", "we", "us"), to this website at{' '}
           {SITE.domain.replace('https://', '')}, and to the funding applications, forms and support
           channels we operate. It covers information about businesses that apply to us, about the
           owners and officers who apply on a business's behalf, and about visitors who browse the

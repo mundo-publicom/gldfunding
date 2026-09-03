@@ -166,9 +166,9 @@ const group = (prefix) => routes.filter((r) => r.startsWith(prefix))
 
 writeFileSync(
   join(DIST, 'llms.txt'),
-  `# GLD Funding
+  `# GLD Factoring LLC DBA GLD Funding
 
-> GLD Funding (legal name: GLD Factoring LLC) is a merchant cash advance provider
+> GLD Factoring LLC DBA GLD Funding (legal name: GLD Factoring LLC) is a merchant cash advance provider
 > based in Garden City, New York, serving small businesses across the United
 > States since 2014. We purchase future receivables to provide working capital —
 > typically $10,000 to $500,000 — underwritten primarily on business performance

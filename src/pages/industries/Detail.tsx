@@ -31,7 +31,7 @@ export function Component() {
   const faqs = [
     {
       q: `How much funding can a ${ind.short.toLowerCase().replace(/s$/, '')} business get?`,
-      a: `${ind.name} typically qualify for ${ind.typicalRange} at GLD Funding. The amount is driven by average monthly deposits rather than credit score - most offers land near one month of revenue.`,
+      a: `${ind.name} typically qualify for ${ind.typicalRange} at GLD Factoring LLC DBA GLD Funding. The amount is driven by average monthly deposits rather than credit score - most offers land near one month of revenue.`,
     },
     {
       q: `How fast can a ${ind.short.toLowerCase().replace(/s$/, '')} business get funded?`,

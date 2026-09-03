@@ -10,7 +10,7 @@ export function Component() {
       <Seo
         path="/legal/terms"
         title="Terms of Use"
-        description="Terms governing use of the GLD Funding website, the online funding application, electronic signatures, contact consent and limitation of liability."
+        description="Terms governing use of the GLD Factoring LLC DBA GLD Funding website, the online funding application, electronic signatures, contact consent and limitation of liability."
         schema={[breadcrumbSchema([{ name: 'Home', path: '/' }, { name: 'Terms of use', path: '/legal/terms' }])]}
       />
       <LegalPage
@@ -20,7 +20,7 @@ export function Component() {
       >
         <h2>Acceptance</h2>
         <p>
-          These terms are an agreement between you and {SITE.legalName} ("GLD Funding", "we", "us").
+          These terms are an agreement between you and {SITE.legalName} ("GLD Factoring LLC DBA GLD Funding", "we", "us").
           By using this website, submitting a form, or starting a funding application, you agree to
           them. If you do not agree, do not use the site.
         </p>
@@ -143,7 +143,7 @@ export function Component() {
           {SITE.legalName} or its licensors and are protected by copyright, trademark and other
           laws. You may view and print pages for your own business use in evaluating financing. Any
           other reproduction, distribution, modification or commercial use requires our written
-          permission. "GLD Funding" and our logo are our marks; other marks belong to their owners.
+          permission. "GLD Factoring LLC DBA GLD Funding" and our logo are our marks; other marks belong to their owners.
         </p>
         <p>
           If you send us feedback or suggestions, you grant us an unrestricted, royalty-free right to

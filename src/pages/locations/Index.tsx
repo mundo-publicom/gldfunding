@@ -27,7 +27,7 @@ export function Component() {
       <Seo
         path="/locations"
         title="Merchant Cash Advances by State"
-        description={`GLD Funding provides working capital to small businesses in ${STATES.length} states. Commercial financing disclosure requirements differ by state - see what applies where you operate.`}
+        description={`GLD Factoring LLC DBA GLD Funding provides working capital to small businesses in ${STATES.length} states. Commercial financing disclosure requirements differ by state - see what applies where you operate.`}
         schema={[
           breadcrumbSchema(TRAIL),
           {
@@ -53,7 +53,7 @@ export function Component() {
       <Section tone="white">
         <div className="max-w-[68ch]">
           <AnswerBlock>
-            GLD Funding provides merchant cash advances to businesses in {STATES.length} states,
+            GLD Factoring LLC DBA GLD Funding provides merchant cash advances to businesses in {STATES.length} states,
             from {currency(PRODUCT.advanceMin)} to {currency(PRODUCT.advanceMax)}. {withLaw} of
             those states require a written commercial financing disclosure before signing; GLD
             provides one on every offer regardless of state.

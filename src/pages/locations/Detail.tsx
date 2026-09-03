@@ -43,7 +43,7 @@ export function Component() {
       q: `Are merchant cash advances legal in ${state.name}?`,
       a:
         state.disclosure === 'none'
-          ? `Yes. Merchant cash advances are legal commercial transactions in ${state.name}. The state has no dedicated commercial financing disclosure statute, but GLD Funding provides a written disclosure of total dollar cost and terms on every offer regardless.`
+          ? `Yes. Merchant cash advances are legal commercial transactions in ${state.name}. The state has no dedicated commercial financing disclosure statute, but GLD Factoring LLC DBA GLD Funding provides a written disclosure of total dollar cost and terms on every offer regardless.`
           : `Yes. Merchant cash advances are legal in ${state.name}, and the state regulates how they must be disclosed. ${state.note}`,
     },
     {
@@ -93,7 +93,7 @@ export function Component() {
         <div className="grid gap-12 lg:grid-cols-[1.15fr_0.85fr] lg:gap-16">
           <div>
             <AnswerBlock>
-              GLD Funding provides merchant cash advances to {state.name} businesses from{' '}
+              GLD Factoring LLC DBA GLD Funding provides merchant cash advances to {state.name} businesses from{' '}
               {currency(PRODUCT.advanceMin)} to {currency(PRODUCT.advanceMax)}. {state.name}{' '}
               applicants submit {months} months of business bank statements. Approval is based
               primarily on business performance and cash flow, and same-day funding is available on
@@ -171,7 +171,7 @@ export function Component() {
                     show you a standardized cost summary.
                   </p>
                   <p>
-                    GLD Funding provides one anyway. Every offer we make comes with a written
+                    GLD Factoring LLC DBA GLD Funding provides one anyway. Every offer we make comes with a written
                     statement of the total dollar cost, the remittance amount and frequency, and the
                     term - because you should be able to compare offers regardless of where you
                     happen to operate.
@@ -256,7 +256,7 @@ export function Component() {
           <p className="max-w-[86ch]">
             Regulatory information on this page is provided for general guidance and is not legal
             advice. Commercial financing requirements change; confirm current obligations with
-            qualified counsel. GLD Funding is not a bank and does not offer loans - a merchant cash
+            qualified counsel. GLD Factoring LLC DBA GLD Funding is not a bank and does not offer loans - a merchant cash
             advance is the purchase of future receivables.
           </p>
         </div>

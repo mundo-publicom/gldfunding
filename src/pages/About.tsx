@@ -33,8 +33,8 @@ export function Component() {
     <>
       <Seo
         path="/about"
-        title="About GLD Funding"
-        description={`GLD Funding has provided merchant cash advances to small businesses since ${SITE.founded}, from offices in Garden City, New York. Advances from ${currency(PRODUCT.advanceMin)} to ${currency(PRODUCT.advanceMax)}, underwritten on business performance and cash flow.`}
+        title="About GLD Factoring LLC DBA GLD Funding"
+        description={`GLD Factoring LLC DBA GLD Funding has provided merchant cash advances to small businesses since ${SITE.founded}, from offices in Garden City, New York. Advances from ${currency(PRODUCT.advanceMin)} to ${currency(PRODUCT.advanceMax)}, underwritten on business performance and cash flow.`}
         schema={[breadcrumbSchema(TRAIL), orgSchema(), localBusinessSchema()]}
       />
 
@@ -50,7 +50,7 @@ export function Component() {
           <div>
             {/* Who we are - one paragraph, no history lesson. */}
             <AnswerBlock>
-              GLD Funding is a merchant cash advance provider headquartered in Garden City, New
+              GLD Factoring LLC DBA GLD Funding is a merchant cash advance provider headquartered in Garden City, New
               York, serving small businesses across the United States since {SITE.founded}. We
               purchase future receivables to provide working capital of{' '}
               {currency(PRODUCT.advanceMin)} to {currency(PRODUCT.advanceMax)}, underwritten

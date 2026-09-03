@@ -9,8 +9,8 @@
  */
 
 export const SITE = {
-  name: 'GLD Funding',
-  legalName: 'GLD Factoring LLC',
+  name: 'GLD Factoring LLC DBA GLD Funding',
+  legalName: 'GLD Factoring LLC DBA GLD Funding',
   domain: 'https://www.gldfunding.com',
   tagline: 'Working capital for small business.',
   founded: 2014,
