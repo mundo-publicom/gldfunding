@@ -28,22 +28,24 @@ export function Component() {
   // Real proof from this trade, where we have it.
   const proof = TESTIMONIALS.filter((t) => t.industry === ind.short)
 
+  const article = /^[aeiou]/i.test(ind.singular) ? 'an' : 'a'
+
   const faqs = [
     {
-      q: `How much funding can a ${ind.short.toLowerCase().replace(/s$/, '')} business get?`,
-      a: `${ind.name} typically qualify for ${ind.typicalRange} at GLD Factoring LLC DBA GLD Funding. The amount is driven by average monthly deposits rather than credit score - most offers land near one month of revenue.`,
+      q: `How much funding can ${article} ${ind.singular} business get?`,
+      a: `${ind.name} may qualify for ${ind.typicalRange} at GLD Factoring LLC DBA GLD Funding. The amount is driven by average monthly deposits rather than credit score.`,
     },
     {
-      q: `How fast can a ${ind.short.toLowerCase().replace(/s$/, '')} business get funded?`,
+      q: `How fast can ${article} ${ind.singular} business get funded?`,
       a: `Once we have a complete file, underwriting moves quickly and same-day funding is available on signed contracts. Actual timing depends on underwriting and your bank.`,
     },
     {
       q: `What do I need to apply?`,
-      a: `Four months of business bank statements plus basic business and owner details. Nothing else is required to submit; anything further is requested only if your file needs it.`,
+      a: `4 months of recent business bank statements, plus basic business and owner details, to get started. Additional documents may be requested if your file needs them.`,
     },
     {
       q: `Do I need good credit?`,
-      a: `We look beyond just a credit score. Underwriting reads business performance and cash flow to understand how the business actually moves money, which is why ${ind.short.toLowerCase()} owners declined by banks are frequently approved here.`,
+      a: `We look beyond just a credit score. Underwriting reads business performance and cash flow to understand how the business actually moves money. A prior bank decline does not determine the outcome here.`,
     },
   ]
 
@@ -88,7 +90,7 @@ export function Component() {
 
             <div className="mt-10">
               <h2 className="text-h3 font-semibold text-ink">
-                What {ind.short.toLowerCase()} clients use it for
+                Common uses in {ind.short.toLowerCase()}
               </h2>
               <ul className="mt-5 grid gap-3 sm:grid-cols-2">
                 {ind.useCases.map((u) => (
@@ -107,8 +109,7 @@ export function Component() {
               <h2>Why underwriting understands this trade</h2>
               <p>
                 Every industry has a cash-flow shape, and a bank's credit model tends to read that
-                shape as risk. {ind.name} are a clear example: revenue that is perfectly healthy
-                across a year can look erratic across any given month.
+                shape as risk. {ind.cashFlowNote}
               </p>
               <p>
                 We have funded this trade for years, so the pattern reads as normal rather than as
@@ -120,8 +121,7 @@ export function Component() {
               <p>
                 Advances for {ind.name.toLowerCase()} typically run {ind.typicalRange}, with terms
                 of {PRODUCT.termMinMonths} to {PRODUCT.termMaxMonths} months and remittances
-                collected daily or weekly. Offers are usually built around one month of revenue,
-                sized so the remittance does not strain the account.
+                collected daily or weekly.
               </p>
               <p>
                 Cost is expressed as a factor rate. Your own rate depends on underwriting, and
@@ -140,7 +140,7 @@ export function Component() {
         <Section tone="paper">
           <SectionHead
             eyebrow="From this industry"
-            title={`${ind.short} owners we've funded.`}
+            title={`Owners we've funded in ${ind.short.toLowerCase()}.`}
           />
           <div className="mt-8 grid gap-px border border-rule bg-rule sm:grid-cols-2 lg:grid-cols-3">
             {proof.map((t) => (

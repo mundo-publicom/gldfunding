@@ -143,6 +143,10 @@ export type Industry = {
   slug: string
   name: string
   short: string
+  /** Singular noun for FAQ questions: "a restaurant business", "a salon or spa business". */
+  singular: string
+  /** One industry-specific sentence for the underwriting section. */
+  cashFlowNote: string
   /** The 40–60 word answer block. Lifted verbatim into AI responses. */
   answer: string
   useCases: string[]
@@ -154,6 +158,9 @@ export const INDUSTRIES: Industry[] = [
     slug: 'restaurants',
     name: 'Restaurants & food service',
     short: 'Restaurants',
+    singular: 'restaurant',
+    cashFlowNote:
+      "A restaurant's deposits can look erratic month to month even when the year is healthy — February is not July.",
     answer:
       'Restaurants can use a merchant cash advance to cover equipment repair, seasonal payroll, inventory, or a build-out, with daily or weekly remittances. GLD Funding typically advances $10,000 to $250,000 to restaurants, underwritten on business performance and cash flow.',
     useCases: ['Kitchen equipment repair or replacement', 'Seasonal staffing and payroll gaps', 'Inventory and supplier deposits', 'Dining room build-out or expansion', 'Bridging a slow month'],
@@ -163,8 +170,11 @@ export const INDUSTRIES: Industry[] = [
     slug: 'retail',
     name: 'Retail & specialty stores',
     short: 'Retail',
+    singular: 'retail',
+    cashFlowNote:
+      "A retailer's deposits swing with the selling calendar — a strong Q4 can sit next to a quiet February.",
     answer:
-      'Retailers use merchant cash advances to buy inventory ahead of a selling season, fund a store refit, or cover rent during a slow quarter. Approval is based on business performance and deposit history, so retailers with strong sales but an uneven monthly pattern are frequently approved where a bank declines.',
+      'Retailers use merchant cash advances to buy inventory ahead of a selling season, fund a store refit, or cover rent during a slow quarter. Approval is based on business performance and deposit history, so retailers with strong sales but an uneven monthly pattern can still be underwritten on deposit history rather than a bank-style credit file.',
     useCases: ['Seasonal inventory buys', 'Store refit or relocation', 'Point-of-sale and systems upgrades', 'Marketing pushes before peak season', 'Covering rent through a slow quarter'],
     typicalRange: '$10,000 – $200,000',
   },
@@ -172,6 +182,9 @@ export const INDUSTRIES: Industry[] = [
     slug: 'medical-dental',
     name: 'Medical & dental practices',
     short: 'Medical & dental',
+    singular: 'medical or dental',
+    cashFlowNote:
+      "A practice's deposits follow insurance reimbursement cycles more than the day patients were seen.",
     answer:
       'Medical and dental practices use merchant cash advances to buy clinical equipment, expand treatment rooms, or bridge insurance reimbursement delays. Approval rests on practice deposit history rather than credit score, which suits practitioners carrying student debt or a recent practice acquisition.',
     useCases: ['Clinical and imaging equipment', 'Additional treatment rooms', 'Bridging insurance reimbursement lag', 'Practice acquisition costs', 'Software and compliance systems'],
@@ -181,6 +194,9 @@ export const INDUSTRIES: Industry[] = [
     slug: 'trucking-logistics',
     name: 'Trucking & logistics',
     short: 'Trucking',
+    singular: 'trucking',
+    cashFlowNote:
+      "A carrier's deposits arrive when invoices settle, not when the load is delivered.",
     answer:
       'Trucking and logistics operators use merchant cash advances for fuel, repairs, insurance premiums, and driver payroll while invoices sit unpaid. Same-day funding is available once a contract is signed, which matters when a truck is off the road and the repair bill is due now.',
     useCases: ['Emergency repairs and downtime', 'Fuel and operating float', 'Insurance premium payments', 'Driver payroll between settlements', 'Adding a truck or trailer'],
@@ -190,8 +206,11 @@ export const INDUSTRIES: Industry[] = [
     slug: 'construction-trades',
     name: 'Construction & trades',
     short: 'Construction',
+    singular: 'construction',
+    cashFlowNote:
+      "A contractor's deposits arrive in lumps when draws hit, not as a smooth monthly wage.",
     answer:
-      'Contractors and trades businesses use merchant cash advances to fund materials and labor before a progress payment arrives. Because underwriting reads bank deposits rather than credit files, contractors with strong revenue but lumpy monthly cash flow are frequently approved where banks decline.',
+      'Contractors and trades businesses use merchant cash advances to fund materials and labor before a progress payment arrives. Because underwriting reads bank deposits rather than credit files, contractors with strong revenue but lumpy monthly cash flow can still be underwritten on deposit history.',
     useCases: ['Materials ahead of a progress payment', 'Crew payroll between draws', 'Tools, plant and vehicle purchases', 'Bonding and permit costs', 'Taking on a larger contract'],
     typicalRange: '$15,000 – $350,000',
   },
@@ -199,6 +218,9 @@ export const INDUSTRIES: Industry[] = [
     slug: 'auto-repair',
     name: 'Auto repair & service',
     short: 'Auto repair',
+    singular: 'auto repair',
+    cashFlowNote:
+      "A shop's deposits swing with season and weather, even when the year as a whole is solid.",
     answer:
       'Auto repair shops use merchant cash advances to stock parts, buy diagnostic equipment, or add a service bay. Underwriting reads shop deposit history rather than a personal credit file, which suits a trade where revenue swings with season and weather.',
     useCases: ['Diagnostic and lift equipment', 'Parts inventory', 'Adding a service bay', 'Technician hiring and certification', 'Shop marketing and signage'],
@@ -208,6 +230,9 @@ export const INDUSTRIES: Industry[] = [
     slug: 'salons-spas',
     name: 'Salons & spas',
     short: 'Salons & spas',
+    singular: 'salon or spa',
+    cashFlowNote:
+      "A salon's deposits follow appointment volume and retail cycles, which are uneven week to week.",
     answer:
       'Salons, barbershops and spas use merchant cash advances to fit out stations, buy retail stock, or fund a second location. Advances are typically smaller and shorter than in other trades, and approval leans on business performance and deposit volume.',
     useCases: ['Station and chair fit-out', 'Retail product stock', 'Opening a second location', 'Booking and POS systems', 'Stylist recruitment and training'],
@@ -217,6 +242,9 @@ export const INDUSTRIES: Industry[] = [
     slug: 'ecommerce',
     name: 'E-commerce & online retail',
     short: 'E-commerce',
+    singular: 'e-commerce',
+    cashFlowNote:
+      "An online seller's cash sits in inventory for 60 to 90 days before it shows up as a deposit.",
     answer:
       'E-commerce businesses use merchant cash advances to fund inventory and advertising ahead of a sales peak. For sellers whose cash is locked in stock for 60 to 90 days, an advance smooths the gap between paying a supplier and collecting from customers.',
     useCases: ['Inventory ahead of Q4', 'Advertising and customer acquisition', 'Supplier deposits and freight', 'Warehouse and 3PL costs', 'Platform and fulfilment expansion'],
