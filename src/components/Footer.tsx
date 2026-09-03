@@ -51,7 +51,7 @@ export function Footer() {
         <div className="page grid gap-8 py-14 lg:grid-cols-[1.2fr_auto] lg:items-center lg:py-16">
           <div>
             <h2 className="text-h2 font-semibold text-white">
-              See what your business qualifies for.
+              See what your business may qualify for.
             </h2>
             <p className="mt-3 max-w-[46ch] text-[1.0625rem] leading-relaxed text-paper/75">
               Answer a few simple questions to get started. No personal information and no credit

@@ -111,7 +111,7 @@ export function Component() {
           <StatRow invert>
             <Stat invert value={`${years}+`} label="Years funding" sub={`Since ${SITE.founded}`} />
             <Stat invert value="Same day" label="Funding available" sub="On signed contracts" />
-            <Stat invert value="4 months" label="Bank statements" sub="All that is needed to apply" />
+            <Stat invert value="4 months" label="Bank statements" sub="To get started" />
             <Stat invert value="50" label="States served" sub="Nationwide" />
           </StatRow>
         </div>

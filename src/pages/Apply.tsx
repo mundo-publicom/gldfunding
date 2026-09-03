@@ -204,7 +204,7 @@ export function Component() {
           <p className="eyebrow">Apply for funding</p>
           <h1 className="mt-3 text-h1 font-semibold text-ink">
             {phase === 'precheck'
-              ? 'See what you qualify for.'
+              ? 'See what you may qualify for.'
               : phase === 'review'
                 ? 'Review your application'
                 : step.title}

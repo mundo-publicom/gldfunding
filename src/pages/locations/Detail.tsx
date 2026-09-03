@@ -48,11 +48,11 @@ export function Component() {
     },
     {
       q: `How many bank statements do ${state.name} businesses need?`,
-      a: `${state.name} businesses provide four months of business bank statements. That is all that is required to submit an application - anything further is requested only if underwriting needs it.`,
+      a: `${state.name} businesses provide four months of business bank statements, plus basic business and owner details, to get started. Additional documents may be requested if your file needs them.`,
     },
     {
       q: `How much can a ${state.name} business get?`,
-      a: `Advances range from ${currency(PRODUCT.advanceMin)} to ${currency(PRODUCT.advanceMax)}, typically sized around one month of revenue. The amount available to you is determined by underwriting your business performance and cash flow.`,
+      a: `Advances range from ${currency(PRODUCT.advanceMin)} to ${currency(PRODUCT.advanceMax)}. The amount is driven by average monthly deposits rather than credit score, and is determined by underwriting your business performance and cash flow.`,
     },
     {
       q: `How fast can a ${state.name} business get funded?`,
@@ -264,7 +264,7 @@ export function Component() {
         <div className="mt-10 flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h2 className="text-h3 font-semibold text-ink">
-              See what your {state.name} business qualifies for.
+              See what your {state.name} business may qualify for.
             </h2>
             <p className="mt-2 max-w-[52ch] text-[0.9375rem] text-ink-2">
               Answer a few simple questions to get started. No credit pull.

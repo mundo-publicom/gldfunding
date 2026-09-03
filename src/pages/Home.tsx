@@ -33,7 +33,7 @@ const FAQS = [
   },
   {
     q: 'Do I need good credit to qualify?',
-    a: 'We look beyond just a credit score. Underwriting is based primarily on business performance and cash flow, which is why business owners who have been declined by a bank are frequently approved here.',
+    a: 'We look beyond just a credit score. Underwriting reads business performance and cash flow to understand how the business actually moves money. A prior bank decline does not determine the outcome here.',
   },
   {
     q: 'What documents do I need to apply?',

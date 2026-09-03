@@ -63,7 +63,7 @@ export function Precheck({
       }
     }
 
-    // Indicative only - roughly one month of revenue, bounded by the product range.
+    // Indicative only - scaled from average monthly deposits, bounded by the product range.
     const mid = band?.mid ?? 30_000
     const low = Math.max(PRODUCT.advanceMin, Math.round((mid * 0.6) / 5000) * 5000)
     const high = Math.min(PRODUCT.advanceMax, Math.round((mid * 1.4) / 5000) * 5000)
@@ -111,7 +111,7 @@ export function Precheck({
             {currency(result.low)} – {currency(result.high)}
           </p>
           <p className="mt-3 max-w-[52ch] text-[0.9375rem] leading-relaxed text-ink-2">
-            Businesses like yours typically qualify for this range. It is an estimate based on
+            Businesses like yours may qualify for this range. It is an estimate based on
             revenue alone - your actual offer depends on underwriting your bank statements.
           </p>
         </div>

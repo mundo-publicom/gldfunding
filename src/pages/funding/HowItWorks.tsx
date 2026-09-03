@@ -92,10 +92,10 @@ export function Component() {
 
             <h2>What you'll be asked for</h2>
             <p>
-              Four months of business bank statements, and nothing else to submit. If your specific
-              file needs something further - a driver's licence, a voided check, a processing
-              statement - a member of the team requests it after review, through a secure link. You
-              are never sent back to the start.
+              Four months of business bank statements, plus basic business and owner details, to get
+              started. If your specific file needs something further - a driver's licence, a voided
+              check, a processing statement - a member of the team requests it after review, through
+              a secure link. You are never sent back to the start.
             </p>
 
             <h2>Reviewing the offer</h2>

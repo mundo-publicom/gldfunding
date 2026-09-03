@@ -162,7 +162,7 @@ export const INDUSTRIES: Industry[] = [
     cashFlowNote:
       "A restaurant's deposits can look erratic month to month even when the year is healthy — February is not July.",
     answer:
-      'Restaurants can use a merchant cash advance to cover equipment repair, seasonal payroll, inventory, or a build-out, with daily or weekly remittances. GLD Funding typically advances $10,000 to $250,000 to restaurants, underwritten on business performance and cash flow.',
+      'Restaurants can use a merchant cash advance to cover equipment repair, seasonal payroll, inventory, or a build-out, with daily or weekly remittances. GLD Factoring LLC DBA GLD Funding typically advances $10,000 to $250,000 to restaurants, underwritten on business performance and cash flow.',
     useCases: ['Kitchen equipment repair or replacement', 'Seasonal staffing and payroll gaps', 'Inventory and supplier deposits', 'Dining room build-out or expansion', 'Bridging a slow month'],
     typicalRange: '$10,000 – $250,000',
   },
