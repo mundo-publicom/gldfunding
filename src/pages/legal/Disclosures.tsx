@@ -21,7 +21,7 @@ export function Component() {
         <p>
           A merchant cash advance is the purchase of a business's future receivables at a discount.
           It is not a loan. There is no interest rate and no amortization schedule; cost is expressed
-          as a factor rate applied once at signing, and the total repayment amount is fixed from that
+          as a factor rate applied once at signing, and the Total Purchased Amount is fixed from that
           moment. {SITE.legalName} is not a bank, is not a lender, and does not make loans.
         </p>
         <p>
@@ -43,11 +43,11 @@ export function Component() {
         </p>
         <ul>
           <li>The advance amount, and the net amount that will reach your account after any fees</li>
-          <li>The total dollar cost of the financing, and the total dollar amount you will repay</li>
+          <li>The total dollar cost of the financing, and the Total Purchased Amount</li>
           <li>The remittance amount and how often it is taken</li>
           <li>The expected term</li>
           <li>Every fee, itemized, including any origination, underwriting or ACH fee</li>
-          <li>Whether early repayment changes the total, and on what terms</li>
+          <li>Whether early completion changes the total, and on what terms</li>
           <li>The specified percentage of receivables being purchased</li>
           <li>Any prepayment, reconciliation and default provisions</li>
         </ul>

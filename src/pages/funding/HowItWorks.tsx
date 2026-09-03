@@ -100,13 +100,13 @@ export function Component() {
 
             <h2>Reviewing the offer</h2>
             <p>
-              Someone from the funding team walks you through the terms: the advance amount, total
-              dollar repayment, remittance amount and frequency, and the term. You receive a written
+              Someone from the funding team walks you through the terms: the advance amount, Total
+              Purchased Amount, remittance amount and frequency, and the term. You receive a written
               disclosure of total cost before signing.
             </p>
             <p>
-              Take the time you need. Ask what the total repayment is, what gets debited and how
-              often, and whether early repayment changes anything. Those three questions cover
+              Take the time you need. Ask what the Total Purchased Amount is, what gets debited and how
+              often, and whether early completion of remittances changes anything. Those three questions cover
               almost everything that matters.
             </p>
 

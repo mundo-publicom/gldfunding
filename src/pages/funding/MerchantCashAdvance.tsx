@@ -21,7 +21,7 @@ const FAQS = [
   },
   {
     q: 'How is a factor rate different from an interest rate?',
-    a: 'A factor rate is a flat multiplier applied once to the advance amount. At a factor rate of 1.30, a $50,000 advance is repaid as $65,000. Interest, by contrast, accrues over time, so repaying a loan early reduces what you owe.',
+    a: 'A factor rate is a flat multiplier applied once to the advance amount. At a factor rate of 1.30, a $50,000 advance has a Total Purchased Amount of $65,000. Interest, by contrast, accrues over time, so repaying a loan early reduces what you owe.',
   },
   {
     q: 'How are remittances collected?',
@@ -39,14 +39,14 @@ export function Component() {
       <Seo
         path="/funding/merchant-cash-advance"
         title="What Is a Merchant Cash Advance?"
-        description={`A merchant cash advance is the purchase of future business receivables at a discount - not a loan. Amounts from ${currency(PRODUCT.advanceMin)} to ${currency(PRODUCT.advanceMax)}, repaid through fixed daily or weekly remittances.`}
+        description={`A merchant cash advance is the purchase of future business receivables at a discount - not a loan. Amounts from ${currency(PRODUCT.advanceMin)} to ${currency(PRODUCT.advanceMax)}, with daily or weekly remittances.`}
         schema={[
           breadcrumbSchema(TRAIL),
           faqSchema(FAQS),
           productSchema({
             name: 'Merchant Cash Advance',
             description:
-              'Purchase of future business receivables at a discount, providing immediate working capital repaid through fixed daily or weekly remittances.',
+              'Purchase of future business receivables at a discount, providing immediate working capital with daily or weekly remittances.',
             amountMin: PRODUCT.advanceMin,
             amountMax: PRODUCT.advanceMax,
           }),
@@ -80,9 +80,9 @@ export function Component() {
               </p>
               <p>
                 Say you take {currency(50_000)} at a factor rate of 1.30. You receive{' '}
-                {currency(50_000)} now and repay {currency(65_000)} in total. That cost is fixed at
-                signing: it does not accrue or compound if repayment takes longer than expected, and
-                it does not shrink if you repay faster.
+                {currency(50_000)} now and remit a Total Purchased Amount of {currency(65_000)}. That cost is fixed at
+                signing: it does not accrue or compound if the remittance period takes longer than expected, and
+                it does not shrink if you complete the remittances sooner.
               </p>
               <p>
                 Terms typically run {PRODUCT.termMinMonths} to {PRODUCT.termMaxMonths} months. A
@@ -94,7 +94,7 @@ export function Component() {
               <p>
                 Remittances come out by ACH debit from your business bank account on a fixed daily or
                 weekly schedule, or as an agreed percentage of card settlements. The amount, the
-                frequency and the total you will repay are all written into your agreement before you
+                frequency and the Total Purchased Amount are all written into your agreement before you
                 sign, and remittances usually begin the business day after funds arrive.
               </p>
               <p>

@@ -22,9 +22,9 @@ const ROWS: Row[] = [
   { label: 'Typical annualized cost', mca: 'Higher', loan: 'Lower' },
   { label: 'Qualification', mca: 'Business performance and cash flow', loan: 'Credit score and financials' },
   { label: 'Paperwork', mca: '4 months of bank statements', loan: 'Financials, tax returns, business plan' },
-  { label: 'Repayment', mca: 'Fixed daily or weekly remittance', loan: 'Fixed monthly payment' },
+  { label: 'Payment Structure', mca: 'Fixed daily or weekly remittance', loan: 'Fixed monthly payment' },
   { label: 'Term', mca: `${PRODUCT.termMinMonths}–${PRODUCT.termMaxMonths} months`, loan: '1–5 years' },
-  { label: 'Early repayment saves money', mca: 'No - cost is fixed at signing', loan: 'Usually' },
+  { label: 'Early Completion', mca: 'No - cost is fixed at signing', loan: 'Usually' },
   { label: 'Builds business credit', mca: 'Generally no', loan: 'Yes' },
 ]
 
@@ -49,7 +49,7 @@ export function Component() {
       <Seo
         path="/funding/mca-vs-business-loan"
         title="Merchant Cash Advance vs. Business Loan"
-        description="Side-by-side comparison of a merchant cash advance and a traditional business loan - speed, cost, qualification, paperwork and repayment."
+        description="Side-by-side comparison of a merchant cash advance and a traditional business loan - speed, cost, qualification, paperwork and payment structure."
         schema={[breadcrumbSchema(TRAIL), faqSchema(FAQS)]}
       />
 

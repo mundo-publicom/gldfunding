@@ -41,7 +41,7 @@ const FAQS = [
   },
   {
     q: 'How much does a merchant cash advance cost?',
-    a: `Cost is expressed as a factor rate rather than an interest rate. At a factor rate of 1.25, a ${currency(50_000)} advance is repaid as ${currency(62_500)}. Every offer includes a written disclosure of total dollar cost and terms.`,
+    a: `Cost is expressed as a factor rate rather than an interest rate. At a factor rate of 1.25, a ${currency(50_000)} advance has a Total Purchased Amount of ${currency(62_500)}. Every offer includes a written disclosure of total dollar cost and terms.`,
   },
   {
     q: 'How do I apply?',
@@ -65,7 +65,7 @@ export function Component() {
           productSchema({
             name: 'Merchant Cash Advance',
             description:
-              'Purchase of future business receivables providing immediate working capital, repaid through fixed daily or weekly remittances.',
+              'Purchase of future business receivables providing immediate working capital, with daily or weekly remittances.',
             amountMin: PRODUCT.advanceMin,
             amountMax: PRODUCT.advanceMax,
           }),
@@ -93,7 +93,7 @@ export function Component() {
             <p className="mt-5 max-w-[62ch] text-[1.0625rem] leading-relaxed text-ink-2">
               Advances run from {currency(PRODUCT.advanceMin)} to {currency(PRODUCT.advanceMax)}.
               We purchase a portion of your future receivables at a discount, so you get the capital
-              now and repay through a fixed daily or weekly remittance set out before you sign.
+              now, with daily or weekly remittances set out before you sign.
             </p>
             <Link
               to="/funding/merchant-cash-advance"
