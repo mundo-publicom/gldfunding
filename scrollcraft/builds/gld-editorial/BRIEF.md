@@ -48,6 +48,20 @@ No GLD-owned photography exists. Nothing is generated for this build.
 
 ---
 
+**Hero revision, 2026-09-09, user decision after review.** User, verbatim:
+*"the hero section is too simple. We need to enhance it and make it look nicer,
+with more animations and 3D effects, and show images or a free royalty video in
+the background. The video category would be small businesses."* This overrides
+the editorial grammar's media-free title page. The title page becomes a
+**cover**: a petrol ground with three royalty-free small-business clips
+(Mixkit, licence in `assets/LICENSES.txt`) cycling as a masked bed behind the
+copy, a perspective card stack (two trade photographs and the offer sheet)
+tilting to the pointer, five planes at distinct scroll rates, an on-load
+entrance, and the headline receding on exit. Faces were avoided in the clips so
+no stock person reads as a customer; the cover credits the footage as a
+stand-in. Reduced motion and Save-Data get the poster only. Chapters and the
+close are unchanged.
+
 ## Step 1
 
 - **What, for whom.** GLD Factoring LLC DBA GLD Funding: merchant cash advance
