@@ -1,0 +1,752 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>GLD Funding · Capital that reads your bank statements</title>
+<meta name="description" content="Working capital for small business, underwritten on what a business actually does. GLD Funding, Garden City, New York, since 2014. The whole cost of every offer, in writing, before you sign.">
+<meta name="theme-color" content="#f4f7f6">
+<link rel="icon" href="assets/gld-mark.svg" type="image/svg+xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Geist:wght@300..800&family=Geist+Mono:wght@400..600&display=swap">
+<link rel="stylesheet" href="scrollcraft.css">
+<style>
+  /* ------------------------------------------------------------------
+     Tokens. The brand's own palette from src/styles/index.css: paper and
+     petrol grounds taken from the mark's blues, one leaf accent from the
+     mark's arrow. Two stops for the accent because the page hard-cuts
+     between light and dark grounds; one hue for the whole page.
+     ------------------------------------------------------------------ */
+  :root {
+    --sc-canvas:      #f4f7f6;
+    --sc-surface:     #ffffff;
+    --sc-ink:         #0d1519;
+    --sc-ink-soft:    #3c4b52;
+    --sc-accent:      #4c7a12;
+    --sc-accent-ink:  #ffffff;
+    --sc-font-display: "Geist", system-ui, -apple-system, sans-serif;
+    --sc-font-text:    "Geist", system-ui, -apple-system, sans-serif;
+    --sc-font-mono:    "Geist Mono", ui-monospace, "SF Mono", Menlo, monospace;
+    --sc-shadow-color: 196 60% 8%;
+    --sc-measure: 60ch;
+
+    --paper:    #f4f7f6;
+    --paper-2:  #e8eee9;
+    --petrol:   #04181f;
+    --petrol-2: #082833;
+    --rule:     #d2dbdd;
+    --rule-dark: #163a47;
+    --ink-4:    #899ca4;
+    --leaf-lift: #97c83e;
+  }
+
+  html { scroll-behavior: smooth; }
+  @media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+
+  body {
+    background: var(--sc-canvas);
+    color: var(--sc-ink);
+    font-family: var(--sc-font-text);
+    font-size: var(--sc-t-base);
+    line-height: var(--sc-leading-body);
+    -webkit-font-smoothing: antialiased;
+    font-synthesis-weight: none;
+  }
+  .sc-grain { opacity: 0.03; }
+
+  /* Grounds. A hard cut is an opaque background on the section, never an
+     interpolation. Ink and color restated on the same subtree. */
+  .ground--paper  { --sc-canvas: var(--paper);  --sc-surface: #ffffff;        --sc-ink: #0d1519; --sc-ink-soft: #3c4b52; --sc-accent: #4c7a12;  --sc-accent-ink: #ffffff; --sc-hairline: #d2dbdd; --sc-hairline-strong: #b9c6c9; background: var(--sc-canvas); color: var(--sc-ink); }
+  .ground--white  { --sc-canvas: #ffffff;       --sc-surface: var(--paper);   --sc-ink: #0d1519; --sc-ink-soft: #3c4b52; --sc-accent: #4c7a12;  --sc-accent-ink: #ffffff; --sc-hairline: #d2dbdd; --sc-hairline-strong: #b9c6c9; background: var(--sc-canvas); color: var(--sc-ink); }
+  .ground--petrol { --sc-canvas: var(--petrol); --sc-surface: var(--petrol-2); --sc-ink: #f4f7f6; --sc-ink-soft: #a9bcc3; --sc-accent: #97c83e; --sc-accent-ink: #04181f; --sc-hairline: #163a47; --sc-hairline-strong: #1f5063; background: var(--sc-canvas); color: var(--sc-ink); }
+
+  /* Light type on dark: a touch more leading, a touch more tracking. */
+  .ground--petrol p, .ground--petrol li, .ground--petrol dd { line-height: 1.68; letter-spacing: 0.004em; }
+
+  a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.18em; }
+  a:hover { color: var(--sc-accent); }
+  :focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 3px; border-radius: 2px; }
+  ::selection { background: var(--sc-accent); color: var(--sc-accent-ink); }
+
+  .sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; border: 0; }
+  .skip { position: absolute; left: var(--sc-gutter); top: -3rem; z-index: 100; background: var(--sc-ink); color: var(--sc-canvas); padding: var(--sc-2) var(--sc-4); font-size: var(--sc-t-sm); }
+  .skip:focus { top: var(--sc-4); }
+
+  .label { font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--sc-ink-soft); }
+  .nums { font-variant-numeric: tabular-nums; }
+  .prose > * + * { margin-top: var(--sc-5); }
+  .prose p { max-width: var(--sc-measure); text-wrap: pretty; }
+  .prose p.lede { font-size: var(--sc-t-lg); line-height: 1.42; letter-spacing: var(--sc-track-snug); font-weight: 500; }
+  .prose h3 { font-size: var(--sc-t-xl); line-height: 1.12; letter-spacing: var(--sc-track-snug); font-weight: 600; max-width: 22ch; margin-top: var(--sc-7); }
+  .prose h3:first-child { margin-top: 0; }
+
+  /* ------------------------------------------------------------------
+     Folio. The margin carries the chapter. Vertical in the left gutter on
+     desktop, a thin strip along the top on phones. It is the only fixed
+     element on the page, and it is not a bar.
+     ------------------------------------------------------------------ */
+  .folio {
+    position: fixed; z-index: var(--sc-z-chrome);
+    left: calc(var(--sc-gutter) * 0.5 - 0.5rem); top: 50%;
+    translate: 0 -50%;
+    writing-mode: vertical-rl; rotate: 180deg;
+    font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase; white-space: nowrap;
+    color: var(--sc-ink-soft);
+    opacity: 0; transition: opacity 240ms var(--sc-ease-out), color 240ms var(--sc-ease-out);
+    pointer-events: none;
+  }
+  .folio.is-on { opacity: 1; }
+  .folio--dark { color: #a9bcc3; }
+  .folio__num { color: var(--sc-accent); }
+  .folio--dark .folio__num { color: var(--leaf-lift); }
+  .folio__sep { opacity: 0.5; margin: 0 0.6em; }
+  @media (max-width: 899px) {
+    .folio {
+      left: 0; right: 0; top: 0; translate: none; writing-mode: horizontal-tb; rotate: none;
+      height: 2.5rem; display: flex; align-items: center; padding-inline: var(--sc-gutter);
+      background: var(--paper); border-bottom: 1px solid var(--rule); font-size: 0.7rem;
+    }
+    .folio--dark { background: var(--petrol); border-bottom-color: var(--rule-dark); }
+  }
+
+  /* ------------------------------------------------------------------
+     Title page. Paper, type, and two planes at different rates: a ledger
+     of rules far behind, and the offer sheet in front, overtaking the
+     lede's corner as the reader leaves. No media above the fold.
+     ------------------------------------------------------------------ */
+  .tp { position: relative; min-height: 100svh; overflow: clip; display: grid; }
+  .tp__rules {
+    position: absolute; inset: -8% -4%; pointer-events: none; z-index: 0;
+    background-image:
+      repeating-linear-gradient(to bottom, transparent 0 calc(2.75rem - 1px), rgba(13,21,25,0.075) calc(2.75rem - 1px) 2.75rem),
+      linear-gradient(to right, transparent 0 calc(38% - 1px), rgba(76,122,18,0.22) calc(38% - 1px) 38%, transparent 38%),
+      linear-gradient(to right, transparent 0 calc(72% - 1px), rgba(13,21,25,0.09) calc(72% - 1px) 72%, transparent 72%);
+    mask-image: linear-gradient(to bottom, transparent, #000 12%, #000 88%, transparent);
+  }
+  .tp__inner { position: relative; z-index: 1; display: grid; grid-template-rows: auto 1fr auto; padding-block: var(--sc-6) var(--sc-7); min-height: 100svh; }
+  .masthead { display: flex; align-items: center; gap: var(--sc-3); flex-wrap: wrap; }
+  .masthead__mark { width: 2rem; height: auto; display: block; }
+  .masthead__name { font-weight: 600; letter-spacing: var(--sc-track-snug); font-size: var(--sc-t-base); }
+  .masthead__tag { margin-left: var(--sc-4); padding-left: var(--sc-4); border-left: 1px solid var(--rule); }
+  .tp__body { align-self: center; padding-block: var(--sc-9) var(--sc-8); position: relative; }
+  .tp__h { max-width: 15ch; font-weight: 600; }
+  .tp__lede { max-width: 42ch; margin-top: var(--sc-6); color: var(--sc-ink-soft); font-size: var(--sc-t-lg); line-height: 1.45; font-weight: 400; }
+  .tp__sheet {
+    position: absolute; right: var(--sc-gutter); bottom: 6vh; z-index: 2;
+    width: clamp(15rem, 24vw, 21rem); padding: var(--sc-5) var(--sc-5) var(--sc-6);
+    background: #fff; border: 1px solid var(--rule); box-shadow: var(--sc-e2), var(--sc-edge);
+    rotate: -1.6deg; font-family: var(--sc-font-mono); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--sc-ink-soft);
+    pointer-events: none;
+  }
+  .tp__sheet .row { display: flex; justify-content: space-between; gap: var(--sc-4); padding-block: var(--sc-3); border-bottom: 1px dotted var(--rule); }
+  .tp__sheet .row:last-child { border-bottom: 0; }
+  .tp__sheet .blank { flex: 1; border-bottom: 1px solid var(--ink-4); translate: 0 -0.35em; margin-left: var(--sc-4); }
+  .tp__sheet .head { font-weight: 600; color: var(--sc-ink); padding-bottom: var(--sc-3); border-bottom: 1px solid var(--sc-ink); display: flex; justify-content: space-between; }
+  .tp__foot { display: flex; justify-content: space-between; align-items: end; gap: var(--sc-6); flex-wrap: wrap; border-top: 1px solid var(--rule); padding-top: var(--sc-5); }
+  .toc { flex: 1 1 28rem; }
+  .toc ol { list-style: none; margin: 0; padding: 0; columns: 2; column-gap: var(--sc-7); }
+  .toc li { break-inside: avoid; display: flex; gap: var(--sc-3); align-items: baseline; padding-block: var(--sc-2); font-size: var(--sc-t-sm); }
+  .toc li a { text-decoration: none; }
+  .toc li a:hover { text-decoration: underline; }
+  .toc__n { font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); color: var(--sc-accent); letter-spacing: 0.08em; text-transform: uppercase; min-width: 4.2rem; }
+  .tp__place { font-size: var(--sc-t-sm); color: var(--sc-ink-soft); text-align: right; }
+  @media (max-width: 899px) {
+    .tp__inner { padding-top: 4rem; }
+    .tp__h { font-size: var(--sc-t-2xl); }
+    .tp__sheet { position: relative; right: auto; bottom: auto; margin-top: var(--sc-7); width: min(100%, 20rem); rotate: -1deg; }
+    .toc ol { columns: 1; }
+    .tp__place { text-align: left; }
+  }
+
+  /* ------------------------------------------------------------------
+     Chapters
+     ------------------------------------------------------------------ */
+  .ch { position: relative; }
+  .ch__title { padding-block: clamp(4rem, 12vh, 8rem) clamp(2.5rem, 7vh, 5rem); border-top: 1px solid var(--sc-hairline); }
+  .ch__num { display: block; margin-bottom: var(--sc-5); }
+  .ch__num b { font-weight: 600; color: var(--sc-accent); }
+  .ch__h { font-size: var(--sc-t-3xl); line-height: var(--sc-leading-none); letter-spacing: var(--sc-track-tight); font-weight: 600; max-width: 16ch; text-wrap: balance; }
+  .ch__body { padding-bottom: clamp(4rem, 10vh, 8rem); }
+  .spread { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: var(--sc-7) var(--sc-9); align-items: start; }
+  .spread--trail { grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); }
+  @media (max-width: 899px) { .spread, .spread--trail { grid-template-columns: 1fr; gap: var(--sc-7); } }
+
+  figure { margin: 0; }
+  figcaption { margin-top: var(--sc-3); font-size: var(--sc-t-xs); line-height: 1.5; color: var(--sc-ink-soft); max-width: 44ch; }
+  .photo { position: relative; }
+  .photo img { width: 100%; height: auto; display: block; }
+
+  /* One · set list */
+  .setlist { margin-top: var(--sc-9); border-top: 1px solid var(--sc-hairline-strong); }
+  .setlist table { width: 100%; border-collapse: collapse; }
+  .setlist th, .setlist td { text-align: left; vertical-align: baseline; padding: var(--sc-4) var(--sc-4) var(--sc-4) 0; border-bottom: 1px solid var(--sc-hairline); font-weight: 400; }
+  .setlist th { font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); letter-spacing: 0.1em; text-transform: uppercase; color: var(--sc-ink-soft); }
+  .setlist td:first-child { font-weight: 600; letter-spacing: var(--sc-track-snug); }
+  .setlist td:nth-child(2) { font-family: var(--sc-font-mono); font-size: var(--sc-t-sm); color: var(--sc-accent); white-space: nowrap; }
+  .setlist td:last-child { color: var(--sc-ink-soft); font-size: var(--sc-t-sm); }
+  .setlist__note { margin-top: var(--sc-4); font-size: var(--sc-t-xs); color: var(--sc-ink-soft); }
+  @media (max-width: 699px) {
+    .setlist thead { display: none; }
+    .setlist tr { display: grid; grid-template-columns: 1fr auto; column-gap: var(--sc-4); padding-block: var(--sc-4); border-bottom: 1px solid var(--sc-hairline); }
+    .setlist td { border: 0; padding: 0; }
+    .setlist td:last-child { grid-column: 1 / -1; margin-top: var(--sc-1); }
+  }
+
+  /* Two · marginalia */
+  .margin { display: grid; gap: 0; border-top: 1px solid var(--sc-hairline); }
+  .margin li { list-style: none; padding-block: var(--sc-4); border-bottom: 1px solid var(--sc-hairline); font-size: var(--sc-t-sm); line-height: 1.55; color: var(--sc-ink-soft); }
+  .margin ul { margin: 0; padding: 0; }
+  .margin li b { display: block; font-family: var(--sc-font-mono); font-weight: 500; font-size: var(--sc-t-xs); letter-spacing: 0.1em; text-transform: uppercase; color: var(--sc-ink); margin-bottom: var(--sc-1); }
+  .turn { font-size: var(--sc-t-xl); line-height: 1.15; letter-spacing: var(--sc-track-snug); font-weight: 500; max-width: 24ch; margin-block: var(--sc-7) var(--sc-6); }
+  .turn em { font-style: normal; color: var(--sc-accent); }
+  /* Marginalia reads after the prose it annotates; on the wide spread it
+     sits in the margin column to the left. */
+  @media (min-width: 900px) { .spread--trail .margin { order: -1; } }
+  .prose .pull { font-size: var(--sc-t-lg); line-height: 1.35; letter-spacing: var(--sc-track-snug); font-weight: 500; max-width: 30ch; margin-top: var(--sc-7); padding-top: var(--sc-5); border-top: 1px solid var(--sc-hairline-strong); }
+  .prose .pull em { font-style: normal; color: var(--sc-accent); }
+
+  /* Three · the offer. The peak gets the most room. */
+  .three .ch__title { padding-bottom: clamp(5rem, 22vh, 14rem); }
+  .three .spread { grid-template-columns: minmax(0, 1fr) minmax(0, 0.95fr); }
+  .three .prose p { max-width: 54ch; }
+  .three .prose p[data-line] { padding-left: var(--sc-5); border-left: 1px solid transparent; transition: border-color 420ms var(--sc-ease-out); }
+  .three .prose p[data-line].is-read { border-left-color: var(--sc-accent); }
+  .offer-col { position: sticky; top: clamp(3rem, 12vh, 7rem); }
+  .offer {
+    background: var(--paper); color: #0d1519; border: 1px solid var(--rule);
+    box-shadow: var(--sc-e2), var(--sc-edge); padding: var(--sc-6);
+    font-family: var(--sc-font-mono); font-size: var(--sc-t-sm);
+  }
+  .offer__head { display: flex; justify-content: space-between; gap: var(--sc-4); align-items: baseline; padding-bottom: var(--sc-4); border-bottom: 1.5px solid #0d1519; font-size: var(--sc-t-xs); letter-spacing: 0.12em; text-transform: uppercase; font-weight: 600; }
+  .offer__head small { font-weight: 400; color: #3c4b52; letter-spacing: 0.08em; }
+  .offer dl { margin: 0; }
+  .offer__row { display: grid; grid-template-columns: 1fr auto; column-gap: var(--sc-5); align-items: baseline; padding-block: var(--sc-4); border-bottom: 1px dotted #b9c6c9; }
+  .offer__row dt { margin: 0; color: #3c4b52; font-size: var(--sc-t-xs); letter-spacing: 0.08em; text-transform: uppercase; transition: color 420ms var(--sc-ease-out); }
+  .offer__row dd { margin: 0; text-align: right; font-weight: 500; font-size: var(--sc-t-base); font-variant-numeric: tabular-nums; min-width: 8ch; }
+  .offer__row dd .v { display: inline-block; opacity: 0; translate: 0 5px; transition: opacity 380ms var(--sc-ease-out), translate 380ms var(--sc-ease-out); }
+  .offer__row dd .blank { display: inline-block; width: 7ch; border-bottom: 1px solid #899ca4; translate: 0 -0.3em; transition: opacity 380ms var(--sc-ease-out); }
+  .offer__row.is-set dt { color: #0d1519; }
+  .offer__row.is-set dd .v { opacity: 1; translate: none; }
+  .offer__row.is-set dd .blank { opacity: 0; width: 0; }
+  .offer__row--sig dd { min-width: 0; }
+  .offer__row--sig .sig { display: inline-block; width: 11ch; border-bottom: 1px solid #0d1519; translate: 0 -0.3em; }
+  .offer__row--sig.is-set .sig { border-bottom-color: var(--sc-accent); }
+  .offer__foot { margin-top: var(--sc-4); font-size: var(--sc-t-xs); line-height: 1.55; color: #3c4b52; letter-spacing: 0.02em; }
+  .offer__foot b { color: #0d1519; font-weight: 500; }
+  @media (max-width: 899px) {
+    .three .spread { grid-template-columns: 1fr; }
+    .offer-col { top: 2.5rem; order: -1; z-index: 5; }
+    .offer { padding: var(--sc-4); font-size: 0.8rem; }
+    .offer__row { padding-block: var(--sc-2); }
+    .offer__row dd { font-size: 0.9rem; }
+    .offer__foot { display: none; }
+    .offer__row--sig { display: none; }
+    .three .ch__title { padding-bottom: clamp(3rem, 10vh, 6rem); }
+  }
+  @media (max-width: 899px) and (max-height: 700px) {
+    .offer-col { position: static; }
+  }
+
+  /* The slip: the completed offer, docked once the reader leaves chapter three. */
+  .slip {
+    position: fixed; right: var(--sc-gutter); bottom: var(--sc-6); z-index: var(--sc-z-chrome);
+    display: none; align-items: center; gap: var(--sc-4);
+    background: #fff; color: #0d1519; border: 1px solid var(--rule); box-shadow: var(--sc-e3), var(--sc-edge);
+    padding: var(--sc-3) var(--sc-4); font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); letter-spacing: 0.08em; text-transform: uppercase;
+    cursor: pointer; rotate: 1.2deg;
+    /* visibility keeps the undocked slip out of the tab order; the delay lets
+       the fade-out finish before it leaves. */
+    translate: 0 140%; opacity: 0; visibility: hidden;
+    transition: translate 460ms var(--sc-ease-out), opacity 300ms var(--sc-ease-out), rotate 460ms var(--sc-ease-out), visibility 0s linear 460ms;
+  }
+  .slip.is-on { translate: none; opacity: 1; rotate: 0deg; visibility: visible; transition-delay: 0s; }
+  /* Anchor jumps clear the phone folio strip. */
+  @media (max-width: 899px) { .ch, .colophon { scroll-margin-top: 2.5rem; } }
+  .slip:hover { color: var(--sc-accent); }
+  .slip:active { scale: 0.97; }
+  .slip b { font-weight: 600; font-variant-numeric: tabular-nums; }
+  .slip .k { color: #3c4b52; }
+  @media (min-width: 900px) and (hover: hover) { .slip { display: flex; } }
+
+  /* Four · process rule */
+  .procrule { width: 100%; height: auto; display: block; margin-block: var(--sc-4) var(--sc-8); overflow: visible; }
+  .procrule text { font-family: var(--sc-font-mono); font-size: 11px; letter-spacing: 0.1em; text-transform: uppercase; fill: var(--sc-ink-soft); }
+  .procrule .strong { fill: var(--sc-ink); font-weight: 600; }
+  .procrule line, .procrule circle { stroke: var(--sc-ink); }
+  .procrule circle { fill: var(--sc-canvas); }
+  .procrule .acc { stroke: var(--sc-accent); fill: var(--sc-accent); }
+  .steps { list-style: none; margin: 0; padding: 0; counter-reset: step; }
+  .steps li { display: grid; grid-template-columns: 4rem 1fr; gap: var(--sc-4); padding-block: var(--sc-5); border-top: 1px solid var(--sc-hairline); }
+  .steps li::before { counter-increment: step; content: counter(step); font-family: var(--sc-font-mono); font-size: var(--sc-t-xl); line-height: 1; color: var(--sc-accent); font-variant-numeric: tabular-nums; }
+  .steps h3 { font-size: var(--sc-t-lg); font-weight: 600; letter-spacing: var(--sc-track-snug); margin: 0 0 var(--sc-2); }
+  .steps p { color: var(--sc-ink-soft); max-width: 46ch; }
+  .facts { border-top: 1px solid var(--sc-hairline-strong); }
+  .facts dl { margin: 0; }
+  .facts dt { font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); letter-spacing: 0.1em; text-transform: uppercase; color: var(--sc-ink-soft); padding-top: var(--sc-5); }
+  .facts dd { margin: var(--sc-2) 0 var(--sc-5); font-size: var(--sc-t-lg); line-height: 1.32; letter-spacing: var(--sc-track-snug); font-weight: 500; max-width: 26ch; border-bottom: 1px solid var(--sc-hairline); padding-bottom: var(--sc-5); }
+  .facts dd:last-child { border-bottom: 0; }
+
+  /* Five · letters page */
+  .letters { columns: 2; column-gap: var(--sc-9); margin-top: var(--sc-4); }
+  .letters blockquote { break-inside: avoid; margin: 0 0 var(--sc-8); padding-top: var(--sc-5); border-top: 1px solid var(--sc-hairline); }
+  .letters p { font-size: var(--sc-t-lg); line-height: 1.42; letter-spacing: -0.01em; font-weight: 400; text-wrap: pretty; margin: 0; }
+  .letters p::before { content: "\201C"; color: var(--sc-accent); margin-right: 0.05em; }
+  .letters p::after { content: "\201D"; color: var(--sc-accent); margin-left: 0.05em; }
+  .letters footer { margin-top: var(--sc-4); font-family: var(--sc-font-mono); font-size: var(--sc-t-xs); letter-spacing: 0.08em; text-transform: uppercase; color: var(--sc-ink-soft); }
+  .letters footer b { color: var(--sc-ink); font-weight: 500; }
+  @media (max-width: 899px) { .letters { columns: 1; } }
+
+  /* Colophon */
+  .colophon { padding-block: clamp(5rem, 14vh, 10rem) var(--sc-7); border-top: 1px solid var(--sc-hairline-strong); }
+  .colophon__ask { font-size: var(--sc-t-2xl); line-height: 1.1; letter-spacing: var(--sc-track-tight); font-weight: 500; max-width: 24ch; text-wrap: balance; }
+  .colophon__ask a { color: var(--sc-accent); text-decoration-thickness: 2px; text-underline-offset: 0.14em; }
+  .colophon__ask a:hover { color: var(--sc-ink); }
+  .colophon__sub { margin-top: var(--sc-5); color: var(--sc-ink-soft); max-width: 46ch; }
+  .masthead-plate { margin-top: clamp(4rem, 12vh, 8rem); border-top: 1.5px solid var(--sc-ink); padding-top: var(--sc-5); display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--sc-6); font-size: var(--sc-t-sm); }
+  .masthead-plate h2 { font-size: var(--sc-t-xs); font-family: var(--sc-font-mono); letter-spacing: 0.1em; text-transform: uppercase; color: var(--sc-ink-soft); font-weight: 500; margin: 0 0 var(--sc-3); }
+  .masthead-plate address { font-style: normal; line-height: 1.55; }
+  .masthead-plate ul { list-style: none; margin: 0; padding: 0; }
+  .masthead-plate li + li { margin-top: var(--sc-2); }
+  .masthead-plate a { text-decoration: none; }
+  .masthead-plate a:hover { text-decoration: underline; }
+  .smallprint { margin-top: var(--sc-8); padding-top: var(--sc-4); border-top: 1px solid var(--sc-hairline); font-size: var(--sc-t-xs); color: var(--sc-ink-soft); line-height: 1.55; display: flex; justify-content: space-between; gap: var(--sc-6); flex-wrap: wrap; }
+  .smallprint p { max-width: 70ch; margin: 0; }
+  @media (max-width: 899px) { .masthead-plate { grid-template-columns: 1fr 1fr; } }
+  @media (max-width: 559px) { .masthead-plate { grid-template-columns: 1fr; } }
+
+  @media (prefers-reduced-motion: reduce) {
+    .offer__row dd .v, .offer__row dd .blank, .offer__row dt, .three .prose p[data-line], .slip, .slip.is-on, .folio { transition: none; }
+    .slip { rotate: 0deg; }
+  }
+</style>
+</head>
+<body class="ground--paper">
+
+<a class="skip" href="#one">Skip to chapter one</a>
+<div class="sc-grain" aria-hidden="true"></div>
+
+<div class="folio" id="folio" aria-hidden="true"><span class="folio__num" id="folio-num"></span><span class="folio__sep">·</span><span id="folio-title"></span></div>
+
+<main id="top">
+
+  <!-- ============================================================
+       Title page
+       ============================================================ -->
+  <section class="tp ground--paper" data-sc-act="flow" aria-labelledby="claim">
+    <div class="tp__rules" data-sc-parallax="-0.5" aria-hidden="true"></div>
+    <div class="sc-wrap tp__inner">
+      <header class="masthead">
+        <img class="masthead__mark" src="assets/gld-mark.svg" width="47" height="35" alt="">
+        <span class="masthead__name">GLD Funding</span>
+        <span class="masthead__tag label">Working capital for small business</span>
+      </header>
+
+      <div class="tp__body">
+        <h1 class="sc-display sc-display--lg tp__h" id="claim">Capital that reads your bank statements.</h1>
+        <p class="tp__lede">Not your credit file. Working capital for the owners who keep neighbourhoods running, underwritten on what a business actually does, with the whole cost in writing before you sign.</p>
+        <div class="tp__sheet" data-sc-parallax="0.45" aria-hidden="true">
+          <div class="head"><span>Offer summary</span><span>Illustrative</span></div>
+          <div class="row"><span>Funds provided</span><span class="blank"></span></div>
+          <div class="row"><span>Total dollar cost</span><span class="blank"></span></div>
+          <div class="row"><span>Remittance</span><span class="blank"></span></div>
+          <div class="row"><span>Chapter three</span><span>p. 3</span></div>
+        </div>
+      </div>
+
+      <div class="tp__foot" data-sc-in data-sc-stagger="60">
+        <nav class="toc" aria-label="Contents">
+          <ol>
+            <li><span class="toc__n">One</span><a href="#one">The owners who keep neighbourhoods running</a></li>
+            <li><span class="toc__n">Two</span><a href="#two">How a business gets read</a></li>
+            <li><span class="toc__n">Three</span><a href="#three">What it costs, in writing</a></li>
+            <li><span class="toc__n">Four</span><a href="#four">Apply, review, funded</a></li>
+            <li><span class="toc__n">Five</span><a href="#five">In their words</a></li>
+            <li><span class="toc__n">End</span><a href="#colophon">Colophon</a></li>
+          </ol>
+        </nav>
+        <p class="tp__place">Garden City, New York.<br>Since 2014.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       One · Who we fund
+       ============================================================ -->
+  <section class="ch ground--paper" id="one" data-sc-act="flow" data-chapter="One" data-chapter-title="The owners who keep neighbourhoods running" data-ground="light" aria-labelledby="h-one">
+    <div class="sc-wrap">
+      <header class="ch__title">
+        <span class="ch__num label">Chapter <b>One</b></span>
+        <h2 class="ch__h" id="h-one">The owners who keep neighbourhoods running.</h2>
+      </header>
+      <div class="ch__body">
+        <div class="spread">
+          <div class="prose">
+            <p class="lede">The restaurant on the corner. The shop that has been there thirty years. The contractor everyone calls.</p>
+            <p>Our job is to look at what a business actually does, structure funding around it, and get an answer back quickly enough to be useful. That is the whole service. It has been the whole service since 2014.</p>
+            <p>A merchant cash advance is the purchase of a business's future receivables at a discount. It is not a loan. We advance a lump sum and recover it through fixed daily or weekly remittances that are set out, in writing, before anything is signed.</p>
+            <p class="pull">The businesses we work with have one thing in common: <em>their bank statements say more about them than their credit files do.</em></p>
+          </div>
+          <figure class="photo" data-sc-reveal="up" data-sc-reveal-at="0.16 0.5">
+            <img src="assets/storefront-1600.webp"
+                 srcset="assets/storefront-760.webp 760w, assets/storefront-1100.webp 1100w, assets/storefront-1600.webp 1600w"
+                 sizes="(max-width: 899px) 100vw, 40vw"
+                 width="1600" height="1067" loading="lazy" decoding="async"
+                 alt="An independent storefront on a city street, its awning lit in the early evening.">
+            <figcaption>An independent storefront. A stand-in photograph, not a GLD client; GLD's own shoot replaces it before launch.</figcaption>
+          </figure>
+        </div>
+
+        <div class="setlist" data-sc-in data-sc-stagger="40">
+          <table>
+            <caption class="sr-only">Trades GLD funds, with the typical advance and one common use</caption>
+            <thead><tr><th scope="col">Trade</th><th scope="col">Typical advance</th><th scope="col">One common use</th></tr></thead>
+            <tbody>
+              <tr><td>Restaurants &amp; food service</td><td class="nums">$10,000 to $250,000</td><td>Kitchen equipment repair or replacement</td></tr>
+              <tr><td>Retail &amp; specialty stores</td><td class="nums">$10,000 to $200,000</td><td>Seasonal inventory buys</td></tr>
+              <tr><td>Medical &amp; dental practices</td><td class="nums">$25,000 to $500,000</td><td>Bridging insurance reimbursement lag</td></tr>
+              <tr><td>Trucking &amp; logistics</td><td class="nums">$15,000 to $300,000</td><td>Emergency repairs and downtime</td></tr>
+              <tr><td>Construction &amp; trades</td><td class="nums">$15,000 to $350,000</td><td>Materials ahead of a progress payment</td></tr>
+              <tr><td>Auto repair &amp; service</td><td class="nums">$10,000 to $200,000</td><td>Diagnostic and lift equipment</td></tr>
+              <tr><td>Salons &amp; spas</td><td class="nums">$10,000 to $150,000</td><td>Opening a second location</td></tr>
+              <tr><td>E-commerce &amp; online retail</td><td class="nums">$10,000 to $250,000</td><td>Inventory ahead of Q4</td></tr>
+            </tbody>
+          </table>
+          <p class="setlist__note">Typical ranges, not limits. Every file is read on its own.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       Two · How a business gets read
+       ============================================================ -->
+  <section class="ch ground--petrol" id="two" data-sc-act="flow" data-chapter="Two" data-chapter-title="How a business gets read" data-ground="dark" aria-labelledby="h-two">
+    <div class="sc-wrap">
+      <header class="ch__title">
+        <span class="ch__num label">Chapter <b>Two</b></span>
+        <h2 class="ch__h" id="h-two">How a business gets read.</h2>
+      </header>
+      <div class="ch__body">
+        <div class="spread spread--trail">
+          <div class="prose">
+            <p class="lede">A bank reads a score. We read the last four months.</p>
+            <p>Four months of business bank statements, plus basic business and owner details. That is the application. Anything else is requested only if a specific file calls for it, after review, and only then.</p>
+            <p>Underwriting reads business performance and cash flow to understand how a business actually moves money: what comes in, when, and how reliably. A prior bank decline does not determine the outcome here, because a bank was reading something else.</p>
+            <p class="turn" data-sc-cue="0.46 1 0.1 0.08" data-sc-kinetic="lines">Your deposits already tell the story. <em>We read that,</em> not a bureau's summary of you.</p>
+            <p>Every trade in the margin has a reason its deposits look the way they do. We have funded these trades for years, so the reason is already understood before the file is opened.</p>
+          </div>
+          <aside class="margin" data-sc-in data-sc-stagger="55" aria-label="What deposits look like, trade by trade">
+            <ul>
+              <li><b>Restaurants</b>Deposits can look erratic month to month even when the year is healthy. February is not July.</li>
+              <li><b>Retail</b>Deposits swing with the selling calendar. A strong fourth quarter can sit next to a quiet February.</li>
+              <li><b>Medical &amp; dental</b>Deposits follow insurance reimbursement cycles more than the day patients were seen.</li>
+              <li><b>Trucking</b>Deposits arrive when invoices settle, not when the load is delivered.</li>
+              <li><b>Construction</b>Deposits arrive in lumps when draws hit, not as a smooth monthly wage.</li>
+              <li><b>E-commerce</b>Cash sits in inventory for sixty to ninety days before it shows up as a deposit.</li>
+            </ul>
+          </aside>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       Three · What it costs, in writing  (the peak)
+       ============================================================ -->
+  <section class="ch three ground--white" id="three" data-sc-act="flow" data-chapter="Three" data-chapter-title="What it costs, in writing" data-ground="light" aria-labelledby="h-three">
+    <div class="sc-wrap">
+      <header class="ch__title">
+        <span class="ch__num label">Chapter <b>Three</b></span>
+        <h2 class="ch__h" id="h-three">What it costs, in writing.</h2>
+      </header>
+      <div class="ch__body">
+        <div class="spread">
+          <div class="prose" id="offer-prose">
+            <p class="lede">Before anyone asks you for anything, the cost of the money is set out on one page. Read it here first.</p>
+            <p data-line="1">An advance is a fixed sum, provided to the business. In the example beside this text, that is fifty thousand dollars. Yours is stated on your offer.</p>
+            <p data-line="2">Cost is expressed as a factor rate rather than an interest rate. The example uses a factor rate of 1.25. It is an illustration of how the arithmetic works, not a quote; the rate on your offer is set by underwriting on your file.</p>
+            <p data-line="3">Multiply the two and you have the Total Purchased Amount: the portion of future receivables being purchased. Fifty thousand at 1.25 is sixty-two thousand five hundred.</p>
+            <p data-line="4">The difference between the two is the total dollar cost of the money. It is written as a dollar figure, in full, because that is the number that matters and it should not have to be worked out.</p>
+            <p data-line="5">Recovery is by fixed remittances, daily or weekly, agreed before signing. The schedule is part of the offer, not a detail for later.</p>
+            <p data-line="6">Term and any fees are stated on the offer itself. New York's Commercial Finance Disclosure Law requires a standardized offer summary on commercial financing under $2.5 million, showing total dollar cost, an APR-comparable figure, and repayment terms. GLD provides full cost disclosure on every offer, in every state, regardless.</p>
+            <p data-line="7">Nothing is owed until you sign. The document you are looking at is the document you would be signing.</p>
+          </div>
+          <div class="offer-col">
+            <div class="offer" id="offer" data-sc-verify-state="lines:0 dock:0" aria-live="off">
+              <div class="offer__head"><span>Offer summary</span><small>Illustrative example</small></div>
+              <dl>
+                <div class="offer__row" data-row="1"><dt>Funds provided</dt><dd><span class="blank" aria-hidden="true"></span><span class="v" data-count="50000" data-format="usd">$0</span><span class="sr-only">$50,000</span></dd></div>
+                <div class="offer__row" data-row="2"><dt>Factor rate</dt><dd><span class="blank" aria-hidden="true"></span><span class="v" data-count="1.25" data-format="rate">1.00</span><span class="sr-only">1.25</span></dd></div>
+                <div class="offer__row" data-row="3"><dt>Total Purchased Amount</dt><dd><span class="blank" aria-hidden="true"></span><span class="v" data-count="62500" data-format="usd">$0</span><span class="sr-only">$62,500</span></dd></div>
+                <div class="offer__row" data-row="4"><dt>Total dollar cost</dt><dd><span class="blank" aria-hidden="true"></span><span class="v" data-count="12500" data-format="usd">$0</span><span class="sr-only">$12,500</span></dd></div>
+                <div class="offer__row" data-row="5"><dt>Remittance</dt><dd><span class="blank" aria-hidden="true"></span><span class="v">Fixed, daily or weekly</span></dd></div>
+                <div class="offer__row" data-row="6"><dt>Term and fees</dt><dd><span class="blank" aria-hidden="true"></span><span class="v">Stated on your offer</span></dd></div>
+                <div class="offer__row offer__row--sig" data-row="7"><dt>Signature</dt><dd><span class="sig" aria-hidden="true"></span></dd></div>
+              </dl>
+              <p class="offer__foot"><b>Illustrative.</b> Your offer states your own figures. A merchant cash advance is a purchase of future receivables, not a loan.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       Four · Apply, review, funded
+       ============================================================ -->
+  <section class="ch ground--paper" id="four" data-sc-act="flow" data-chapter="Four" data-chapter-title="Apply, review, funded" data-ground="light" aria-labelledby="h-four">
+    <div class="sc-wrap">
+      <header class="ch__title">
+        <span class="ch__num label">Chapter <b>Four</b></span>
+        <h2 class="ch__h" id="h-four">Apply, review, funded.</h2>
+      </header>
+      <div class="ch__body">
+        <svg class="procrule" viewBox="0 0 1200 72" role="img" aria-label="A rule with three points: apply, review, get funded" data-sc-reveal="left" data-sc-reveal-at="0.28 0.62">
+          <line x1="8" y1="36" x2="1192" y2="36" stroke-width="1"/>
+          <circle cx="8" cy="36" r="4" class="acc" stroke-width="1"/>
+          <circle cx="600" cy="36" r="4" stroke-width="1"/>
+          <circle cx="1192" cy="36" r="4" class="acc" stroke-width="1"/>
+          <text x="8" y="16" class="strong">Apply</text>
+          <text x="8" y="62">Four months of bank statements</text>
+          <text x="600" y="16" text-anchor="middle" class="strong">Review</text>
+          <text x="600" y="62" text-anchor="middle">Options presented before you commit</text>
+          <text x="1192" y="16" text-anchor="end" class="strong">Get funded</text>
+          <text x="1192" y="62" text-anchor="end">Same business day is available</text>
+        </svg>
+        <div class="spread">
+          <ol class="steps" data-sc-in data-sc-stagger="70">
+            <li><div><h3>Apply</h3><p>Complete a simple application and provide four months of recent business bank statements. Only the statements are required to submit.</p></div></li>
+            <li><div><h3>Review</h3><p>Our underwriting team reviews your business and presents the funding options available to you, with every cost written out, before you commit to anything.</p></div></li>
+            <li><div><h3>Get funded</h3><p>Review your terms, sign electronically, and receive funds directly into your business account. Same-day funding is available once a contract is signed; actual timing depends on underwriting and your bank.</p></div></li>
+          </ol>
+          <div class="facts" data-sc-in data-sc-stagger="80">
+            <dl>
+              <dt>Required to submit</dt>
+              <dd>Four months of business bank statements. Nothing else.</dd>
+              <dt>Credit</dt>
+              <dd>No credit pull to check eligibility. No obligation.</dd>
+              <dt>The rest</dt>
+              <dd>Requested only if your file calls for it, after review.</dd>
+            </dl>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       Five · In their words
+       ============================================================ -->
+  <section class="ch ground--petrol" id="five" data-sc-act="flow" data-chapter="Five" data-chapter-title="In their words" data-ground="dark" aria-labelledby="h-five">
+    <div class="sc-wrap">
+      <header class="ch__title">
+        <span class="ch__num label">Chapter <b>Five</b></span>
+        <h2 class="ch__h" id="h-five">In their words.</h2>
+      </header>
+      <div class="ch__body">
+        <div class="letters" data-sc-in data-sc-stagger="70">
+          <blockquote>
+            <p>Very easy and fair. I've been working with GLD for the past three years now, and I do not have any complaints. I must say they are very cooperative and understanding of your business needs.</p>
+            <footer><b>Antonio V.</b> · Mexicosina · Restaurants · New York</footer>
+          </blockquote>
+          <blockquote>
+            <p>GLD Funding came in handy when I desperately needed capital for my business expenses. The process was quick and straightforward. You don't need good credit to be approved, which made everything much smoother.</p>
+            <footer><b>Mok H.</b> · ZenMedica · Medical &amp; dental · New York</footer>
+          </blockquote>
+          <blockquote>
+            <p>I was glad that they were there to help when my business needed them. Overall, a pleasant experience.</p>
+            <footer><b>Kirk G.</b> · Fisherman's Cove · Restaurants · New York</footer>
+          </blockquote>
+          <blockquote>
+            <p>I would highly recommend GLD to friends and family, their staff is excellent and always ready to help you. You will never have your questions unanswered.</p>
+            <footer><b>Trudyanne B.</b> · Silvers Crust · Restaurants · New York</footer>
+          </blockquote>
+          <blockquote>
+            <p>The people at GLD Funding are really helpful and attentive. If you need help with your cash advance, they will make sure to have all of your questions answered.</p>
+            <footer><b>Manuel G.</b> · Uno Communications · Retail · New York</footer>
+          </blockquote>
+          <blockquote>
+            <p>Best people to work with. They really try their best to get you the funding that best fits your business needs. You will not be disappointed.</p>
+            <footer><b>Linda S.</b> · Linda Samuels · Professional services · New York</footer>
+          </blockquote>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ============================================================
+       Colophon. The last element on the page. It holds.
+       ============================================================ -->
+  <section class="colophon ground--paper" id="colophon" data-sc-act="flow" data-chapter="End" data-chapter-title="Colophon" data-ground="light" aria-labelledby="h-colophon">
+    <div class="sc-wrap">
+      <h2 class="sr-only" id="h-colophon">Colophon</h2>
+      <p class="colophon__ask">If any of this reads like your business, <a href="https://www.gldfunding.com/apply">check eligibility</a>. The next offer summary you read will carry your own figures.</p>
+      <p class="colophon__sub">No credit pull, no obligation. Or call <a href="tel:+18774984344" class="nums">1 (877) 498-4344</a> and tell us what you are trying to do; we will tell you quickly whether an advance fits.</p>
+
+      <div class="masthead-plate">
+        <div>
+          <h2>Published by</h2>
+          <address>GLD Factoring LLC<br>DBA GLD Funding<br>Established 2014</address>
+        </div>
+        <div>
+          <h2>Offices</h2>
+          <address>591 Stewart Avenue, Suite 520<br>Garden City, NY 11530<br><a href="mailto:info@gldfunding.com">info@gldfunding.com</a></address>
+        </div>
+        <div>
+          <h2>Reading</h2>
+          <ul>
+            <li><a href="https://www.gldfunding.com/funding/how-it-works">How it works</a></li>
+            <li><a href="https://www.gldfunding.com/funding/merchant-cash-advance">Merchant cash advance</a></li>
+            <li><a href="https://www.gldfunding.com/funding/mca-vs-loan">MCA vs. a loan</a></li>
+            <li><a href="https://www.gldfunding.com/industries">Industries</a></li>
+          </ul>
+        </div>
+        <div>
+          <h2>Notices</h2>
+          <ul>
+            <li><a href="https://www.gldfunding.com/legal/disclosures">Disclosures</a></li>
+            <li><a href="https://www.gldfunding.com/legal/privacy">Privacy</a></li>
+            <li><a href="https://www.gldfunding.com/legal/terms">Terms</a></li>
+            <li><a href="https://login.gldfunding.com/">Client login</a></li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="smallprint">
+        <p>A merchant cash advance is a purchase of future receivables, not a loan. Figures in chapter three are an illustrative example of how a factor rate is applied; every offer states its own funds provided, total dollar cost, and remittance terms in writing before signature. Typical advance ranges by trade are indicative and every file is underwritten on its own.</p>
+        <p class="nums">© 2026 GLD Factoring LLC DBA GLD Funding</p>
+      </div>
+    </div>
+  </section>
+
+</main>
+
+<button class="slip" id="slip" type="button" aria-label="Return to the offer summary in chapter three">
+  <span class="k">Offer summary</span><b>$62,500</b><span class="k">Illustrative</span>
+</button>
+
+<script src="scrollcraft.js"></script>
+<script>
+  ScrollCraft.mount(document.body);
+
+  (function () {
+    var reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    /* ---------------- Folio ---------------- */
+    var folio = document.getElementById('folio');
+    var folioNum = document.getElementById('folio-num');
+    var folioTitle = document.getElementById('folio-title');
+    var chapters = Array.prototype.slice.call(document.querySelectorAll('[data-chapter]'));
+    function setFolio(ch) {
+      if (!ch) { folio.classList.remove('is-on'); return; }
+      folioNum.textContent = ch.getAttribute('data-chapter');
+      folioTitle.textContent = ch.getAttribute('data-chapter-title');
+      folio.classList.toggle('folio--dark', ch.getAttribute('data-ground') === 'dark');
+      folio.classList.add('is-on');
+    }
+    if ('IntersectionObserver' in window) {
+      var current = null;
+      var fio = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (e.isIntersecting) current = e.target;
+          else if (current === e.target) current = null;
+        });
+        setFolio(current || nearestChapter());
+      }, { rootMargin: '-45% 0px -45% 0px', threshold: 0 });
+      chapters.forEach(function (c) { fio.observe(c); });
+    }
+    function nearestChapter() {
+      var mid = window.innerHeight * 0.5, best = null;
+      chapters.forEach(function (c) {
+        var r = c.getBoundingClientRect();
+        if (r.top <= mid && r.bottom >= mid) best = c;
+      });
+      return best;
+    }
+
+    /* ---------------- The offer that writes itself ----------------
+       Page-local. Each prose paragraph in chapter three carries data-line;
+       when its top passes the reading line, the matching row of the offer
+       summary is typeset. Rows stay set: ink does not un-ink. Figures count
+       to their value on a cubic ease-out. The sheet publishes its painted
+       state for the verification harness. */
+    var three = document.getElementById('three');
+    var offer = document.getElementById('offer');
+    var lines = Array.prototype.slice.call(three.querySelectorAll('p[data-line]'));
+    var rows = {};
+    Array.prototype.forEach.call(offer.querySelectorAll('.offer__row'), function (r) { rows[r.getAttribute('data-row')] = r; });
+    var setCount = 0, docked = false;
+
+    function fmt(n, kind) {
+      if (kind === 'usd') return '$' + Math.round(n).toLocaleString('en-US');
+      if (kind === 'rate') return n.toFixed(2);
+      return String(n);
+    }
+    function countTo(el) {
+      var target = parseFloat(el.getAttribute('data-count'));
+      var kind = el.getAttribute('data-format');
+      if (isNaN(target)) return;
+      if (reduced) { el.textContent = fmt(target, kind); return; }
+      var from = kind === 'rate' ? 1 : 0, t0 = null, dur = 1300;
+      function step(ts) {
+        if (t0 === null) t0 = ts;
+        var k = Math.min(1, (ts - t0) / dur);
+        var e = 1 - Math.pow(1 - k, 3);
+        el.textContent = fmt(from + (target - from) * e, kind);
+        if (k < 1) requestAnimationFrame(step);
+      }
+      requestAnimationFrame(step);
+    }
+    function setRow(n) {
+      var r = rows[n];
+      if (!r || r.classList.contains('is-set')) return;
+      r.classList.add('is-set');
+      setCount++;
+      var v = r.querySelector('[data-count]');
+      if (v) countTo(v);
+    }
+    function publish() {
+      offer.setAttribute('data-sc-verify-state', 'lines:' + setCount + ' dock:' + (docked ? 1 : 0));
+    }
+
+    var slip = document.getElementById('slip');
+    slip.addEventListener('click', function () {
+      document.getElementById('three').scrollIntoView({ behavior: reduced ? 'auto' : 'smooth', block: 'start' });
+    });
+
+    var ticking = false;
+    function onScroll() {
+      if (ticking) return;
+      ticking = true;
+      requestAnimationFrame(function () {
+        ticking = false;
+        var vh = window.innerHeight;
+        var readLine = vh * 0.62;
+        lines.forEach(function (p) {
+          var r = p.getBoundingClientRect();
+          if (r.top < readLine) {
+            p.classList.add('is-read');
+            setRow(p.getAttribute('data-line'));
+          }
+        });
+        /* Dock the slip once the chapter has been read and left behind. */
+        var tr = three.getBoundingClientRect();
+        var shouldDock = setCount >= 6 && tr.bottom < vh * 0.4;
+        if (shouldDock !== docked) {
+          docked = shouldDock;
+          slip.classList.toggle('is-on', docked);
+        }
+        publish();
+      });
+    }
+    window.addEventListener('scroll', onScroll, { passive: true });
+    window.addEventListener('resize', onScroll);
+    /* Reduced motion: the document is complete on arrival, no typesetting. */
+    if (reduced) { Object.keys(rows).forEach(setRow); publish(); }
+    onScroll();
+  })();
+</script>
+</body>
+</html>

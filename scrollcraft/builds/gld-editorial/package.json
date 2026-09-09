@@ -1,0 +1,8 @@
+{
+  "name": "gld-editorial",
+  "private": true,
+  "description": "scroll-craft build; playwright-core is for the verification pass only",
+  "dependencies": {
+    "playwright-core": "^1.63.0"
+  }
+}
