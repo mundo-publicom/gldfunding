@@ -70,6 +70,11 @@ export function Component() {
             ...emptyApplication().documents,
             ...saved.data.documents,
           },
+          authorization: {
+            ...emptyApplication().authorization,
+            ...saved.data.authorization,
+            audit: saved.data.authorization?.audit ?? null,
+          },
         }
         setPhase(saved.phase === 'done' ? 'precheck' : saved.phase)
         setStepIndex(Math.min(saved.stepIndex ?? 0, steps.length - 1))
@@ -220,6 +225,7 @@ export function Component() {
       ...d,
       authorization: {
         ...d.authorization,
+        certified: true,
         date: signedAt,
         // ⚠️ Must be persisted server-side to be defensible under E-SIGN / UETA.
         audit: {
@@ -227,6 +233,7 @@ export function Component() {
           userAgent: navigator.userAgent,
           authVersion: AUTH_VERSION,
           applicationId: ref,
+          communicationsConsent: d.authorization.communicationsConsent,
         },
       },
     }))

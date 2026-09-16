@@ -53,8 +53,7 @@ export function Component() {
             positions you disclose
           </li>
           <li>
-            <strong>Your funding request</strong> - amount requested, intended use of funds and
-            timing
+            <strong>Your funding request</strong> - amount requested and intended use of funds
           </li>
           <li>
             <strong>Authorization records</strong> - your electronic signature image together with

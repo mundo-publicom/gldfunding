@@ -1,9 +1,10 @@
 import type { ReactNode } from 'react'
 import { PlusIcon, PencilSimpleIcon, TrashIcon } from '@phosphor-icons/react'
 import { cn } from '../lib/cn'
-import { SelectInput, SignaturePad, SsnInput, TextInput, YesNo } from './fields'
+import { SelectInput, SignaturePad, SsnInput, TextInput, YesNo, ConsentCheckbox } from './fields'
 import { DocumentsStep } from './DocumentsStep'
 import { AuthorizationText } from './AuthorizationText'
+import { SIGNATURE_ACKNOWLEDGEMENT } from './authorizationCopy'
 import {
   MAX_OWNERS,
   OWNER_COUNT_OPTIONS,
@@ -734,9 +735,15 @@ export function ReviewSignStep({
         </p>
       )}
 
+      <ConsentCheckbox
+        label="I agree that GLD Factoring LLC DBA GLD Funding may contact me about this application by call, text, or email at the phone numbers and email I provided. Consent is not a condition of receiving funding. Message and data rates may apply."
+        checked={data.authorization.communicationsConsent}
+        onChange={(v) => set('communicationsConsent', v)}
+        error={errors['authorization.communicationsConsent']}
+      />
+
       <p className="max-w-[62ch] text-[0.9375rem] leading-relaxed text-ink">
-        By signing below, I acknowledge that I have read and agree to the complete Authorization and
-        certify that I am authorized to submit this application on behalf of the business.
+        {SIGNATURE_ACKNOWLEDGEMENT}
       </p>
 
       <TextInput

@@ -29,7 +29,9 @@ export function DocumentsStep({ data, update, errors }: StepProps) {
   const plaidChosen = method === 'plaid'
   const showUpload = method === 'upload' || plaidStatus === 'failed'
   const docsRef = useRef(data.documents)
+  const filesRef = useRef(files)
   const connectTimer = useRef<number | null>(null)
+  const ticksRef = useRef<number[]>([])
 
   useEffect(() => {
     docsRef.current = data.documents
@@ -38,12 +40,17 @@ export function DocumentsStep({ data, update, errors }: StepProps) {
   useEffect(
     () => () => {
       if (connectTimer.current) window.clearTimeout(connectTimer.current)
+      ticksRef.current.forEach((id) => window.clearInterval(id))
     },
     [],
   )
 
-  const setDocs = (patch: Partial<typeof data.documents>) =>
-    update('documents', { ...data.documents, ...patch })
+  const setDocs = (patch: Partial<typeof data.documents>) => {
+    const next = { ...docsRef.current, ...patch }
+    docsRef.current = next
+    if (patch.statements) filesRef.current = patch.statements
+    update('documents', next)
+  }
 
   const addFiles = (list: FileList | null) => {
     if (!list) return
@@ -66,32 +73,40 @@ export function DocumentsStep({ data, update, errors }: StepProps) {
       })
     }
 
-    const next = [...files, ...incoming]
-    setDocs({ statements: next, method: 'upload', plaidStatus: 'idle' })
+    const next = [...filesRef.current, ...incoming]
+    filesRef.current = next
+    docsRef.current = { ...docsRef.current, statements: next, method: 'upload', plaidStatus: 'idle' }
+    update('documents', docsRef.current)
 
     // Simulated transfer. Replace with a real signed-URL upload that reports
     // genuine progress - a fake bar on a document upload is a trust problem.
     for (const f of incoming) {
       if (f.status === 'error') continue
       let pct = 0
-      const tick = setInterval(() => {
+      const tick = window.setInterval(() => {
         pct = Math.min(pct + 8 + Math.random() * 14, 100)
-        update('documents', {
-          ...data.documents,
+        filesRef.current = filesRef.current.map((s) =>
+          s.id === f.id
+            ? { ...s, progress: pct, status: pct >= 100 ? 'done' : 'uploading' }
+            : s,
+        )
+        docsRef.current = {
+          ...docsRef.current,
           method: 'upload',
-          plaidStatus: 'idle',
-          statements: next.map((s) =>
-            s.id === f.id
-              ? { ...s, progress: pct, status: pct >= 100 ? 'done' : 'uploading' }
-              : s,
-          ),
-        })
-        if (pct >= 100) clearInterval(tick)
+          statements: filesRef.current,
+        }
+        update('documents', docsRef.current)
+        if (pct >= 100) {
+          window.clearInterval(tick)
+          ticksRef.current = ticksRef.current.filter((id) => id !== tick)
+        }
       }, 140)
+      ticksRef.current.push(tick)
     }
   }
 
-  const remove = (id: string) => setDocs({ statements: files.filter((f) => f.id !== id) })
+  const remove = (id: string) =>
+    setDocs({ statements: filesRef.current.filter((f) => f.id !== id) })
 
   const choosePlaid = () => setDocs({ method: 'plaid', plaidStatus: 'idle' })
 

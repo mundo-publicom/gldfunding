@@ -112,6 +112,7 @@ test.describe('four-step application', () => {
     await page.getByRole('button', { name: /continue/i }).click()
     await expect(page.getByRole('heading', { name: 'Review & Sign' })).toBeVisible()
     await expect(page.getByRole('img', { name: /draw your signature/ })).toHaveCount(1)
+    await expect(page.getByRole('heading', { name: 'Communications Consent' })).toBeVisible()
     await expect(page.getByText('123-45-6789')).toHaveCount(0)
     await expect(page.getByText('•••-••-6789')).toHaveCount(3)
     await expect(page.getByText('Owner1 Rivera')).toBeVisible()

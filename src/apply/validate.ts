@@ -95,6 +95,10 @@ export function validateStep(step: StepId, d: ApplicationData): Errors {
 
     case 'review': {
       const a = d.authorization
+      if (!a.communicationsConsent) {
+        e['authorization.communicationsConsent'] =
+          'Confirm you agree to be contacted about this application'
+      }
       if (!req(a.fullName)) e['authorization.fullName'] = M.required
       if (!a.signatures[0]) e['authorization.signatures.0'] = 'Sign above to continue'
       break

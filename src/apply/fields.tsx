@@ -285,6 +285,47 @@ export function YesNo({
   )
 }
 
+export function ConsentCheckbox({
+  label,
+  checked,
+  onChange,
+  error,
+}: {
+  label: string
+  checked: boolean
+  onChange: (v: boolean) => void
+  error?: string
+}) {
+  const id = useId()
+  return (
+    <div className="field">
+      <label
+        htmlFor={id}
+        className={cn(
+          'flex cursor-pointer items-start gap-3.5 rounded-[4px] border px-4 py-3.5 transition-colors duration-150',
+          checked ? 'border-leaf bg-leaf/8' : 'border-rule bg-white hover:border-ink-4',
+          error && 'border-rate',
+        )}
+      >
+        <input
+          id={id}
+          type="checkbox"
+          checked={checked}
+          onChange={(e) => onChange(e.target.checked)}
+          aria-invalid={error ? 'true' : undefined}
+          className="mt-1 h-5 w-5 shrink-0 accent-leaf-deep"
+        />
+        <span className="text-[0.9375rem] leading-relaxed text-ink">{label}</span>
+      </label>
+      {error && (
+        <p className="field-error" role="alert">
+          {error}
+        </p>
+      )}
+    </div>
+  )
+}
+
 /* ------------------------------------------------------------------
    Signature pad.
    Accepts touch, stylus and mouse, with a type-to-sign fallback for
@@ -309,6 +350,7 @@ export function SignaturePad({
   const [typed, setTyped] = useState('')
   const [hasInk, setHasInk] = useState(false)
   const drawing = useRef(false)
+  const hasInkRef = useRef(false)
   const lastPt = useRef<{ x: number; y: number } | null>(null)
 
   const setup = () => {
@@ -360,6 +402,7 @@ export function SignaturePad({
     ctx.lineTo(to.x, to.y)
     ctx.stroke()
     lastPt.current = to
+    hasInkRef.current = true
     setHasInk(true)
   }
 
@@ -368,13 +411,14 @@ export function SignaturePad({
     drawing.current = false
     lastPt.current = null
     const canvas = canvasRef.current
-    if (canvas && hasInk) onChange(canvas.toDataURL('image/png'))
+    if (canvas && hasInkRef.current) onChange(canvas.toDataURL('image/png'))
   }
 
   const clear = () => {
     const canvas = canvasRef.current
     const ctx = canvas?.getContext('2d')
     if (canvas && ctx) ctx.clearRect(0, 0, canvas.width, canvas.height)
+    hasInkRef.current = false
     setHasInk(false)
     setTyped('')
     onChange('')

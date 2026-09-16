@@ -92,6 +92,8 @@ export type ApplicationData = {
   /* --- 4. review & sign --- */
   authorization: {
     certified: boolean
+    /** Separate TCPA/contact opt-in. Counsel must confirm final language. */
+    communicationsConsent: boolean
     fullName: string
     title: string
     /** One data-URL signature for the applicant signing this submission. */
@@ -103,12 +105,13 @@ export type ApplicationData = {
       userAgent: string
       authVersion: string
       applicationId: string
+      communicationsConsent: boolean
     } | null
   }
 }
 
 /** The authorization text version signed. Bump when counsel revises the language. */
-export const AUTH_VERSION = 'gld-app-auth-2026-09'
+export const AUTH_VERSION = 'gld-app-auth-2026-09-c'
 
 export const emptyOwner = (): Owner => ({
   firstName: '',
@@ -157,6 +160,7 @@ export const emptyApplication = (): ApplicationData => ({
   documents: { method: '', plaidStatus: 'idle', statements: [] },
   authorization: {
     certified: false,
+    communicationsConsent: false,
     fullName: '',
     title: '',
     signatures: [],
