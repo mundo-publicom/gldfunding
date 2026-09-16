@@ -106,7 +106,7 @@ export function EligibilityCta({
       </button>
 
       <p className={cn('mt-3.5 text-[0.8125rem]', invert ? 'text-paper/60' : 'text-ink-3')}>
-        Answer a few simple questions to get started. No credit pull.
+        Answer a few simple questions to get started. No credit inquiry during the eligibility check.
       </p>
     </div>
   )

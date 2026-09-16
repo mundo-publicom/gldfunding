@@ -23,10 +23,11 @@ export type Owner = {
 
 export type Position = {
   funder: string
-  originalAmount: string
   currentBalance: string
   frequency: 'daily' | 'weekly' | 'monthly' | ''
   paymentAmount: string
+  /** Kept so older drafts don't throw on restore. No longer collected. */
+  originalAmount?: string
 }
 
 export type UploadedFile = {
@@ -39,6 +40,8 @@ export type UploadedFile = {
   error?: string
 }
 
+export type PlaidStatus = 'idle' | 'connecting' | 'connected' | 'failed'
+
 export type ApplicationData = {
   /* --- pre-check (no PII) --- */
   precheck: {
@@ -47,7 +50,7 @@ export type ApplicationData = {
     industry: string
     completed: boolean
   }
-  /* --- 1. business --- */
+  /* --- 1. business & funding --- */
   business: {
     legalName: string
     dba: string
@@ -63,33 +66,35 @@ export type ApplicationData = {
     monthlyRevenue: string
   }
   /*
-     --- 2…n. owners ---
-     How many owners the applicant declared in step 1. Everything downstream
-     - how many owner steps exist, how many signatures the authorization
-     needs - is derived from this one number.
+     How many owners the applicant declared in step 1. Owner forms themselves
+     stay collapsed until the merchant adds (or is prompted for) the next one.
   */
   ownerCount: number
+  /** How many owner forms are currently on screen. Always ≥ 1, ≤ ownerCount. */
+  ownersRevealed: number
   owners: Owner[]
-  /* --- 4. funding --- */
+  /* --- 1. funding (same step as business) --- */
   funding: {
     amountRequested: string
     useOfFunds: string
-    urgency: string
+    /** No longer asked. Kept so older drafts restore cleanly. */
+    urgency?: string
   }
-  /* --- 5. existing financing --- */
+  /* --- 3. existing financing --- */
   hasExistingFinancing: boolean | null
   positions: Position[]
-  /* --- 6. documents --- */
+  /* --- 3. bank statements --- */
   documents: {
     method: 'upload' | 'plaid' | ''
+    plaidStatus: PlaidStatus
     statements: UploadedFile[]
   }
-  /* --- 7. authorization --- */
+  /* --- 4. review & sign --- */
   authorization: {
     certified: boolean
     fullName: string
     title: string
-    /** One data-URL signature per owner, index-aligned with `owners`. */
+    /** One data-URL signature for the applicant signing this submission. */
     signatures: string[]
     date: string
     /** Audit record. Must be persisted server-side to be defensible under E-SIGN/UETA. */
@@ -97,12 +102,13 @@ export type ApplicationData = {
       signedAt: string
       userAgent: string
       authVersion: string
+      applicationId: string
     } | null
   }
 }
 
 /** The authorization text version signed. Bump when counsel revises the language. */
-export const AUTH_VERSION = 'gld-app-auth-2026-08'
+export const AUTH_VERSION = 'gld-app-auth-2026-09'
 
 export const emptyOwner = (): Owner => ({
   firstName: '',
@@ -117,6 +123,13 @@ export const emptyOwner = (): Owner => ({
   zip: '',
   dob: '',
   ssn: '',
+})
+
+export const emptyPosition = (): Position => ({
+  funder: '',
+  currentBalance: '',
+  frequency: '',
+  paymentAmount: '',
 })
 
 export const emptyApplication = (): ApplicationData => ({
@@ -136,11 +149,12 @@ export const emptyApplication = (): ApplicationData => ({
     monthlyRevenue: '',
   },
   ownerCount: 1,
+  ownersRevealed: 1,
   owners: [emptyOwner()],
-  funding: { amountRequested: '', useOfFunds: '', urgency: '' },
+  funding: { amountRequested: '', useOfFunds: '' },
   hasExistingFinancing: null,
   positions: [],
-  documents: { method: '', statements: [] },
+  documents: { method: '', plaidStatus: 'idle', statements: [] },
   authorization: {
     certified: false,
     fullName: '',
@@ -154,14 +168,8 @@ export const emptyApplication = (): ApplicationData => ({
 /* ------------------------------------------------------------------
    Step model.
 
-   The governing rule: only show a question when GLD needs the answer.
-   The step list is built per applicant rather than filtered from a fixed
-   array - a step that does not apply is never rendered, never numbered,
-   and never appears as a greyed-out row in the review list.
-
-   Step 1 asks how many owners the business has, and that answer is what
-   grows the middle of the form: one full owner step each, one signature
-   each on the authorization.
+   Four steps, always. Extra owners and extra financing positions are
+   conditional fields on those steps, never extra screens.
    ------------------------------------------------------------------ */
 
 /** Beyond this, underwriting takes the extra owners on a separate schedule. */
@@ -173,60 +181,41 @@ export const OWNER_COUNT_OPTIONS = Array.from({ length: MAX_OWNERS }, (_, i) => 
 }))
 
 /** Declared owner count, clamped - a restored or hand-edited payload cannot
-    make the form generate a thousand steps. */
+    make the form generate a thousand owner slots. */
 export const ownerCount = (d: ApplicationData) =>
   Math.min(Math.max(Math.trunc(d.ownerCount) || 1, 1), MAX_OWNERS)
+
+/** Owner forms currently on screen. Starts at 1; grows via add / continue. */
+export const ownersRevealed = (d: ApplicationData) =>
+  Math.min(Math.max(Math.trunc(d.ownersRevealed) || 1, 1), ownerCount(d))
 
 /** The owners this application actually covers, padded if the roster is short. */
 export const activeOwners = (d: ApplicationData): Owner[] =>
   Array.from({ length: ownerCount(d) }, (_, i) => d.owners[i] ?? emptyOwner())
 
-export type StepId =
-  | 'business'
-  | `owner-${number}`
-  | 'funding'
-  | 'financing'
-  | 'documents'
-  | 'authorization'
+export const ownerHasData = (o: Owner | undefined) =>
+  Boolean(o && Object.values(o).some((v) => String(v).trim().length > 0))
+
+export type StepId = 'business' | 'owner' | 'documents' | 'review'
 
 export type StepDef = {
   id: StepId
   title: string
   shortTitle: string
-  /** Set on owner steps only - which owner in the roster this step edits. */
-  ownerIndex?: number
 }
 
-/** `owner-2` → 2; anything else → null. */
-export const ownerIndexOf = (id: StepId): number | null => {
-  const m = /^owner-(\d+)$/.exec(id)
-  return m ? Number(m[1]) : null
+export const STEPS: StepDef[] = [
+  { id: 'business', title: 'Business & Funding Information', shortTitle: 'Business & Funding' },
+  { id: 'owner', title: 'Owner Information', shortTitle: 'Owner' },
+  { id: 'documents', title: 'Bank Statements & Existing Financing', shortTitle: 'Bank & Financing' },
+  { id: 'review', title: 'Review & Sign', shortTitle: 'Review & Sign' },
+]
+
+export function visibleSteps(_d?: ApplicationData): StepDef[] {
+  return STEPS
 }
 
-export function visibleSteps(d: ApplicationData): StepDef[] {
-  const total = ownerCount(d)
-  const owners: StepDef[] = Array.from({ length: total }, (_, i) => ({
-    id: `owner-${i}` as StepId,
-    title: total === 1 ? 'Owner Information' : `Owner ${i + 1} Information`,
-    shortTitle: total === 1 ? 'Owner' : `Owner ${i + 1}`,
-    ownerIndex: i,
-  }))
-
-  return [
-    { id: 'business', title: 'Business Information', shortTitle: 'Business' },
-    ...owners,
-    { id: 'funding', title: 'Funding Information', shortTitle: 'Funding' },
-    { id: 'financing', title: 'Existing Financing', shortTitle: 'Existing financing' },
-    { id: 'documents', title: 'Bank Statements & Documents', shortTitle: 'Bank statements' },
-    {
-      id: 'authorization',
-      title: 'Authorization & Signature',
-      shortTitle: 'Authorization & signature',
-    },
-  ]
-}
-
-/** Statement months we ask for, derived from the business's state. */
+/** Statement months we ask for. */
 export const requiredStatements = (_d: ApplicationData) => PRODUCT.statementMonths
 
 /**
@@ -238,3 +227,10 @@ export const requiredStatements = (_d: ApplicationData) => PRODUCT.statementMont
  * step. Anything missing is chased after review.
  */
 export const requiredUploads = 1
+
+/** Last-four mask only. Full SSN must never appear on review. */
+export const maskSsn = (ssn: string) => {
+  const d = ssn.replace(/\D/g, '')
+  if (d.length < 9) return 'On file'
+  return `•••-••-${d.slice(-4)}`
+}

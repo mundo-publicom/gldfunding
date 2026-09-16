@@ -319,6 +319,8 @@
     font-family: inherit;
     font-size: 1rem;
     color: var(--color-ink);
+    scroll-margin-bottom: 6.5rem;
+    scroll-margin-top: 8rem;
     transition:
       border-color 150ms var(--ease-out-strong),
       box-shadow 150ms var(--ease-out-strong);
@@ -344,6 +346,10 @@
 
   .input[aria-invalid='true']:focus {
     box-shadow: 0 0 0 3px rgba(194, 84, 47, 0.16);
+  }
+
+  .ssn-masked {
+    -webkit-text-security: disc;
   }
 
   select.input {

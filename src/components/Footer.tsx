@@ -54,8 +54,8 @@ export function Footer() {
               See what your business may qualify for.
             </h2>
             <p className="mt-3 max-w-[46ch] text-[1.0625rem] leading-relaxed text-paper/75">
-              Answer a few simple questions to get started. No personal information and no credit
-              pull to see whether an advance is a fit.
+              Answer a few simple questions to get started. No credit inquiry during the eligibility
+              check.
             </p>
           </div>
           <div className="flex flex-wrap gap-3">

@@ -267,7 +267,8 @@ export function Component() {
               See what your {state.name} business may qualify for.
             </h2>
             <p className="mt-2 max-w-[52ch] text-[0.9375rem] text-ink-2">
-              Answer a few simple questions to get started. No credit pull.
+              Answer a few simple questions to get started. No credit inquiry during the eligibility
+              check.
             </p>
           </div>
           <Link to={CTA.primaryHref} className="btn btn-primary btn-lg shrink-0">

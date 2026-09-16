@@ -1,11 +1,22 @@
-import { PlusIcon, TrashIcon } from '@phosphor-icons/react'
+import type { ReactNode } from 'react'
+import { PlusIcon, PencilSimpleIcon, TrashIcon } from '@phosphor-icons/react'
 import { cn } from '../lib/cn'
-import { SelectInput, SignaturePad, TextInput, YesNo } from './fields'
+import { SelectInput, SignaturePad, SsnInput, TextInput, YesNo } from './fields'
 import { DocumentsStep } from './DocumentsStep'
 import { AuthorizationText } from './AuthorizationText'
-import { MAX_OWNERS, OWNER_COUNT_OPTIONS, activeOwners, emptyOwner, ownerCount } from './types'
-import type { ApplicationData, Owner, Position, StepProps } from './types'
-import { PRODUCT, US_STATE_OPTIONS, INDUSTRIES } from '../data/site'
+import {
+  MAX_OWNERS,
+  OWNER_COUNT_OPTIONS,
+  activeOwners,
+  emptyOwner,
+  emptyPosition,
+  maskSsn,
+  ownerCount,
+  ownerHasData,
+  ownersRevealed,
+} from './types'
+import type { ApplicationData, Owner, Position, StepId, StepProps } from './types'
+import { INDUSTRIES, US_STATE_OPTIONS } from '../data/site'
 
 const ENTITY_TYPES = [
   { value: 'llc', label: 'LLC' },
@@ -23,7 +34,16 @@ const INDUSTRY_OPTIONS = [
   { value: 'other', label: 'Other' },
 ]
 
-/* ================================================================ 1 */
+const USE_OF_FUNDS = [
+  { value: 'inventory', label: 'Inventory or supplies' },
+  { value: 'equipment', label: 'Equipment purchase or repair' },
+  { value: 'payroll', label: 'Payroll' },
+  { value: 'expansion', label: 'Expansion or renovation' },
+  { value: 'marketing', label: 'Marketing' },
+  { value: 'cash-flow', label: 'Bridging a cash-flow gap' },
+  { value: 'debt', label: 'Consolidating existing financing' },
+  { value: 'other', label: 'Other' },
+]
 
 export function BusinessStep({ data, update, errors }: StepProps) {
   const set = (k: keyof ApplicationData['business'], v: string) =>
@@ -41,7 +61,11 @@ export function BusinessStep({ data, update, errors }: StepProps) {
         ...Array.from({ length: n - data.owners.length }, emptyOwner),
       ])
     }
+    if (data.ownersRevealed > n) update('ownersRevealed', n)
   }
+
+  const setFunding = (k: keyof ApplicationData['funding'], v: string) =>
+    update('funding', { ...data.funding, [k]: v })
 
   return (
     <div className="flex flex-col gap-6">
@@ -101,7 +125,6 @@ export function BusinessStep({ data, update, errors }: StepProps) {
           error={errors['business.city']}
           autoComplete="address-level2"
         />
-        {/* State drives statement count, disclosure copy and licensing notes downstream. */}
         <SelectInput
           label="State"
           required
@@ -149,7 +172,6 @@ export function BusinessStep({ data, update, errors }: StepProps) {
           value={data.business.startDate}
           onChange={(v) => set('startDate', v)}
           error={errors['business.startDate']}
-          hint={`Minimum ${PRODUCT.minMonthsInBusiness} months in business`}
         />
         <TextInput
           label="Average monthly revenue"
@@ -157,37 +179,51 @@ export function BusinessStep({ data, update, errors }: StepProps) {
           value={data.business.monthlyRevenue}
           onChange={(v) => set('monthlyRevenue', v)}
           error={errors['business.monthlyRevenue']}
-          inputMode="numeric"
+          inputMode="decimal"
           placeholder="$50,000"
         />
       </div>
 
-      {/*
-        Asked here, once, instead of surfacing an "is there another owner?"
-        question three steps later. The answer builds the form: one owner step
-        per owner, one signature per owner on the authorization.
-      */}
       <div className="grid gap-6 sm:grid-cols-2">
         <SelectInput
-          label="How many owners does the business have?"
+          label="Number of owners"
           required
-          value={String(ownerCount(data))}
+          value={String(count)}
           onChange={(v) => setOwners(Number(v))}
           options={OWNER_COUNT_OPTIONS}
           error={errors['ownerCount']}
           placeholder="Select…"
           hint={
             count === 1
-              ? `We'll ask for one set of owner details next. Up to ${MAX_OWNERS} owners can be listed.`
-              : `We'll ask for ${count} sets of owner details - one step each - and ${count} signatures at the end.`
+              ? 'We will ask for one set of owner details next.'
+              : `We will collect ${count} owners one at a time on the next step.`
           }
+        />
+      </div>
+
+      <div className="grid gap-6 border-t border-rule pt-8 sm:grid-cols-2">
+        <TextInput
+          label="How much funding are you looking for?"
+          required
+          value={data.funding.amountRequested}
+          onChange={(v) => setFunding('amountRequested', v)}
+          error={errors['funding.amountRequested']}
+          inputMode="decimal"
+          placeholder="$50,000"
+          hint="Enter the approximate amount of funding you are looking for. An estimate is fine."
+        />
+        <SelectInput
+          label="What will you use it for?"
+          required
+          value={data.funding.useOfFunds}
+          onChange={(v) => setFunding('useOfFunds', v)}
+          error={errors['funding.useOfFunds']}
+          options={USE_OF_FUNDS}
         />
       </div>
     </div>
   )
 }
-
-/* ============================================================ 2 … n */
 
 function OwnerFields({
   owner,
@@ -308,15 +344,13 @@ function OwnerFields({
           onChange={(v) => set('dob', v)}
           error={errors[`${prefix}.dob`]}
         />
-        <TextInput
+        <SsnInput
           label="Social Security number"
           required
           value={owner.ssn}
           onChange={(v) => set('ssn', v)}
           error={errors[`${prefix}.ssn`]}
-          inputMode="numeric"
-          placeholder="•••-••-••••"
-          hint="Encrypted in transit and at rest. Used for identity verification only."
+          hint="Used for identity verification, underwriting, and authorized credit/background review."
         />
       </div>
     </div>
@@ -324,106 +358,94 @@ function OwnerFields({
 }
 
 /**
- * One owner, by position in the roster. There is no "is there another owner?"
- * question any more - step 1 already answered it, so this step simply repeats
- * for as many owners as the applicant declared.
+ * One owner form by default. Extra owners are added on demand so the screen
+ * never opens with a stack of blank forms.
  */
-export function OwnerStep({ data, update, errors, index }: StepProps & { index: number }) {
+export function OwnerStep({ data, update, errors }: StepProps) {
   const total = ownerCount(data)
-  const owner = data.owners[index] ?? emptyOwner()
+  const revealed = ownersRevealed(data)
 
-  const onChange = (o: Owner) => {
-    const next = activeOwners(data)
+  const setOwner = (index: number, o: Owner) => {
+    const next = [...data.owners]
+    while (next.length <= index) next.push(emptyOwner())
     next[index] = o
-    // Keep any owners beyond the current count intact behind the active ones.
-    update('owners', [...next, ...data.owners.slice(next.length)])
+    update('owners', next)
+  }
+
+  const revealNext = () => {
+    const next = Math.min(revealed + 1, total, MAX_OWNERS)
+    if (data.owners.length < next) {
+      update('owners', [
+        ...data.owners,
+        ...Array.from({ length: next - data.owners.length }, emptyOwner),
+      ])
+    }
+    update('ownersRevealed', next)
+  }
+
+  const hideOwner = (index: number) => {
+    if (index === 0 || index !== revealed - 1) return
+    /* Collapse the last extra form. Typed details stay in the roster so
+       adding that owner again restores them. */
+    update('ownersRevealed', revealed - 1)
   }
 
   return (
     <div className="flex flex-col gap-8">
       {total > 1 && (
-        <p className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-3">
-          Owner {index + 1} of {total}
-          {index === 0 && ' · list the majority owner first'}
+        <p className="text-[0.9375rem] leading-relaxed text-ink-2">
+          You indicated {total} owners. Complete the first owner, then add each additional owner.
+          Each additional owner may be asked to complete a separate credit and background
+          authorization — signing this application does not authorize a personal check on someone
+          else.
         </p>
       )}
 
-      <OwnerFields
-        owner={owner}
-        onChange={onChange}
-        errors={errors}
-        prefix={`owners.${index}`}
-      />
+      {Array.from({ length: revealed }, (_, index) => {
+        const owner = data.owners[index] ?? emptyOwner()
+        return (
+          <section
+            key={index}
+            aria-label={total > 1 ? `Owner ${index + 1}` : 'Owner'}
+            className={cn(index > 0 && 'border-t border-rule pt-8')}
+          >
+            {total > 1 && (
+              <div className="mb-5 flex items-center justify-between gap-4">
+                <p className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-3">
+                  Owner {index + 1} of {total}
+                  {index === 0 && ' · list the majority owner first'}
+                </p>
+                {index > 0 && index === revealed - 1 && (
+                  <button
+                    type="button"
+                    onClick={() => hideOwner(index)}
+                    className="flex items-center gap-1.5 text-[0.8125rem] text-ink-3 transition-colors hover:text-rate"
+                  >
+                    <TrashIcon size={14} />
+                    Remove
+                  </button>
+                )}
+              </div>
+            )}
+            <OwnerFields
+              owner={owner}
+              onChange={(o) => setOwner(index, o)}
+              errors={errors}
+              prefix={`owners.${index}`}
+            />
+          </section>
+        )
+      })}
+
+      {total > 1 && revealed < total && (
+        <button type="button" onClick={revealNext} className="btn btn-secondary self-start">
+          <PlusIcon size={15} weight="bold" />
+          Add another owner
+        </button>
+      )}
     </div>
   )
 }
-
-/* ================================================================ 4 */
-
-export function FundingStep({ data, update, errors }: StepProps) {
-  const set = (k: keyof ApplicationData['funding'], v: string) =>
-    update('funding', { ...data.funding, [k]: v })
-
-  return (
-    <div className="flex flex-col gap-6">
-      <TextInput
-        label="How much are you looking for?"
-        required
-        value={data.funding.amountRequested}
-        onChange={(v) => set('amountRequested', v)}
-        error={errors['funding.amountRequested']}
-        inputMode="numeric"
-        placeholder="$50,000"
-        hint="Advances range from $10,000 to $500,000. An estimate is fine."
-        className="max-w-md"
-      />
-
-      <SelectInput
-        label="What will you use it for?"
-        required
-        value={data.funding.useOfFunds}
-        onChange={(v) => set('useOfFunds', v)}
-        error={errors['funding.useOfFunds']}
-        className="max-w-md"
-        options={[
-          { value: 'inventory', label: 'Inventory or supplies' },
-          { value: 'equipment', label: 'Equipment purchase or repair' },
-          { value: 'payroll', label: 'Payroll' },
-          { value: 'expansion', label: 'Expansion or renovation' },
-          { value: 'marketing', label: 'Marketing' },
-          { value: 'cash-flow', label: 'Bridging a cash-flow gap' },
-          { value: 'debt', label: 'Consolidating existing financing' },
-          { value: 'other', label: 'Other' },
-        ]}
-      />
-
-      <SelectInput
-        label="How soon do you need the funds?"
-        required
-        value={data.funding.urgency}
-        onChange={(v) => set('urgency', v)}
-        error={errors['funding.urgency']}
-        className="max-w-md"
-        options={[
-          { value: 'immediately', label: 'Immediately' },
-          { value: 'this-week', label: 'Within a week' },
-          { value: 'this-month', label: 'Within a month' },
-          { value: 'exploring', label: 'Just exploring options' },
-        ]}
-      />
-    </div>
-  )
-}
-
-/* ================================================================ 5 */
-
-const emptyPosition = (): Position => ({
-  funder: '',
-  originalAmount: '',
-  currentBalance: '',
-  frequency: '',
-  paymentAmount: '',
-})
 
 export function FinancingStep({ data, update, errors }: StepProps) {
   const setPosition = (i: number, p: Position) => {
@@ -433,15 +455,10 @@ export function FinancingStep({ data, update, errors }: StepProps) {
   }
 
   return (
-    <div className="flex flex-col gap-8">
-      {/*
-        One question first. "No" closes the step immediately - this is where
-        paper applications lose people, because they show the full grid to
-        everyone regardless.
-      */}
+    <div className="flex flex-col gap-8 border-t border-rule pt-10">
       <YesNo
-        label="Do you have any existing advances or business loans?"
-        hint="Including any merchant cash advance, term loan, or line of credit currently outstanding."
+        label="Do you currently have any existing business financing?"
+        hint="Include merchant cash advances, business loans, or lines of credit."
         value={data.hasExistingFinancing}
         onChange={(v) => {
           update('hasExistingFinancing', v)
@@ -452,12 +469,12 @@ export function FinancingStep({ data, update, errors }: StepProps) {
       />
 
       {data.hasExistingFinancing === true && (
-        <div className="flex flex-col gap-5 border-t border-rule pt-8">
+        <div className="flex flex-col gap-5">
           {data.positions.map((pos, i) => (
             <div key={i} className="card p-5">
               <div className="mb-5 flex items-center justify-between gap-4">
                 <h3 className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-3">
-                  Position {i + 1}
+                  Financing position {i + 1}
                 </h3>
                 {data.positions.length > 1 && (
                   <button
@@ -477,24 +494,13 @@ export function FinancingStep({ data, update, errors }: StepProps) {
               </div>
 
               <div className="flex flex-col gap-5">
-                <div className="grid gap-5 sm:grid-cols-2">
-                  <TextInput
-                    label="Funder / lender"
-                    required
-                    value={pos.funder}
-                    onChange={(v) => setPosition(i, { ...pos, funder: v })}
-                    error={errors[`positions.${i}.funder`]}
-                  />
-                  <TextInput
-                    label="Original amount"
-                    required
-                    value={pos.originalAmount}
-                    onChange={(v) => setPosition(i, { ...pos, originalAmount: v })}
-                    error={errors[`positions.${i}.originalAmount`]}
-                    inputMode="numeric"
-                    placeholder="$25,000"
-                  />
-                </div>
+                <TextInput
+                  label="Provider / funder name"
+                  required
+                  value={pos.funder}
+                  onChange={(v) => setPosition(i, { ...pos, funder: v })}
+                  error={errors[`positions.${i}.funder`]}
+                />
                 <div className="grid gap-5 sm:grid-cols-3">
                   <TextInput
                     label="Current balance"
@@ -502,7 +508,16 @@ export function FinancingStep({ data, update, errors }: StepProps) {
                     value={pos.currentBalance}
                     onChange={(v) => setPosition(i, { ...pos, currentBalance: v })}
                     error={errors[`positions.${i}.currentBalance`]}
-                    inputMode="numeric"
+                    inputMode="decimal"
+                    placeholder="$25,000"
+                  />
+                  <TextInput
+                    label="Payment amount"
+                    required
+                    value={pos.paymentAmount}
+                    onChange={(v) => setPosition(i, { ...pos, paymentAmount: v })}
+                    error={errors[`positions.${i}.paymentAmount`]}
+                    inputMode="decimal"
                   />
                   <SelectInput
                     label="Payment frequency"
@@ -518,14 +533,6 @@ export function FinancingStep({ data, update, errors }: StepProps) {
                       { value: 'monthly', label: 'Monthly' },
                     ]}
                   />
-                  <TextInput
-                    label="Payment amount"
-                    required
-                    value={pos.paymentAmount}
-                    onChange={(v) => setPosition(i, { ...pos, paymentAmount: v })}
-                    error={errors[`positions.${i}.paymentAmount`]}
-                    inputMode="numeric"
-                  />
                 </div>
               </div>
             </div>
@@ -537,7 +544,7 @@ export function FinancingStep({ data, update, errors }: StepProps) {
             className="btn btn-secondary self-start"
           >
             <PlusIcon size={15} weight="bold" />
-            Add another position
+            Add another financing position
           </button>
         </div>
       )}
@@ -545,96 +552,218 @@ export function FinancingStep({ data, update, errors }: StepProps) {
   )
 }
 
-export { DocumentsStep }
+export function BankFinancingStep(props: StepProps) {
+  return (
+    <div className="flex flex-col">
+      <DocumentsStep {...props} />
+      <FinancingStep {...props} />
+    </div>
+  )
+}
 
-/* ================================================================ 7 */
+const ENTITY_LABEL: Record<string, string> = Object.fromEntries(
+  ENTITY_TYPES.map((e) => [e.value, e.label]),
+)
+const INDUSTRY_LABEL: Record<string, string> = Object.fromEntries(
+  INDUSTRY_OPTIONS.map((e) => [e.value, e.label]),
+)
+const USE_LABEL: Record<string, string> = Object.fromEntries(USE_OF_FUNDS.map((e) => [e.value, e.label]))
+const formatEin = (ein: string) => {
+  const d = ein.replace(/\D/g, '')
+  return d.length === 9 ? `${d.slice(0, 2)}-${d.slice(2)}` : ein
+}
 
-export function AuthorizationStep({ data, update, errors }: StepProps) {
+function ReviewRow({ label, value }: { label: string; value: string }) {
+  return (
+    <div className="grid gap-1 py-3 sm:grid-cols-[minmax(0,12rem)_minmax(0,1fr)] sm:gap-4">
+      <dt className="text-[0.8125rem] text-ink-3">{label}</dt>
+      <dd className="min-w-0 break-words text-[0.9375rem] text-ink">{value || '—'}</dd>
+    </div>
+  )
+}
+
+function ReviewSection({
+  title,
+  stepId,
+  onEdit,
+  children,
+}: {
+  title: string
+  stepId: StepId
+  onEdit: (id: StepId) => void
+  children: ReactNode
+}) {
+  return (
+    <section className="border-b border-rule pb-6">
+      <div className="mb-1 flex items-center justify-between gap-3">
+        <h3 className="text-[1.0625rem] font-semibold text-ink">{title}</h3>
+        <button
+          type="button"
+          onClick={() => onEdit(stepId)}
+          className="flex shrink-0 items-center gap-1.5 rounded-full border border-rule px-3.5 py-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-leaf-deep transition-colors duration-150 hover:border-leaf hover:bg-leaf/6"
+        >
+          <PencilSimpleIcon size={12} />
+          Edit
+        </button>
+      </div>
+      <dl className="divide-y divide-rule-soft">{children}</dl>
+    </section>
+  )
+}
+
+export function ReviewSignStep({
+  data,
+  update,
+  errors,
+  onEdit,
+}: StepProps & { onEdit: (id: StepId) => void }) {
   const set = <K extends keyof ApplicationData['authorization']>(
     k: K,
     v: ApplicationData['authorization'][K],
   ) => update('authorization', { ...data.authorization, [k]: v })
 
   const owners = activeOwners(data)
-
-  const setSignature = (i: number, v: string) => {
-    const next = Array.from({ length: owners.length }, (_, n) => data.authorization.signatures[n] ?? '')
-    next[i] = v
-    set('signatures', next)
-  }
-
   const today = new Date().toLocaleDateString('en-US', {
     month: '2-digit',
     day: '2-digit',
     year: 'numeric',
   })
 
+  const bankStatus = (() => {
+    if (data.documents.method === 'plaid' && data.documents.plaidStatus === 'connected') {
+      return 'Bank connected'
+    }
+    if (data.documents.plaidStatus === 'failed') return 'Bank connection did not finish — statements uploaded'
+    const n = data.documents.statements.filter((f) => f.status === 'done').length
+    return n ? `${n} statement${n === 1 ? '' : 's'} uploaded` : 'No statements yet'
+  })()
+
   return (
-    <div className="flex flex-col gap-8">
+    <div className="flex flex-col gap-10">
+      <div className="flex flex-col gap-8">
+        <p className="max-w-[62ch] text-lead text-ink-2">
+          Confirm the details below, then read the authorization and sign. Use Edit to change a
+          section — your other answers stay as you left them.
+        </p>
+
+        <ReviewSection title="Business & funding" stepId="business" onEdit={onEdit}>
+          <ReviewRow label="Legal business name" value={data.business.legalName} />
+          <ReviewRow label="DBA / trade name" value={data.business.dba} />
+          <ReviewRow
+            label="Entity type"
+            value={ENTITY_LABEL[data.business.entityType] ?? data.business.entityType}
+          />
+          <ReviewRow label="EIN" value={formatEin(data.business.ein)} />
+          <ReviewRow
+            label="Business address"
+            value={[
+              data.business.street,
+              [data.business.city, data.business.state, data.business.zip].filter(Boolean).join(', '),
+            ]
+              .filter(Boolean)
+              .join(', ')}
+          />
+          <ReviewRow label="Business phone" value={data.business.phone} />
+          <ReviewRow
+            label="Industry"
+            value={INDUSTRY_LABEL[data.business.industry] ?? data.business.industry}
+          />
+          <ReviewRow label="Business start date" value={data.business.startDate} />
+          <ReviewRow label="Average monthly revenue" value={data.business.monthlyRevenue} />
+          <ReviewRow label="Number of owners" value={String(ownerCount(data))} />
+          <ReviewRow label="Funding requested" value={data.funding.amountRequested} />
+          <ReviewRow
+            label="Use of funds"
+            value={USE_LABEL[data.funding.useOfFunds] ?? data.funding.useOfFunds}
+          />
+        </ReviewSection>
+
+        {owners.map((o, i) => (
+          <ReviewSection
+            key={i}
+            title={owners.length > 1 ? `Owner ${i + 1}` : 'Owner'}
+            stepId="owner"
+            onEdit={onEdit}
+          >
+            <ReviewRow label="Name" value={`${o.firstName} ${o.lastName}`.trim()} />
+            <ReviewRow label="Title / position" value={o.title} />
+            <ReviewRow label="Ownership" value={o.ownership ? `${o.ownership}%` : ''} />
+            <ReviewRow label="Email" value={o.email} />
+            <ReviewRow label="Mobile phone" value={o.phone} />
+            <ReviewRow
+              label="Home address"
+              value={[o.street, [o.city, o.state, o.zip].filter(Boolean).join(', ')].filter(Boolean).join(', ')}
+            />
+            <ReviewRow label="Date of birth" value={o.dob} />
+            <ReviewRow label="Social Security number" value={ownerHasData(o) ? maskSsn(o.ssn) : '—'} />
+          </ReviewSection>
+        ))}
+
+        <ReviewSection title="Bank statements & financing" stepId="documents" onEdit={onEdit}>
+          <ReviewRow label="Bank documents" value={bankStatus} />
+          <ReviewRow
+            label="Existing financing"
+            value={
+              data.hasExistingFinancing === false
+                ? 'None'
+                : data.hasExistingFinancing
+                  ? `${data.positions.length} position${data.positions.length === 1 ? '' : 's'}`
+                  : '—'
+            }
+          />
+          {data.hasExistingFinancing &&
+            data.positions.map((p, i) => (
+              <ReviewRow
+                key={i}
+                label={data.positions.length > 1 ? `Position ${i + 1}` : 'Position'}
+                value={[p.funder, p.currentBalance, p.paymentAmount, p.frequency]
+                  .filter(Boolean)
+                  .join(' · ')}
+              />
+            ))}
+        </ReviewSection>
+      </div>
+
       <AuthorizationText />
 
-      {/* One certification checkbox carries the whole consent. */}
-      <label className="flex cursor-pointer items-start gap-3.5 border-y border-rule py-5">
-        <input
-          type="checkbox"
-          checked={data.authorization.certified}
-          onChange={(e) => set('certified', e.target.checked)}
-          className="mt-0.5 h-[18px] w-[18px] shrink-0 cursor-pointer accent-[var(--color-leaf-deep)]"
-          aria-describedby="cert-err"
-        />
-        <span className="text-[0.9375rem] leading-relaxed text-ink-2">
-          I certify that the information provided in this application is true and complete, and I
-          acknowledge and agree to the applicable authorizations and disclosures above.
-        </span>
-      </label>
-      {errors['authorization.certified'] && (
-        <p id="cert-err" className="field-error -mt-6" role="alert">
-          {errors['authorization.certified']}
+      {ownerCount(data) > 1 && (
+        <p className="max-w-[62ch] text-[0.875rem] leading-relaxed text-ink-3">
+          The signature below is from the person submitting this application. Additional owners may
+          be asked to complete their own credit and background authorization. This signature does not
+          authorize a personal credit or background check for another owner.
         </p>
       )}
 
-      <div className="grid gap-6 sm:grid-cols-2">
-        <TextInput
-          label="Full name"
-          required
-          value={data.authorization.fullName}
-          onChange={(v) => set('fullName', v)}
-          error={errors['authorization.fullName']}
-          autoComplete="name"
-        />
-        <TextInput
-          label="Title / position"
-          required
-          value={data.authorization.title}
-          onChange={(v) => set('title', v)}
-          error={errors['authorization.title']}
-        />
-      </div>
+      <p className="max-w-[62ch] text-[0.9375rem] leading-relaxed text-ink">
+        By signing below, I acknowledge that I have read and agree to the complete Authorization and
+        certify that I am authorized to submit this application on behalf of the business.
+      </p>
 
-      {/* Exactly as many signature blocks as there are owners - no more, no fewer. */}
-      {owners.map((o, i) => {
-        const name = `${o.firstName} ${o.lastName}`.trim()
-        return (
-          <div key={i} className={cn(i > 0 && 'border-t border-rule pt-8')}>
-            {owners.length > 1 && (
-              <p className="mb-5 font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-3">
-                Owner #{i + 1}
-                {name && ` · ${name}`}
-              </p>
-            )}
-            <SignaturePad
-              label={owners.length > 1 ? `Owner #${i + 1} electronic signature` : 'Electronic signature'}
-              required
-              value={data.authorization.signatures[i] ?? ''}
-              onChange={(v) => setSignature(i, v)}
-              error={errors[`authorization.signatures.${i}`]}
-            />
-          </div>
-        )
-      })}
+      <TextInput
+        label="Applicant name"
+        required
+        value={data.authorization.fullName}
+        onChange={(v) => set('fullName', v)}
+        error={errors['authorization.fullName']}
+        autoComplete="name"
+        className="max-w-md"
+      />
+
+      <SignaturePad
+        label="Signature"
+        required
+        value={data.authorization.signatures[0] ?? ''}
+        onChange={(v) => set('signatures', [v])}
+        error={errors['authorization.signatures.0']}
+      />
 
       <div className="field max-w-[220px]">
-        <span className="field-label">Date</span>
+        <span className="field-label">
+          Date
+          <span className="ml-1 text-rate" aria-hidden="true">
+            *
+          </span>
+        </span>
         <div className="input flex items-center bg-paper font-mono tabular-nums text-ink-2">
           {today}
         </div>
@@ -643,3 +772,5 @@ export function AuthorizationStep({ data, update, errors }: StepProps) {
     </div>
   )
 }
+
+export { DocumentsStep }

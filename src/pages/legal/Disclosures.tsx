@@ -100,10 +100,9 @@ export function Component() {
 
         <h2>Eligibility check</h2>
         <p>
-          The short check that opens the application returns an indicative range only. It collects no
-          personal information, is not a credit inquiry, is not underwriting, and is not an approval.
-          Any range it produces may differ materially from any offer made after underwriting, and
-          nothing entered into it is stored or used to price you.
+          The short check that opens the application collects average monthly revenue, time in
+          business, and industry. It collects no personal information, is not a credit inquiry, is
+          not underwriting, and is not an approval. Nothing entered into it is used to price you.
         </p>
 
         <h2>Credit and background inquiries</h2>

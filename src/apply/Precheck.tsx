@@ -1,25 +1,24 @@
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 import { ArrowRightIcon } from '@phosphor-icons/react'
 import { SelectInput } from './fields'
 import type { ApplicationData } from './types'
-import { INDUSTRIES, PRODUCT, SITE, currency } from '../data/site'
+import { INDUSTRIES } from '../data/site'
 
 /**
  * Pre-check - a few short questions, no personally identifying information.
  *
- * Two jobs: filter unqualified traffic before it reaches an underwriter, and
- * give qualified traffic a concrete reason to start seven steps. Nothing here
- * is stored against a person, and nothing is a credit pull. The thresholds it
- * reads are internal guidelines and are deliberately not named in the copy.
+ * Collects three facts so the application can start. It does not approve,
+ * decline, or quote a range. Credit and background information may be
+ * obtained only after a full application is submitted with authorization.
  */
 
 const REVENUE_BANDS = [
-  { value: 'under-15k', label: 'Under $15,000', mid: 10_000 },
-  { value: '15-30k', label: '$15,000 – $30,000', mid: 22_500 },
-  { value: '30-60k', label: '$30,000 – $60,000', mid: 45_000 },
-  { value: '60-100k', label: '$60,000 – $100,000', mid: 80_000 },
-  { value: '100-250k', label: '$100,000 – $250,000', mid: 175_000 },
-  { value: 'over-250k', label: 'Over $250,000', mid: 350_000 },
+  { value: 'under-15k', label: 'Under $15,000' },
+  { value: '15-30k', label: '$15,000 – $30,000' },
+  { value: '30-60k', label: '$30,000 – $60,000' },
+  { value: '60-100k', label: '$60,000 – $100,000' },
+  { value: '100-250k', label: '$100,000 – $250,000' },
+  { value: 'over-250k', label: 'Over $250,000' },
 ]
 
 const TIME_BANDS = [
@@ -47,30 +46,6 @@ export function Precheck({
 
   const complete = Boolean(p.monthlyRevenue && p.timeInBusiness && p.industry)
 
-  const result = useMemo(() => {
-    if (!complete) return null
-
-    const band = REVENUE_BANDS.find((b) => b.value === p.monthlyRevenue)
-    const tooSmall = p.monthlyRevenue === 'under-15k'
-    const tooNew = p.timeInBusiness === 'under-6m'
-
-    if (tooSmall || tooNew) {
-      return {
-        ok: false as const,
-        reason: tooSmall
-          ? 'Businesses at this revenue level are harder for us to structure funding around.'
-          : 'Businesses this new are harder for us to structure funding around.',
-      }
-    }
-
-    // Indicative only - scaled from average monthly deposits, bounded by the product range.
-    const mid = band?.mid ?? 30_000
-    const low = Math.max(PRODUCT.advanceMin, Math.round((mid * 0.6) / 5000) * 5000)
-    const high = Math.min(PRODUCT.advanceMax, Math.round((mid * 1.4) / 5000) * 5000)
-
-    return { ok: true as const, low, high }
-  }, [complete, p.monthlyRevenue, p.timeInBusiness])
-
   return (
     <div className="max-w-xl">
       <div className="flex flex-col gap-6">
@@ -79,7 +54,7 @@ export function Precheck({
           required
           value={p.monthlyRevenue}
           onChange={(v) => set('monthlyRevenue', v)}
-          options={REVENUE_BANDS.map(({ value, label }) => ({ value, label }))}
+          options={REVENUE_BANDS}
           error={touched && !p.monthlyRevenue ? 'Pick a range to continue' : undefined}
         />
         <SelectInput
@@ -104,39 +79,6 @@ export function Precheck({
         />
       </div>
 
-      {result?.ok && (
-        <div className="mt-8 border-l-[3px] border-leaf bg-paper p-5 motion-safe:animate-[resultIn_320ms_cubic-bezier(0.23,1,0.32,1)]">
-          <p className="eyebrow">Indicative range</p>
-          <p className="mt-2.5 font-mono text-[clamp(1.5rem,3.4vw,2rem)] font-medium tabular-nums leading-none tracking-[-0.03em] text-ink">
-            {currency(result.low)} – {currency(result.high)}
-          </p>
-          <p className="mt-3 max-w-[52ch] text-[0.9375rem] leading-relaxed text-ink-2">
-            Businesses like yours may qualify for this range. It is an estimate based on
-            revenue alone - your actual offer depends on underwriting your bank statements.
-          </p>
-        </div>
-      )}
-
-      {result && !result.ok && (
-        <div className="mt-8 border-l-[3px] border-leaf bg-paper p-5">
-          <div>
-            <p className="text-[0.9375rem] font-semibold text-ink">
-              You may not qualify just yet
-            </p>
-            <p className="mt-1.5 max-w-[52ch] text-[0.9375rem] leading-relaxed text-ink-2">
-              {result.reason} You are welcome to apply anyway - underwriting looks at the whole
-              picture - or call us and we'll tell you straight away whether it's worth your time.
-            </p>
-            <a
-              href={SITE.phoneHref}
-              className="mt-3 inline-block font-medium text-leaf-deep underline underline-offset-[3px]"
-            >
-              {SITE.phone}
-            </a>
-          </div>
-        </div>
-      )}
-
       <div className="mt-9">
         <button
           type="button"
@@ -144,28 +86,25 @@ export function Precheck({
             setTouched(true)
             if (!complete) return
             update('precheck', { ...p, completed: true })
+            if (!data.business.industry && p.industry) {
+              update('business', { ...data.business, industry: p.industry })
+            }
             onContinue()
           }}
-          className="btn btn-primary btn-lg group"
+          className="btn btn-primary btn-lg group min-h-12 w-full sm:w-auto"
         >
-          {result?.ok ? 'Continue to application' : 'Start application'}
+          Start Application
           <ArrowRightIcon
             size={16}
             weight="bold"
             className="transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-0.5"
           />
         </button>
-        <p className="mt-3.5 text-[0.8125rem] text-ink-3">
-          A few short steps from here. No credit pull at any point in the application.
+        <p className="mt-3.5 max-w-[54ch] text-[0.8125rem] leading-relaxed text-ink-3">
+          No credit inquiry during the eligibility check. Credit and background information may be
+          obtained after you submit a full application and provide authorization.
         </p>
       </div>
-
-      <style>{`
-        @keyframes resultIn {
-          from { opacity: 0; transform: translateY(8px); }
-          to   { opacity: 1; transform: none; }
-        }
-      `}</style>
     </div>
   )
 }

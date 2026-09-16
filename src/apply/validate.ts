@@ -1,5 +1,5 @@
 import type { ApplicationData, Owner, StepId } from './types'
-import { activeOwners, emptyOwner, ownerIndexOf, requiredUploads } from './types'
+import { emptyOwner, ownersRevealed, requiredUploads } from './types'
 
 type Errors = Record<string, string>
 
@@ -35,14 +35,6 @@ function validateOwner(o: Owner, prefix: string, e: Errors) {
 export function validateStep(step: StepId, d: ApplicationData): Errors {
   const e: Errors = {}
 
-  // Owner steps are generated from the count given in step 1, so they are
-  // matched by position rather than by a fixed id.
-  const ownerIdx = ownerIndexOf(step)
-  if (ownerIdx !== null) {
-    validateOwner(d.owners[ownerIdx] ?? emptyOwner(), `owners.${ownerIdx}`, e)
-    return e
-  }
-
   switch (step) {
     case 'business': {
       const b = d.business
@@ -57,25 +49,42 @@ export function validateStep(step: StepId, d: ApplicationData): Errors {
       if (!req(b.industry)) e['business.industry'] = M.required
       if (!req(b.startDate)) e['business.startDate'] = M.required
       if (!req(b.monthlyRevenue)) e['business.monthlyRevenue'] = M.amount
-      break
-    }
-
-    case 'funding': {
+      if (!d.ownerCount) e['ownerCount'] = M.required
       if (!req(d.funding.amountRequested)) e['funding.amountRequested'] = M.amount
       if (!req(d.funding.useOfFunds)) e['funding.useOfFunds'] = M.required
-      if (!req(d.funding.urgency)) e['funding.urgency'] = M.required
       break
     }
 
-    case 'financing': {
-      if (d.hasExistingFinancing === null) {
-        e['hasExistingFinancing'] = 'Answer yes or no to continue'
+    case 'owner': {
+      const shown = ownersRevealed(d)
+      for (let i = 0; i < shown; i++) {
+        validateOwner(d.owners[i] ?? emptyOwner(), `owners.${i}`, e)
+      }
+      break
+    }
+
+    case 'documents': {
+      const connected = d.documents.method === 'plaid' && d.documents.plaidStatus === 'connected'
+      const connecting = d.documents.method === 'plaid' && d.documents.plaidStatus === 'connecting'
+      if (connecting) {
+        e['documents'] = 'Wait for the bank connection to finish, or upload statements instead'
         break
       }
-      if (d.hasExistingFinancing) {
+      if (!connected) {
+        const done = d.documents.statements.filter((f) => f.status === 'done').length
+        if (done < requiredUploads) {
+          e['documents'] =
+            d.documents.plaidStatus === 'failed'
+              ? 'Bank connection did not finish. Upload at least one statement to continue'
+              : 'Attach at least one bank statement, or connect your bank instead'
+        }
+      }
+
+      if (d.hasExistingFinancing === null) {
+        e['hasExistingFinancing'] = 'Answer yes or no to continue'
+      } else if (d.hasExistingFinancing) {
         d.positions.forEach((p, i) => {
           if (!req(p.funder)) e[`positions.${i}.funder`] = M.required
-          if (!req(p.originalAmount)) e[`positions.${i}.originalAmount`] = M.amount
           if (!req(p.currentBalance)) e[`positions.${i}.currentBalance`] = M.amount
           if (!req(p.frequency)) e[`positions.${i}.frequency`] = M.required
           if (!req(p.paymentAmount)) e[`positions.${i}.paymentAmount`] = M.amount
@@ -84,28 +93,10 @@ export function validateStep(step: StepId, d: ApplicationData): Errors {
       break
     }
 
-    case 'documents': {
-      if (d.documents.method === 'plaid') break
-      const done = d.documents.statements.filter((f) => f.status === 'done').length
-      if (done < requiredUploads) {
-        e['documents'] = 'Attach at least one bank statement, or connect your bank instead'
-      }
-      break
-    }
-
-    case 'authorization': {
+    case 'review': {
       const a = d.authorization
-      if (!a.certified) e['authorization.certified'] = 'Tick the box to continue'
       if (!req(a.fullName)) e['authorization.fullName'] = M.required
-      if (!req(a.title)) e['authorization.title'] = M.required
-      activeOwners(d).forEach((o, i) => {
-        if (a.signatures[i]) return
-        const name = `${o.firstName} ${o.lastName}`.trim()
-        e[`authorization.signatures.${i}`] =
-          i === 0 && d.ownerCount === 1
-            ? 'Sign above to continue'
-            : `A signature is required for ${name || `owner #${i + 1}`}`
-      })
+      if (!a.signatures[0]) e['authorization.signatures.0'] = 'Sign above to continue'
       break
     }
   }

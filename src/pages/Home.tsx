@@ -146,7 +146,7 @@ export function Component() {
           <SectionHead
             eyebrow="Get started"
             title="See what your business may qualify for."
-            lead="Tell us roughly how much you are looking for and we'll take it from there. No credit pull, no obligation."
+            lead="Tell us roughly how much you are looking for and we'll take it from there. No credit inquiry during the eligibility check. No obligation."
           />
           <EligibilityCta />
         </div>

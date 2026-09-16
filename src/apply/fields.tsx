@@ -1,5 +1,6 @@
 import { useEffect, useId, useRef, useState } from 'react'
 import type { ReactNode } from 'react'
+import { EyeIcon, EyeSlashIcon } from '@phosphor-icons/react'
 import { cn } from '../lib/cn'
 
 /* ------------------------------------------------------------------
@@ -125,6 +126,68 @@ export function SelectInput({
           </option>
         ))}
       </select>
+    </Field>
+  )
+}
+
+export function SsnInput({
+  label,
+  hint,
+  error,
+  required,
+  className,
+  value,
+  onChange,
+}: BaseProps & {
+  value: string
+  onChange: (v: string) => void
+}) {
+  const id = useId()
+  const [visible, setVisible] = useState(false)
+  const digits = value.replace(/\D/g, '').slice(0, 9)
+
+  const formatted = (() => {
+    if (digits.length <= 3) return digits
+    if (digits.length <= 5) return `${digits.slice(0, 3)}-${digits.slice(3)}`
+    return `${digits.slice(0, 3)}-${digits.slice(3, 5)}-${digits.slice(5)}`
+  })()
+
+  return (
+    <Field
+      label={label}
+      hint={hint}
+      error={error}
+      required={required}
+      className={className}
+      htmlFor={id}
+    >
+      <div className="relative">
+        <input
+          id={id}
+          className={cn('input pr-24', !visible && 'ssn-masked')}
+          value={formatted}
+          onChange={(e) => onChange(e.target.value.replace(/\D/g, '').slice(0, 9))}
+          inputMode="numeric"
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+          spellCheck={false}
+          name="ssn"
+          placeholder="•••-••-••••"
+          aria-invalid={error ? 'true' : undefined}
+        />
+        <button
+          type="button"
+          onClick={() => setVisible((v) => !v)}
+          className="absolute inset-y-0 right-2 my-auto inline-flex h-10 items-center gap-1.5 rounded-full px-2.5 text-[0.8125rem] font-medium text-ink-3 transition-colors hover:text-ink"
+          aria-pressed={visible}
+          aria-controls={id}
+          aria-label={visible ? 'Hide Social Security number' : 'Show Social Security number'}
+        >
+          {visible ? <EyeSlashIcon size={16} /> : <EyeIcon size={16} />}
+          {visible ? 'Hide' : 'Show'}
+        </button>
+      </div>
     </Field>
   )
 }

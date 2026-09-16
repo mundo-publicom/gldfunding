@@ -31,7 +31,7 @@ test.describe('eligibility CTA', () => {
     await page.getByRole('button', { name: /Continue to application|Start application/i }).click()
 
     const saved = await page.evaluate(() => {
-      const raw = localStorage.getItem('gld-application-v2')
+      const raw = localStorage.getItem('gld-application-v3')
       return raw ? JSON.parse(raw).data.funding.amountRequested : null
     })
     expect(saved, 'the amount must reach the funding step').toBe('$50,000')

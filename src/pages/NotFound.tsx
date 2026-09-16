@@ -19,7 +19,7 @@ export function NotFoundBody() {
           { to: '/funding/merchant-cash-advance', t: 'What is an MCA?', d: 'How an advance works' },
           { to: '/funding/mca-vs-business-loan', t: 'MCA vs. business loan', d: 'A side-by-side comparison' },
           { to: '/funding/how-it-works', t: 'How it works', d: 'Apply, review, get funded' },
-          { to: '/apply', t: 'Check eligibility', d: 'A few simple questions, no credit pull' },
+          { to: '/apply', t: 'Check eligibility', d: 'A few simple questions to get started' },
         ].map((l) => (
           <li key={l.to}>
             <Link to={l.to} className="block h-full bg-white p-5 text-left transition-colors hover:bg-paper">

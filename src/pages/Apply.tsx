@@ -5,33 +5,32 @@ import {
   ArrowRightIcon,
   CheckIcon,
   LockSimpleIcon,
-  PencilSimpleIcon,
 } from '@phosphor-icons/react'
 import { Seo, breadcrumbSchema } from '../lib/seo'
-import { PRODUCT, SITE, currency } from '../data/site'
+import { SITE } from '../data/site'
 import { cn } from '../lib/cn'
 import {
   AUTH_VERSION,
   emptyApplication,
-  ownerIndexOf,
+  ownerCount,
+  ownersRevealed,
   requiredStatements,
   visibleSteps,
 } from '../apply/types'
-import type { ApplicationData, StepDef, StepId } from '../apply/types'
-import {
-  AuthorizationStep,
-  BusinessStep,
-  DocumentsStep,
-  FinancingStep,
-  FundingStep,
-  OwnerStep,
-} from '../apply/steps'
+import type { ApplicationData, StepId } from '../apply/types'
+import { BankFinancingStep, BusinessStep, OwnerStep, ReviewSignStep } from '../apply/steps'
 import { Precheck } from '../apply/Precheck'
 import { validateStep } from '../apply/validate'
 
-const STORAGE_KEY = 'gld-application-v2'
+const STORAGE_KEY = 'gld-application-v3'
 
-type Phase = 'precheck' | 'form' | 'review' | 'done'
+type Phase = 'precheck' | 'form' | 'done'
+
+function errorsEqual(a: Record<string, string>, b: Record<string, string>) {
+  const keys = Object.keys(a)
+  if (keys.length !== Object.keys(b).length) return false
+  return keys.every((k) => a[k] === b[k])
+}
 
 export function Component() {
   const [data, setData] = useState<ApplicationData>(emptyApplication)
@@ -41,9 +40,11 @@ export function Component() {
   const [direction, setDirection] = useState<1 | -1>(1)
   const [restored, setRestored] = useState(false)
   const [reference, setReference] = useState('')
+  const [submitting, setSubmitting] = useState(false)
+  const [returnToReview, setReturnToReview] = useState(false)
   const topRef = useRef<HTMLDivElement>(null)
+  const submittingLock = useRef(false)
 
-  /* --- steps visible to THIS applicant --- */
   const steps = useMemo(() => visibleSteps(data), [data])
   const step = steps[Math.min(stepIndex, steps.length - 1)]
 
@@ -62,9 +63,16 @@ export function Component() {
         ? (JSON.parse(raw) as { data: ApplicationData; phase: Phase; stepIndex: number })
         : null
       if (saved?.data) {
-        next = saved.data
+        next = {
+          ...emptyApplication(),
+          ...saved.data,
+          documents: {
+            ...emptyApplication().documents,
+            ...saved.data.documents,
+          },
+        }
         setPhase(saved.phase === 'done' ? 'precheck' : saved.phase)
-        setStepIndex(saved.stepIndex ?? 0)
+        setStepIndex(Math.min(saved.stepIndex ?? 0, steps.length - 1))
         setRestored(true)
       }
     } catch {
@@ -91,6 +99,13 @@ export function Component() {
     }
   }, [data, phase, stepIndex])
 
+  /* Inline errors clear as fields are fixed, rather than waiting for Continue. */
+  useEffect(() => {
+    if (!Object.keys(errors).length || phase !== 'form') return
+    const next = validateStep(step.id, data)
+    setErrors((prev) => (errorsEqual(prev, next) ? prev : next))
+  }, [data, errors, phase, step.id])
+
   const update = useCallback(
     <K extends keyof ApplicationData>(key: K, value: ApplicationData[K]) => {
       setData((d) => ({ ...d, [key]: value }))
@@ -107,23 +122,66 @@ export function Component() {
     })
   }
 
+  const focusFirstError = () => {
+    requestAnimationFrame(() => {
+      const el = document.querySelector<HTMLElement>('[aria-invalid="true"], [role="alert"]')
+      el?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'center',
+      })
+      if (el && (el.tagName === 'INPUT' || el.tagName === 'SELECT' || el.tagName === 'TEXTAREA')) {
+        el.focus()
+      } else {
+        el?.querySelector<HTMLElement>('input, select, textarea, button')?.focus()
+      }
+    })
+  }
+
   const goNext = () => {
+    if (step.id === 'owner') {
+      const found = validateStep('owner', data)
+      if (Object.keys(found).length) {
+        setErrors(found)
+        focusFirstError()
+        return
+      }
+      const revealed = ownersRevealed(data)
+      const needed = ownerCount(data)
+      if (revealed < needed) {
+        const nextShown = revealed + 1
+        setData((d) => ({ ...d, ownersRevealed: nextShown }))
+        setErrors({})
+        requestAnimationFrame(() => {
+          document
+            .querySelector<HTMLElement>(`[aria-label="Owner ${nextShown}"]`)
+            ?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+        })
+        return
+      }
+    }
+
     const found = validateStep(step.id, data)
     if (Object.keys(found).length) {
       setErrors(found)
-      // Move focus to the first thing that needs fixing.
-      requestAnimationFrame(() => {
-        document.querySelector<HTMLElement>('[aria-invalid="true"], [role="alert"]')?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'center',
-        })
-      })
+      focusFirstError()
       return
     }
     setErrors({})
     setDirection(1)
-    if (stepIndex >= steps.length - 1) setPhase('review')
-    else setStepIndex((i) => i + 1)
+
+    if (step.id === 'review') {
+      submit()
+      return
+    }
+
+    if (returnToReview) {
+      setReturnToReview(false)
+      setStepIndex(steps.findIndex((s) => s.id === 'review'))
+      scrollToTop()
+      return
+    }
+
+    setStepIndex((i) => Math.min(i + 1, steps.length - 1))
     scrollToTop()
   }
 
@@ -139,26 +197,39 @@ export function Component() {
     const idx = steps.findIndex((s) => s.id === id)
     if (idx < 0) return
     setStepIndex(idx)
-    setPhase('form')
+    setReturnToReview(true)
     setDirection(-1)
     scrollToTop()
   }
 
   const submit = () => {
+    if (submittingLock.current || submitting) return
+    const found = validateStep('review', data)
+    if (Object.keys(found).length) {
+      setErrors(found)
+      focusFirstError()
+      return
+    }
+    submittingLock.current = true
+    setSubmitting(true)
+
+    const signedAt = new Date().toISOString()
+    const ref = `GLD-${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${Math.floor(1000 + Math.random() * 9000)}`
+
     setData((d) => ({
       ...d,
       authorization: {
         ...d.authorization,
-        date: new Date().toISOString(),
+        date: signedAt,
         // ⚠️ Must be persisted server-side to be defensible under E-SIGN / UETA.
         audit: {
-          signedAt: new Date().toISOString(),
+          signedAt,
           userAgent: navigator.userAgent,
           authVersion: AUTH_VERSION,
+          applicationId: ref,
         },
       },
     }))
-    const ref = `GLD-${new Date().getFullYear()}-${String(new Date().getMonth() + 1).padStart(2, '0')}-${Math.floor(1000 + Math.random() * 9000)}`
     setReference(ref)
     setPhase('done')
     try {
@@ -169,6 +240,20 @@ export function Component() {
     scrollToTop()
   }
 
+  /* Keep Continue above the on-screen keyboard. */
+  useEffect(() => {
+    const onFocus = (e: FocusEvent) => {
+      const t = e.target
+      if (!(t instanceof HTMLElement)) return
+      if (!t.matches('input, select, textarea')) return
+      window.setTimeout(() => {
+        t.scrollIntoView({ block: 'center', behavior: 'smooth' })
+      }, 300)
+    }
+    document.addEventListener('focusin', onFocus)
+    return () => document.removeEventListener('focusin', onFocus)
+  }, [])
+
   /* ---------------------------------------------------------------- */
 
   if (phase === 'done') {
@@ -176,8 +261,8 @@ export function Component() {
       <>
         <Seo
           path="/apply"
-          title="Application received"
-          description="Your application has been received by GLD Factoring LLC DBA GLD Funding."
+          title="Application submitted"
+          description="Your application has been submitted to GLD Factoring LLC DBA GLD Funding."
           noindex
         />
         <Confirmation reference={reference} email={data.owners[0]?.email ?? ''} />
@@ -190,7 +275,7 @@ export function Component() {
       <Seo
         path="/apply"
         title="Apply for Business Funding"
-        description={`Apply for a merchant cash advance from ${currency(PRODUCT.advanceMin)} to ${currency(PRODUCT.advanceMax)}. A few short steps, your bank statements, and a review by our underwriting team.`}
+        description="Apply for a merchant cash advance from GLD Funding. Four short steps, your bank statements, and a review by our underwriting team."
         schema={[
           breadcrumbSchema([
             { name: 'Home', path: '/' },
@@ -203,28 +288,23 @@ export function Component() {
         <div className="page py-10 lg:py-12">
           <p className="eyebrow">Apply for funding</p>
           <h1 className="mt-3 text-h1 font-semibold text-ink">
-            {phase === 'precheck'
-              ? 'See what you may qualify for.'
-              : phase === 'review'
-                ? 'Review your application'
-                : step.title}
+            {phase === 'precheck' ? 'Start your application' : step.title}
           </h1>
           {phase === 'precheck' && (
             <p className="mt-4 max-w-[54ch] text-lead text-ink-2">
-              A few simple questions first. No contact details, no personal information, no credit
-              pull - just an indicative range so you know whether it's worth continuing.
+              Three quick questions, then the full application. No contact details on this screen.
             </p>
           )}
         </div>
       </div>
 
       {phase === 'form' && (
-        <ProgressBar current={stepIndex} total={steps.length} title={step.title} />
+        <ProgressBar current={stepIndex} steps={steps.map((s) => s.shortTitle)} />
       )}
 
       <div className="page grid gap-10 py-12 lg:grid-cols-[minmax(0,1fr)_300px] lg:gap-16 lg:py-16">
-        <div className="min-w-0">
-          {restored && phase !== 'review' && (
+        <div className="min-w-0 pb-28 lg:pb-0">
+          {restored && (
             <div className="mb-8 flex items-start gap-3 border-l-[3px] border-leaf bg-paper p-4">
               <CheckIcon size={17} weight="bold" className="mt-0.5 shrink-0 text-leaf-deep" />
               <p className="text-[0.9375rem] text-ink-2">
@@ -236,6 +316,7 @@ export function Component() {
                     setPhase('precheck')
                     setStepIndex(0)
                     setRestored(false)
+                    setReturnToReview(false)
                   }}
                   className="font-medium text-leaf-deep underline underline-offset-[3px]"
                 >
@@ -264,30 +345,46 @@ export function Component() {
               className="motion-safe:animate-[stepIn_240ms_cubic-bezier(0.32,0.72,0,1)]"
               style={{ ['--dir' as string]: direction === 1 ? '1' : '-1' }}
             >
-              <StepBody id={step.id} data={data} update={update} errors={errors} />
+              <StepBody
+                id={step.id}
+                data={data}
+                update={update}
+                errors={errors}
+                onEdit={editStep}
+              />
 
-              <div className="mt-10 flex items-center justify-between gap-4 border-t border-rule pt-6">
-                <button type="button" onClick={goBack} className="btn btn-secondary">
-                  <ArrowLeftIcon size={15} weight="bold" />
-                  Back
-                </button>
-                <button type="button" onClick={goNext} className="btn btn-primary group">
-                  {stepIndex >= steps.length - 1 ? 'Review application' : 'Continue'}
-                  <ArrowRightIcon
-                    size={15}
-                    weight="bold"
-                    className="transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-0.5"
-                  />
-                </button>
+              <div className="pointer-events-none fixed inset-x-0 bottom-0 z-40 border-t border-rule bg-white/96 py-3 pb-[max(0.75rem,env(safe-area-inset-bottom))] backdrop-blur-md lg:static lg:mt-10 lg:border-t lg:bg-transparent lg:p-0 lg:pt-6 lg:backdrop-blur-none">
+                <div className="pointer-events-auto flex flex-col-reverse gap-3 px-6 sm:flex-row sm:items-center sm:justify-between lg:px-0">
+                  <button
+                    type="button"
+                    onClick={goBack}
+                    className="btn btn-secondary min-h-12 w-full sm:w-auto"
+                  >
+                    <ArrowLeftIcon size={15} weight="bold" />
+                    Back
+                  </button>
+                  <button
+                    type="button"
+                    onClick={goNext}
+                    disabled={submitting}
+                    className="btn btn-primary btn-lg group min-h-12 w-full sm:w-auto"
+                  >
+                    {step.id === 'review'
+                      ? submitting
+                        ? 'Submitting…'
+                        : 'Submit application'
+                      : 'Continue'}
+                    {step.id !== 'review' && (
+                      <ArrowRightIcon
+                        size={15}
+                        weight="bold"
+                        className="transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-0.5"
+                      />
+                    )}
+                  </button>
+                </div>
               </div>
             </div>
-          )}
-
-          {phase === 'review' && (
-            <Review data={data} steps={steps} onEdit={editStep} onSubmit={submit} onBack={() => {
-              setPhase('form')
-              setStepIndex(steps.length - 1)
-            }} />
           )}
         </div>
 
@@ -312,154 +409,66 @@ Component.displayName = 'Apply'
 
 function StepBody({
   id,
+  onEdit,
   ...props
-}: { id: StepId } & {
+}: {
+  id: StepId
+  onEdit: (id: StepId) => void
+} & {
   data: ApplicationData
   update: <K extends keyof ApplicationData>(key: K, value: ApplicationData[K]) => void
   errors: Record<string, string>
 }) {
-  const ownerIdx = ownerIndexOf(id)
-  if (ownerIdx !== null) return <OwnerStep {...props} index={ownerIdx} />
-
   switch (id) {
     case 'business':
       return <BusinessStep {...props} />
-    case 'funding':
-      return <FundingStep {...props} />
-    case 'financing':
-      return <FinancingStep {...props} />
+    case 'owner':
+      return <OwnerStep {...props} />
     case 'documents':
-      return <DocumentsStep {...props} />
-    case 'authorization':
-      return <AuthorizationStep {...props} />
+      return <BankFinancingStep {...props} />
+    case 'review':
+      return <ReviewSignStep {...props} onEdit={onEdit} />
   }
 }
 
-function ProgressBar({
-  current,
-  total,
-  title,
-}: {
-  current: number
-  total: number
-  title: string
-}) {
+function ProgressBar({ current, steps }: { current: number; steps: string[] }) {
   return (
     <div className="sticky top-[68px] z-30 border-b border-rule bg-white/94 backdrop-blur-md lg:top-[72px]">
-      <div className="page flex flex-wrap items-center justify-between gap-x-6 gap-y-2 py-3.5">
-        <p className="text-[0.9375rem] font-medium text-ink">
-          <span className="font-mono tabular-nums text-ink-3">
-            Step {current + 1} of {total}
-          </span>
-          <span className="mx-2 text-rule" aria-hidden="true">
-            -
-          </span>
-          {title}
-        </p>
-        <ol className="flex items-center gap-2" aria-label={`Step ${current + 1} of ${total}`}>
-          {Array.from({ length: total }, (_, i) => (
-            <li
-              key={i}
-              aria-current={i === current ? 'step' : undefined}
-              className={cn(
-                'h-2 w-2 rounded-full border transition-all duration-300 ease-[cubic-bezier(0.23,1,0.32,1)]',
-                i < current && 'border-leaf-deep bg-leaf-deep',
-                i === current && 'scale-125 border-leaf-deep bg-leaf-deep',
-                i > current && 'border-rule bg-transparent',
+      <div className="page py-3.5">
+        <ol className="flex items-center gap-1 overflow-x-auto pb-0.5" aria-label={`Step ${current + 1} of ${steps.length}`}>
+          {steps.map((title, i) => (
+            <li key={title} className="flex min-w-0 items-center gap-1">
+              {i > 0 && (
+                <span
+                  aria-hidden="true"
+                  className={cn('mx-1 h-px w-4 shrink-0 sm:w-8', i <= current ? 'bg-leaf-deep' : 'bg-rule')}
+                />
               )}
-            />
+              <span
+                aria-current={i === current ? 'step' : undefined}
+                className={cn(
+                  'flex items-center gap-2 whitespace-nowrap rounded-full px-1.5 py-1 text-[0.6875rem] font-medium sm:text-[0.75rem]',
+                  i === current && 'text-ink',
+                  i < current && 'text-leaf-deep',
+                  i > current && 'text-ink-3',
+                )}
+              >
+                <span
+                  className={cn(
+                    'flex h-5 w-5 shrink-0 items-center justify-center rounded-full border font-mono text-[0.625rem] tabular-nums',
+                    i <= current
+                      ? 'border-leaf-deep bg-leaf-deep text-white'
+                      : 'border-rule bg-transparent text-ink-3',
+                  )}
+                >
+                  {i < current ? <CheckIcon size={10} weight="bold" /> : i + 1}
+                </span>
+                <span className="max-sm:max-w-[9.5rem] max-sm:truncate">{title}</span>
+              </span>
+            </li>
           ))}
         </ol>
       </div>
-    </div>
-  )
-}
-
-/* ---------------------------------------------------------------- */
-
-function Review({
-  data,
-  steps,
-  onEdit,
-  onSubmit,
-  onBack,
-}: {
-  data: ApplicationData
-  steps: ReturnType<typeof visibleSteps>
-  onEdit: (id: StepId) => void
-  onSubmit: () => void
-  onBack: () => void
-}) {
-  const summaryFor = (s: StepDef): string => {
-    if (s.ownerIndex !== undefined) {
-      const o = data.owners[s.ownerIndex]
-      return `${o?.firstName ?? ''} ${o?.lastName ?? ''}`.trim() || '-'
-    }
-    switch (s.id) {
-      case 'business':
-        return data.business.legalName || '-'
-      case 'funding':
-        return data.funding.amountRequested || '-'
-      case 'financing':
-        return data.hasExistingFinancing === false
-          ? 'None'
-          : `${data.positions.length} position${data.positions.length === 1 ? '' : 's'}`
-      case 'documents': {
-        if (data.documents.method === 'plaid') return 'Bank connection'
-        const n = data.documents.statements.filter((f) => f.status === 'done').length
-        return `${n} statement${n === 1 ? '' : 's'} attached`
-      }
-      case 'authorization':
-        return data.authorization.certified ? 'Signed' : 'Not signed'
-      default:
-        return '-'
-    }
-  }
-
-  return (
-    <div>
-      <p className="max-w-[62ch] text-lead text-ink-2">
-        Everything you've entered, in one place. Change anything before you submit - editing brings
-        you straight back here.
-      </p>
-
-      <ul className="mt-8 divide-y divide-rule border-y border-rule">
-        {steps.map((s) => (
-          <li key={s.id} className="flex items-center gap-4 py-4">
-            <CheckIcon size={17} weight="bold" className="shrink-0 text-good" />
-            <div className="min-w-0 flex-1">
-              <p className="text-[0.9375rem] font-medium text-ink">{s.title}</p>
-              <p className="mt-0.5 truncate text-[0.8125rem] text-ink-3">{summaryFor(s)}</p>
-            </div>
-            <button
-              type="button"
-              onClick={() => onEdit(s.id)}
-              className="flex shrink-0 items-center gap-1.5 rounded-full border border-rule px-3.5 py-1.5 font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-leaf-deep transition-colors duration-150 hover:border-leaf hover:bg-leaf/6"
-            >
-              <PencilSimpleIcon size={12} />
-              Edit
-            </button>
-          </li>
-        ))}
-      </ul>
-
-      <div className="mt-10 flex flex-col-reverse items-stretch gap-3 sm:flex-row sm:items-center sm:justify-between">
-        <button type="button" onClick={onBack} className="btn btn-secondary">
-          <ArrowLeftIcon size={15} weight="bold" />
-          Back
-        </button>
-        <button type="button" onClick={onSubmit} className="btn btn-primary btn-lg">
-          Submit application
-        </button>
-      </div>
-
-      <p className="mt-5 flex items-start gap-2 text-[0.8125rem] leading-relaxed text-ink-3">
-        <LockSimpleIcon size={14} className="mt-0.5 shrink-0" />
-        <span>
-          Submitting does not obligate you to anything. If we can fund you, an underwriter will call
-          with an offer and a written disclosure of the total dollar cost before you sign.
-        </span>
-      </p>
     </div>
   )
 }
@@ -473,7 +482,7 @@ function Confirmation({ reference, email }: { reference: string; email: string }
         <CheckIcon size={26} weight="bold" />
       </div>
 
-      <h1 className="mt-7 text-h1 font-semibold text-ink">Application received</h1>
+      <h1 className="mt-7 text-h1 font-semibold text-ink">Application submitted</h1>
 
       <p className="mt-5 max-w-[52ch] text-lead text-ink-2">
         Thank you for applying with GLD Factoring LLC DBA GLD Funding. Your application and documents have been
@@ -484,7 +493,7 @@ function Confirmation({ reference, email }: { reference: string; email: string }
       <dl className="mt-9 grid w-full max-w-lg gap-px border border-rule bg-rule sm:grid-cols-2">
         <div className="bg-white p-4">
           <dt className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-3">
-            Reference
+            Application ID
           </dt>
           <dd className="mt-1.5 font-mono text-[0.9375rem] font-medium tabular-nums text-ink">
             {reference}
@@ -507,10 +516,10 @@ function Confirmation({ reference, email }: { reference: string; email: string }
       )}
 
       <div className="mt-9 flex flex-wrap justify-center gap-3">
-        <a href={SITE.phoneHref} className="btn btn-primary">
+        <a href={SITE.phoneHref} className="btn btn-primary min-h-12">
           Call {SITE.phone}
         </a>
-        <Link to="/" className="btn btn-secondary">
+        <Link to="/" className="btn btn-secondary min-h-12">
           Back to home
         </Link>
       </div>
@@ -534,13 +543,14 @@ function SidePanel({ data, phase }: { data: ApplicationData; phase: Phase }) {
     <div className="flex flex-col gap-5">
       <div className="card p-5">
         <h2 className="font-mono text-[0.6875rem] uppercase tracking-[0.14em] text-ink-3">
-          What you'll need
+          What you&apos;ll need
         </h2>
         <ul className="mt-3.5 flex flex-col gap-2.5">
           {[
             'Business details and EIN',
             'Owner contact information',
-            `${months} months of bank statements`,
+            `${months} months of recent business bank statements`,
+            'Additional documentation may be requested after review.',
           ].map((t) => (
             <li key={t} className="flex items-start gap-2.5 text-[0.875rem] leading-snug text-ink-2">
               <CheckIcon size={14} weight="bold" className="mt-0.5 shrink-0 text-leaf-deep" />
@@ -548,9 +558,6 @@ function SidePanel({ data, phase }: { data: ApplicationData; phase: Phase }) {
             </li>
           ))}
         </ul>
-        <p className="mt-4 border-t border-rule-soft pt-3.5 text-[0.8125rem] leading-relaxed text-ink-3">
-          That's it. Anything else is requested only if your file needs it, after review.
-        </p>
       </div>
 
       {phase !== 'precheck' && (
@@ -559,7 +566,7 @@ function SidePanel({ data, phase }: { data: ApplicationData; phase: Phase }) {
             Your progress is saved
           </h2>
           <p className="mt-3 text-[0.875rem] leading-relaxed text-ink-2">
-            Close this tab and come back whenever - everything you've entered stays put on this
+            Close this tab and come back whenever - everything you&apos;ve entered stays put on this
             device.
           </p>
         </div>
@@ -568,11 +575,11 @@ function SidePanel({ data, phase }: { data: ApplicationData; phase: Phase }) {
       <div className="flex items-start gap-2.5 px-1 text-[0.8125rem] leading-relaxed text-ink-3">
         <LockSimpleIcon size={15} className="mt-0.5 shrink-0" />
         <span>
-          Your information is encrypted in transit and at rest, and is never sold. See our{' '}
+          See our{' '}
           <Link to="/legal/privacy" className="text-leaf-deep underline underline-offset-2">
             privacy policy
-          </Link>
-          .
+          </Link>{' '}
+          for how application information is handled.
         </span>
       </div>
 

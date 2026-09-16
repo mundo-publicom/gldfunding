@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import {
   BankIcon,
   CheckCircleIcon,
@@ -13,7 +13,7 @@ import type { StepProps, UploadedFile } from './types'
 import { cn } from '../lib/cn'
 
 const MAX_BYTES = 25 * 1024 * 1024
-const ACCEPTED = ['application/pdf', 'image/jpeg', 'image/png', 'image/heic']
+const ACCEPTED = ['application/pdf', 'image/jpeg', 'image/png', 'image/heic', 'image/heif']
 
 const fmtSize = (b: number) =>
   b < 1024 * 1024 ? `${Math.round(b / 1024)} KB` : `${(b / (1024 * 1024)).toFixed(1)} MB`
@@ -24,6 +24,23 @@ export function DocumentsStep({ data, update, errors }: StepProps) {
   const [dragging, setDragging] = useState(false)
 
   const files = data.documents.statements
+  const method = data.documents.method
+  const plaidStatus = data.documents.plaidStatus
+  const plaidChosen = method === 'plaid'
+  const showUpload = method === 'upload' || plaidStatus === 'failed'
+  const docsRef = useRef(data.documents)
+  const connectTimer = useRef<number | null>(null)
+
+  useEffect(() => {
+    docsRef.current = data.documents
+  }, [data.documents])
+
+  useEffect(
+    () => () => {
+      if (connectTimer.current) window.clearTimeout(connectTimer.current)
+    },
+    [],
+  )
 
   const setDocs = (patch: Partial<typeof data.documents>) =>
     update('documents', { ...data.documents, ...patch })
@@ -36,7 +53,7 @@ export function DocumentsStep({ data, update, errors }: StepProps) {
       const id = `${file.name}-${file.size}-${Math.random().toString(36).slice(2, 8)}`
       let error: string | undefined
       if (file.size > MAX_BYTES) error = `Over the 25 MB limit - try splitting or compressing it.`
-      else if (!ACCEPTED.includes(file.type) && !/\.(pdf|jpe?g|png|heic)$/i.test(file.name))
+      else if (!ACCEPTED.includes(file.type) && !/\.(pdf|jpe?g|png|heic|heif)$/i.test(file.name))
         error = 'Needs to be a PDF or a photo (JPG, PNG, HEIC).'
 
       incoming.push({
@@ -50,7 +67,7 @@ export function DocumentsStep({ data, update, errors }: StepProps) {
     }
 
     const next = [...files, ...incoming]
-    setDocs({ statements: next, method: 'upload' })
+    setDocs({ statements: next, method: 'upload', plaidStatus: 'idle' })
 
     // Simulated transfer. Replace with a real signed-URL upload that reports
     // genuine progress - a fake bar on a document upload is a trust problem.
@@ -62,6 +79,7 @@ export function DocumentsStep({ data, update, errors }: StepProps) {
         update('documents', {
           ...data.documents,
           method: 'upload',
+          plaidStatus: 'idle',
           statements: next.map((s) =>
             s.id === f.id
               ? { ...s, progress: pct, status: pct >= 100 ? 'done' : 'uploading' }
@@ -73,40 +91,40 @@ export function DocumentsStep({ data, update, errors }: StepProps) {
     }
   }
 
-  const remove = (id: string) =>
-    setDocs({ statements: files.filter((f) => f.id !== id) })
+  const remove = (id: string) => setDocs({ statements: files.filter((f) => f.id !== id) })
+
+  const choosePlaid = () => setDocs({ method: 'plaid', plaidStatus: 'idle' })
+
+  const startPlaid = () => {
+    setDocs({ method: 'plaid', plaidStatus: 'connecting' })
+    if (connectTimer.current) window.clearTimeout(connectTimer.current)
+    connectTimer.current = window.setTimeout(() => {
+      /* No live bank-link SDK in this build. Fail visibly so the merchant can
+         switch to upload instead of sitting on a fake "next screen". */
+      update('documents', { ...docsRef.current, method: 'plaid', plaidStatus: 'failed' })
+    }, 1200)
+  }
 
   const done = files.filter((f) => f.status === 'done').length
-  const plaidChosen = data.documents.method === 'plaid'
 
   return (
     <div className="flex flex-col gap-8">
-      {/* The requirement is computed from step 1 and stated plainly. */}
       <div className="border-l-[3px] border-leaf bg-paper p-5">
-        <p className="text-[1.0625rem] font-semibold text-ink">
-          Upload your last {months} months of business bank statements
-        </p>
+        <p className="text-[1.0625rem] font-semibold text-ink">Bank statements</p>
         <p className="mt-1.5 max-w-[62ch] text-[0.9375rem] leading-relaxed text-ink-2">
-          Every page of each statement, as your bank issues them. PDFs are best; clear photos work
-          too.
-        </p>
-        {/* The ask is the full period; the gate is one file. Most banks issue a
-            single PDF covering every month, and blocking submission on a file
-            count is where applications get abandoned. */}
-        <p className="mt-2 max-w-[62ch] text-[0.875rem] leading-relaxed text-ink-3">
-          One file is enough to continue - if your statements come as a single combined PDF, attach
-          that. Anything still missing, we'll ask for after review.
+          Upload your most recent {months} months of complete business bank statements. You may
+          upload individual statements or one combined PDF. If additional documentation is needed,
+          we&apos;ll contact you after review.
         </p>
       </div>
 
-      {/* Plaid as the fast path - one consent screen instead of hunting for PDFs. */}
       <div className="grid gap-4 sm:grid-cols-2">
         <button
           type="button"
-          onClick={() => setDocs({ method: 'plaid', statements: [] })}
+          onClick={choosePlaid}
           className={cn(
             'flex flex-col items-start gap-2 rounded-[4px] border p-5 text-left transition-all duration-150 active:scale-[0.99]',
-            plaidChosen
+            plaidChosen && plaidStatus !== 'failed'
               ? 'border-leaf bg-leaf/8 shadow-[inset_0_0_0_1px_var(--color-leaf)]'
               : 'border-rule bg-white hover:border-ink-4',
           )}
@@ -117,19 +135,20 @@ export function DocumentsStep({ data, update, errors }: StepProps) {
           </span>
           <span className="text-[1.0625rem] font-semibold text-ink">Connect your bank</span>
           <span className="text-[0.875rem] leading-relaxed text-ink-2">
-            Read-only, one consent screen, no downloading anything. Replaces the upload entirely.
+            Read-only access to your business accounts. You can connect more than one account if you
+            bank in a few places.
           </span>
         </button>
 
         <button
           type="button"
           onClick={() => {
-            setDocs({ method: 'upload' })
+            setDocs({ method: 'upload', plaidStatus: 'idle' })
             inputRef.current?.click()
           }}
           className={cn(
             'flex flex-col items-start gap-2 rounded-[4px] border p-5 text-left transition-all duration-150 active:scale-[0.99]',
-            data.documents.method === 'upload'
+            method === 'upload'
               ? 'border-leaf bg-leaf/8 shadow-[inset_0_0_0_1px_var(--color-leaf)]'
               : 'border-rule bg-white hover:border-ink-4',
           )}
@@ -140,25 +159,97 @@ export function DocumentsStep({ data, update, errors }: StepProps) {
           </span>
           <span className="text-[1.0625rem] font-semibold text-ink">Upload statements</span>
           <span className="text-[0.875rem] leading-relaxed text-ink-2">
-            Drag files in, or take a photo of each statement on your phone.
+            Drag files in, or choose from Files or Photos on your phone. PDF, JPG, PNG, or HEIC.
           </span>
         </button>
       </div>
 
-      {plaidChosen ? (
+      {plaidChosen && plaidStatus !== 'failed' && (
+        <div className="flex flex-col gap-4 rounded-[4px] border border-rule bg-paper p-5">
+          {plaidStatus === 'connected' ? (
+            <div className="flex items-start gap-3">
+              <CheckCircleIcon size={20} weight="fill" className="mt-0.5 shrink-0 text-good" />
+              <div>
+                <p className="text-[0.9375rem] font-medium text-ink">Bank connected</p>
+                <p className="mt-1 text-[0.875rem] leading-relaxed text-ink-2">
+                  GLD Factoring LLC DBA GLD Funding receives read-only access to statement data. We
+                  can never move money, and you can revoke access at any time.
+                </p>
+              </div>
+            </div>
+          ) : (
+            <div>
+              <p className="text-[0.9375rem] font-medium text-ink">
+                {plaidStatus === 'connecting'
+                  ? 'Opening a secure bank connection…'
+                  : 'Connect one or more business accounts'}
+              </p>
+              <p className="mt-1 text-[0.875rem] leading-relaxed text-ink-2">
+                You will sign in with your bank. GLD receives read-only statement data and can never
+                move money.
+              </p>
+              {plaidStatus !== 'connecting' && (
+                <button
+                  type="button"
+                  onClick={startPlaid}
+                  className="btn btn-primary mt-4"
+                >
+                  Connect to your bank
+                </button>
+              )}
+            </div>
+          )}
+          {plaidStatus !== 'connected' && (
+            <button
+              type="button"
+              onClick={() => {
+                setDocs({ method: 'upload', plaidStatus: 'idle' })
+                inputRef.current?.click()
+              }}
+              className="self-start text-[0.875rem] font-medium text-leaf-deep underline underline-offset-[3px]"
+            >
+              Having trouble? Upload statements instead
+            </button>
+          )}
+        </div>
+      )}
+
+      {plaidStatus === 'failed' && (
         <div className="flex items-start gap-3 rounded-[4px] border border-rule bg-paper p-5">
-          <CheckCircleIcon size={20} weight="fill" className="mt-0.5 shrink-0 text-good" />
+          <WarningCircleIcon size={20} weight="fill" className="mt-0.5 shrink-0 text-rate" />
           <div>
             <p className="text-[0.9375rem] font-medium text-ink">
-              You'll connect your bank on the next screen
+              We couldn&apos;t connect to your bank
             </p>
             <p className="mt-1 text-[0.875rem] leading-relaxed text-ink-2">
-            GLD Factoring LLC DBA GLD Funding receives read-only access to statement data. We can never move money, and
-              you can revoke access at any time.
+              Upload your statements below to keep going. You can try connecting again later if you
+              prefer.
             </p>
+            <button
+              type="button"
+              onClick={startPlaid}
+              className="mt-3 text-[0.875rem] font-medium text-leaf-deep underline underline-offset-[3px]"
+            >
+              Try connecting again
+            </button>
           </div>
         </div>
-      ) : (
+      )}
+
+      <input
+        ref={inputRef}
+        type="file"
+        multiple
+        accept=".pdf,.jpg,.jpeg,.png,.heic,.heif,application/pdf,image/jpeg,image/png,image/heic,image/heif,image/*"
+        onChange={(e) => {
+          addFiles(e.target.files)
+          e.target.value = ''
+        }}
+        className="sr-only"
+        aria-label="Upload bank statements"
+      />
+
+      {showUpload && !(plaidChosen && plaidStatus === 'connected') && (
         <>
           <div
             onDragOver={(e) => {
@@ -185,25 +276,13 @@ export function DocumentsStep({ data, update, errors }: StepProps) {
                   onClick={() => inputRef.current?.click()}
                   className="text-leaf-deep underline underline-offset-[3px]"
                 >
-                  browse your files
+                  browse Files or Photos
                 </button>
               </p>
               <p className="mt-1 text-[0.8125rem] text-ink-3">
-                PDF, JPG, PNG or HEIC · up to 25 MB each
+                PDF, JPG, PNG or HEIC · multiple files · up to 25 MB each
               </p>
             </div>
-            <input
-              ref={inputRef}
-              type="file"
-              multiple
-              accept=".pdf,.jpg,.jpeg,.png,.heic,application/pdf,image/*"
-              onChange={(e) => {
-                addFiles(e.target.files)
-                e.target.value = ''
-              }}
-              className="sr-only"
-              aria-label="Upload bank statements"
-            />
           </div>
 
           {files.length > 0 && (
@@ -268,18 +347,6 @@ export function DocumentsStep({ data, update, errors }: StepProps) {
           {errors['documents']}
         </p>
       )}
-
-      {/* Everything else is a stip, requested after review - not a barrier to submitting. */}
-      <div className="border-t border-rule pt-6">
-        <h3 className="text-[0.9375rem] font-semibold text-ink">
-          That's everything we need to submit
-        </h3>
-        <p className="mt-2 max-w-[64ch] text-[0.9375rem] leading-relaxed text-ink-2">
-          If your file needs anything further - a driver's licence, a voided check, a processing
-          statement - underwriting will request it after review, through a secure link. You will
-          never be asked to fill this application in again.
-        </p>
-      </div>
     </div>
   )
 }
