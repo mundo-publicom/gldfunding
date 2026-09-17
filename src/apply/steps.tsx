@@ -1,6 +1,7 @@
 import type { ReactNode } from 'react'
 import { PlusIcon, PencilSimpleIcon, TrashIcon } from '@phosphor-icons/react'
 import { cn } from '../lib/cn'
+import { AddressFields } from './AddressFields'
 import { SelectInput, SignaturePad, SsnInput, TextInput, YesNo, ConsentCheckbox } from './fields'
 import { DocumentsStep } from './DocumentsStep'
 import { AuthorizationText } from './AuthorizationText'
@@ -17,7 +18,7 @@ import {
   ownersRevealed,
 } from './types'
 import type { ApplicationData, Owner, Position, StepId, StepProps } from './types'
-import { INDUSTRIES, US_STATE_OPTIONS } from '../data/site'
+import { INDUSTRIES } from '../data/site'
 
 const ENTITY_TYPES = [
   { value: 'llc', label: 'LLC' },
@@ -108,42 +109,24 @@ export function BusinessStep({ data, update, errors }: StepProps) {
         />
       </div>
 
-      <TextInput
-        label="Business street address"
+      <AddressFields
+        streetLabel="Business street address"
+        streetName="business-street"
         required
-        value={data.business.street}
-        onChange={(v) => set('street', v)}
-        error={errors['business.street']}
-        autoComplete="street-address"
+        value={{
+          street: data.business.street,
+          city: data.business.city,
+          state: data.business.state,
+          zip: data.business.zip,
+        }}
+        onChange={(next) => update('business', { ...data.business, ...next })}
+        errors={{
+          street: errors['business.street'],
+          city: errors['business.city'],
+          state: errors['business.state'],
+          zip: errors['business.zip'],
+        }}
       />
-
-      <div className="grid gap-6 sm:grid-cols-3">
-        <TextInput
-          label="City"
-          required
-          value={data.business.city}
-          onChange={(v) => set('city', v)}
-          error={errors['business.city']}
-          autoComplete="address-level2"
-        />
-        <SelectInput
-          label="State"
-          required
-          value={data.business.state}
-          onChange={(v) => set('state', v)}
-          options={US_STATE_OPTIONS}
-          error={errors['business.state']}
-        />
-        <TextInput
-          label="ZIP"
-          required
-          value={data.business.zip}
-          onChange={(v) => set('zip', v)}
-          error={errors['business.zip']}
-          inputMode="numeric"
-          autoComplete="postal-code"
-        />
-      </div>
 
       <div className="grid gap-6 sm:grid-cols-2">
         <TextInput
@@ -302,39 +285,24 @@ function OwnerFields({
         />
       </div>
 
-      <TextInput
-        label="Home address"
+      <AddressFields
+        streetLabel="Home address"
+        streetName={`${prefix}-street`}
         required
-        value={owner.street}
-        onChange={(v) => set('street', v)}
-        error={errors[`${prefix}.street`]}
+        value={{
+          street: owner.street,
+          city: owner.city,
+          state: owner.state,
+          zip: owner.zip,
+        }}
+        onChange={(next) => onChange({ ...owner, ...next })}
+        errors={{
+          street: errors[`${prefix}.street`],
+          city: errors[`${prefix}.city`],
+          state: errors[`${prefix}.state`],
+          zip: errors[`${prefix}.zip`],
+        }}
       />
-
-      <div className="grid gap-6 sm:grid-cols-3">
-        <TextInput
-          label="City"
-          required
-          value={owner.city}
-          onChange={(v) => set('city', v)}
-          error={errors[`${prefix}.city`]}
-        />
-        <SelectInput
-          label="State"
-          required
-          value={owner.state}
-          onChange={(v) => set('state', v)}
-          options={US_STATE_OPTIONS}
-          error={errors[`${prefix}.state`]}
-        />
-        <TextInput
-          label="ZIP"
-          required
-          value={owner.zip}
-          onChange={(v) => set('zip', v)}
-          error={errors[`${prefix}.zip`]}
-          inputMode="numeric"
-        />
-      </div>
 
       <div className="grid gap-6 sm:grid-cols-2">
         <TextInput

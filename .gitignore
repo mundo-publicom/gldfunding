@@ -30,3 +30,7 @@ test-results/*
 /blob-report/
 /playwright/.cache/
 scrollcraft/*
+
+.env.local
+.env.production
+.env.staging
