@@ -1,4 +1,5 @@
 @import './fonts.css';
+@import 'intl-tel-input/styles' layer(intl-tel-input);
 @import 'tailwindcss';
 
 /* ============================================================
@@ -358,6 +359,37 @@
     background-repeat: no-repeat;
     background-position: right 0.875rem center;
     padding-right: 2.25rem;
+  }
+
+  /* intl-tel-input: US flag + dial code sit inside the same bordered field. */
+  .phone-input.iti {
+    display: block;
+    width: 100%;
+    --iti-hover-color: transparent;
+    --iti-border-color: var(--color-rule);
+    --iti-country-selector-bg: transparent;
+    --iti-icon-color: var(--color-ink-3);
+    --iti-strict-reject-flash-color: rgba(194, 84, 47, 0.16);
+    /* Match .input horizontal padding so the flag isn't flush to the border. */
+    --iti-spacer-horizontal: 0.875rem;
+  }
+
+  .phone-input .iti__country-container {
+    padding-left: 0;
+  }
+
+  .phone-input .iti__selected-country {
+    pointer-events: none;
+  }
+
+  .phone-input .iti__selected-country-primary {
+    padding-left: 0.875rem;
+    padding-right: 0.5rem;
+  }
+
+  .phone-input .iti__selected-dial-code {
+    font-variant-numeric: tabular-nums;
+    color: var(--color-ink-2);
   }
 
   /* --- surfaces --- */

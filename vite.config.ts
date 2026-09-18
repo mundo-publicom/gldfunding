@@ -38,6 +38,6 @@ export default defineConfig({
     },
   },
   ssr: {
-    noExternal: ['@phosphor-icons/react'],
+    noExternal: ['@phosphor-icons/react', '@intl-tel-input/react', 'intl-tel-input'],
   },
 })

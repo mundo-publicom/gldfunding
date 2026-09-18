@@ -3,6 +3,8 @@ import { PlusIcon, PencilSimpleIcon, TrashIcon } from '@phosphor-icons/react'
 import { cn } from '../lib/cn'
 import { AddressFields } from './AddressFields'
 import { SelectInput, SignaturePad, SsnInput, TextInput, YesNo, ConsentCheckbox } from './fields'
+import { PhoneInput } from './PhoneInput'
+import { formatUsPhone } from './phone'
 import { DocumentsStep } from './DocumentsStep'
 import { AuthorizationText } from './AuthorizationText'
 import { SIGNATURE_ACKNOWLEDGEMENT } from './authorizationCopy'
@@ -129,14 +131,12 @@ export function BusinessStep({ data, update, errors }: StepProps) {
       />
 
       <div className="grid gap-6 sm:grid-cols-2">
-        <TextInput
+        <PhoneInput
           label="Business phone"
           required
-          type="tel"
           value={data.business.phone}
           onChange={(v) => set('phone', v)}
           error={errors['business.phone']}
-          autoComplete="tel"
         />
         <SelectInput
           label="Industry"
@@ -274,14 +274,12 @@ function OwnerFields({
           error={errors[`${prefix}.email`]}
           autoComplete="email"
         />
-        <TextInput
+        <PhoneInput
           label="Mobile phone"
           required
-          type="tel"
           value={owner.phone}
           onChange={(v) => set('phone', v)}
           error={errors[`${prefix}.phone`]}
-          autoComplete="tel"
         />
       </div>
 
@@ -632,7 +630,7 @@ export function ReviewSignStep({
               .filter(Boolean)
               .join(', ')}
           />
-          <ReviewRow label="Business phone" value={data.business.phone} />
+          <ReviewRow label="Business phone" value={formatUsPhone(data.business.phone)} />
           <ReviewRow
             label="Industry"
             value={INDUSTRY_LABEL[data.business.industry] ?? data.business.industry}
@@ -658,7 +656,7 @@ export function ReviewSignStep({
             <ReviewRow label="Title / position" value={o.title} />
             <ReviewRow label="Ownership" value={o.ownership ? `${o.ownership}%` : ''} />
             <ReviewRow label="Email" value={o.email} />
-            <ReviewRow label="Mobile phone" value={o.phone} />
+            <ReviewRow label="Mobile phone" value={formatUsPhone(o.phone)} />
             <ReviewRow
               label="Home address"
               value={[o.street, [o.city, o.state, o.zip].filter(Boolean).join(', ')].filter(Boolean).join(', ')}

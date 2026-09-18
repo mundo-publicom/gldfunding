@@ -1,6 +1,8 @@
 import { useState } from 'react'
 import { CheckIcon, LockSimpleIcon } from '@phosphor-icons/react'
 import { SelectInput, TextArea, TextInput } from '../apply/fields'
+import { PhoneInput } from '../apply/PhoneInput'
+import { isUsPhone } from '../apply/phone'
 
 type Values = { name: string; email: string; phone: string; business: string; topic: string; message: string }
 
@@ -32,7 +34,7 @@ export function ContactForm({
     const next: Record<string, string> = {}
     if (!v.name.trim()) next.name = 'Required'
     if (!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(v.email)) next.email = 'Enter a full email address'
-    if (v.phone.replace(/\D/g, '').length !== 10) next.phone = 'Enter a 10-digit phone number'
+    if (!isUsPhone(v.phone)) next.phone = 'Enter a 10-digit US phone number'
     if (!v.topic) next.topic = 'Pick a topic'
     if (!v.message.trim()) next.message = 'Tell us how we can help'
     setErrors(next)
@@ -70,7 +72,7 @@ export function ContactForm({
       </div>
       <div className="grid gap-5 sm:grid-cols-2">
         <TextInput label="Email" required type="email" value={v.email} onChange={(x) => set('email', x)} error={errors.email} autoComplete="email" />
-        <TextInput label="Mobile phone" required type="tel" value={v.phone} onChange={(x) => set('phone', x)} error={errors.phone} autoComplete="tel" />
+        <PhoneInput label="Mobile phone" required value={v.phone} onChange={(x) => set('phone', x)} error={errors.phone} />
       </div>
       <SelectInput label="What's this about?" required value={v.topic} onChange={(x) => set('topic', x)} options={topics} error={errors.topic} />
       <TextArea label="How can we help?" required rows={5} value={v.message} onChange={(x) => set('message', x)} error={errors.message} />

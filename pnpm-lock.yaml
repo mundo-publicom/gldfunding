@@ -17,9 +17,15 @@ importers:
       '@googlemaps/js-api-loader':
         specifier: ^2.1.1
         version: 2.1.1
+      '@intl-tel-input/react':
+        specifier: ^29.2.3
+        version: 29.2.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
       '@phosphor-icons/react':
         specifier: ^2.1.10
         version: 2.1.10(react-dom@19.2.8(react@19.2.8))(react@19.2.8)
+      intl-tel-input:
+        specifier: ^29.2.3
+        version: 29.2.3
       react:
         specifier: ^19.2.8
         version: 19.2.8
@@ -120,6 +126,12 @@ packages:
 
   '@googlemaps/js-api-loader@2.1.1':
     resolution: {integrity: sha512-yUpAwksbHrlZIWD49JmveNSfBG4oAK0AwMknfSaPMnP5N7UT8oFRVCqwjGb1XQovi//7KLbPQKZpbofiLGzpDw==}
+
+  '@intl-tel-input/react@29.2.3':
+    resolution: {integrity: sha512-W/7/Ml7O4swbI2LOaqeem2edDvQORTW17ju2RFm+N1MHyL2f6yLXg+v2HAGioQLXYKOXPUGVyd2bOMlZuMEM2A==}
+    peerDependencies:
+      react: '>=18'
+      react-dom: '>=18'
 
   '@jridgewell/gen-mapping@0.3.13':
     resolution: {integrity: sha512-2kkt/7niJ6MgEPxF0bYdQ6etZaA+fQvDcLKckhy1yIQOzaoKjBBjSj63/aLVjYE3qhRt5dvM+uUyfCg6UKCBbA==}
@@ -684,6 +696,9 @@ packages:
   iconv-lite@0.6.3:
     resolution: {integrity: sha512-4fCk79wshMdzMp2rH06qWrJE4iolqLhCUH+OiuIgU++RB0+94NlDL81atO7GX55uUKueo0txHNtvEyI6D7WdMw==}
     engines: {node: '>=0.10.0'}
+
+  intl-tel-input@29.2.3:
+    resolution: {integrity: sha512-uwDslWntH/G5HuVlCSly8XdRC2iXVnpAEtj5I3JOFTy3G/7PARGsqbakWBBXfjzh3BjXXLOEOZDvqulvPSG0QQ==}
 
   invariant@2.2.4:
     resolution: {integrity: sha512-phJfQVBuaJM5raOpJjSfkiD6BpbCE4Ns//LaXl6wGYtUBY83nWS6Rf9tXm2e8VaK60JEjYldbPif/A2B1C2gNA==}
@@ -1255,6 +1270,12 @@ snapshots:
     dependencies:
       '@types/google.maps': 3.66.3
 
+  '@intl-tel-input/react@29.2.3(react-dom@19.2.8(react@19.2.8))(react@19.2.8)':
+    dependencies:
+      intl-tel-input: 29.2.3
+      react: 19.2.8
+      react-dom: 19.2.8(react@19.2.8)
+
   '@jridgewell/gen-mapping@0.3.13':
     dependencies:
       '@jridgewell/sourcemap-codec': 1.5.5
@@ -1652,6 +1673,8 @@ snapshots:
   iconv-lite@0.6.3:
     dependencies:
       safer-buffer: 2.1.2
+
+  intl-tel-input@29.2.3: {}
 
   invariant@2.2.4:
     dependencies:

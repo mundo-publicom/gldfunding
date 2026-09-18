@@ -1,5 +1,6 @@
 import type { ApplicationData, Owner, StepId } from './types'
 import { emptyOwner, ownersRevealed, requiredUploads } from './types'
+import { isUsPhone } from './phone'
 
 type Errors = Record<string, string>
 
@@ -10,7 +11,7 @@ const digits = (v: string) => v.replace(/\D/g, '')
 const M = {
   required: 'Required',
   email: 'Enter a full email address, like you@business.com',
-  phone: 'Enter a 10-digit phone number',
+  phone: 'Enter a 10-digit US phone number',
   zip: 'Enter a 5-digit ZIP code',
   ein: 'Enter your 9-digit EIN',
   ssn: 'Enter a 9-digit Social Security number',
@@ -23,7 +24,7 @@ function validateOwner(o: Owner, prefix: string, e: Errors) {
   if (!req(o.title)) e[`${prefix}.title`] = M.required
   if (!req(o.ownership)) e[`${prefix}.ownership`] = M.required
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]{2,}$/.test(o.email)) e[`${prefix}.email`] = M.email
-  if (digits(o.phone).length !== 10) e[`${prefix}.phone`] = M.phone
+  if (!isUsPhone(o.phone)) e[`${prefix}.phone`] = M.phone
   if (!req(o.street)) e[`${prefix}.street`] = M.required
   if (!req(o.city)) e[`${prefix}.city`] = M.required
   if (!req(o.state)) e[`${prefix}.state`] = M.required
@@ -45,7 +46,7 @@ export function validateStep(step: StepId, d: ApplicationData): Errors {
       if (!req(b.city)) e['business.city'] = M.required
       if (!req(b.state)) e['business.state'] = M.required
       if (digits(b.zip).length !== 5) e['business.zip'] = M.zip
-      if (digits(b.phone).length !== 10) e['business.phone'] = M.phone
+      if (!isUsPhone(b.phone)) e['business.phone'] = M.phone
       if (!req(b.industry)) e['business.industry'] = M.required
       if (!req(b.startDate)) e['business.startDate'] = M.required
       if (!req(b.monthlyRevenue)) e['business.monthlyRevenue'] = M.amount
