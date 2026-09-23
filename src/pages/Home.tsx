@@ -1,23 +1,10 @@
 import { Link } from 'react-router-dom'
-import {
-  ArrowRightIcon,
-  ClockIcon,
-  FileTextIcon,
-  HeadsetIcon,
-  SlidersHorizontalIcon,
-} from '@phosphor-icons/react'
+import { ArrowRightIcon } from '@phosphor-icons/react'
 import { Hero } from '../sections/Hero'
 import { EligibilityCta } from '../components/EligibilityCta'
 import { Testimonials } from '../sections/Testimonials'
 import { HowItWorksTimeline } from '../sections/HowItWorksTimeline'
-import {
-  AnswerBlock,
-  FeatureCard,
-  FeatureGrid,
-  FaqList,
-  Section,
-  SectionHead,
-} from '../components/ui'
+import { AnswerBlock, FaqList, Section, SectionHead } from '../components/ui'
 import { Seo, faqSchema, localBusinessSchema, orgSchema, productSchema } from '../lib/seo'
 import { INDUSTRIES, PRODUCT, currency } from '../data/site'
 import { useRevealGroup } from '../lib/useReveal'
