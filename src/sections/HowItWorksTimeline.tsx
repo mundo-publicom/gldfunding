@@ -84,11 +84,11 @@ export function HowItWorksTimeline() {
             title="Three steps, start to funded."
             lead="Apply, review, get funded. Same-day funding is available once your file is complete."
           />
-          <div className="mt-8">
+          {/* <div className="mt-8">
             <Link to={CTA.primaryHref} className="btn btn-primary-invert">
               {CTA.primary}
             </Link>
-          </div>
+          </div> */}
         </div>
 
         <div ref={wrapRef} className="relative">

@@ -23,10 +23,13 @@ const AMOUNT_OPTIONS = [
 
 export function EligibilityCta({
   invert = false,
+  compact = false,
   className,
 }: {
   /** Petrol/deep grounds. */
   invert?: boolean
+  /** Pulls the heading, options, button, and note closer without shrinking tap targets. */
+  compact?: boolean
   className?: string
 }) {
   const [amount, setAmount] = useState<string | null>(null)
@@ -38,7 +41,8 @@ export function EligibilityCta({
   return (
     <div
       className={cn(
-        'border p-6 lg:p-8',
+        'border',
+        compact ? 'p-5 lg:p-6' : 'p-6 lg:p-8',
         invert ? 'border-white/12 bg-white/[0.04]' : 'border-rule bg-white',
         className,
       )}
@@ -47,7 +51,7 @@ export function EligibilityCta({
         See what your business may qualify for
       </h2>
 
-      <fieldset className="mt-7 border-0 p-0">
+      <fieldset className={cn('border-0 p-0', compact ? 'mt-5' : 'mt-7')}>
         <legend
           className={cn(
             'text-[0.9375rem] font-medium',
@@ -59,7 +63,7 @@ export function EligibilityCta({
 
         {/* Radios, not buttons - the selection is a form answer, and this is
             what gives arrow-key movement and a real focus ring for free. */}
-        <div className="mt-4 flex flex-wrap gap-2">
+        <div className={cn('flex flex-wrap gap-2', compact ? 'mt-3' : 'mt-4')}>
           {AMOUNT_OPTIONS.map((opt) => {
             const on = amount === opt.value
             return (
@@ -95,7 +99,11 @@ export function EligibilityCta({
       <button
         type="button"
         onClick={go}
-        className={cn('btn btn-lg group mt-7 w-full sm:w-auto', invert ? 'btn-primary-invert' : 'btn-primary')}
+        className={cn(
+          'btn btn-lg group w-full sm:w-auto',
+          compact ? 'mt-5' : 'mt-7',
+          invert ? 'btn-primary-invert' : 'btn-primary',
+        )}
       >
         {CTA.primary}
         <ArrowRightIcon
@@ -105,7 +113,7 @@ export function EligibilityCta({
         />
       </button>
 
-      <p className={cn('mt-3.5 text-[0.8125rem]', invert ? 'text-paper/60' : 'text-ink-3')}>
+      <p className={cn(compact ? 'mt-3' : 'mt-3.5', 'text-[0.8125rem]', invert ? 'text-paper/60' : 'text-ink-3')}>
         Answer a few simple questions to get started. No credit inquiry during the eligibility check.
       </p>
     </div>

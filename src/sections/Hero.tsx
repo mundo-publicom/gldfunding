@@ -218,10 +218,6 @@ export function Hero() {
               <span className="lg:block">Built Around Your Business</span>
             </h1>
 
-            <p className="mt-6 text-lead font-medium text-white">
-              Fast decisions. Flexible funding. Simple application.
-            </p>
-
             <p className="mt-4 max-w-[52ch] text-paper/80">
               Get the working capital you need to grow, manage cash flow, and seize opportunities.
               Funding available as soon as the same business day.

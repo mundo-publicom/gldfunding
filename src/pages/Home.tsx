@@ -79,14 +79,14 @@ export function Component() {
       <Section tone="white" className="!py-14 lg:!py-16">
         <div className="grid gap-10 lg:grid-cols-[1fr_1.15fr] lg:items-start lg:gap-16">
           <div>
-            <p className="eyebrow">What GLD Factoring LLC DBA GLD Funding does</p>
+            <p className="eyebrow">What GLD Funding does</p>
             <h2 className="mt-3 text-h2 font-semibold text-ink">
               Capital that reads your bank statements, not your credit file.
             </h2>
           </div>
           <div>
             <AnswerBlock>
-              GLD Factoring LLC DBA GLD Funding provides working capital to businesses based primarily on business
+              GLD Funding provides working capital to businesses based primarily on business
               performance and cash flow. Our streamlined process means less paperwork, faster
               decisions, and funding structured around your business.
             </AnswerBlock>
@@ -110,7 +110,7 @@ export function Component() {
         </div>
       </Section>
 
-      <Section tone="paper" ambient="orbit" ambientSeed="why-businesses-choose-gld">
+      {/* <Section tone="paper" ambient="orbit" ambientSeed="why-businesses-choose-gld">
         <SectionHead
           eyebrow="Why business owners choose us"
           title="Why Businesses Choose GLD"
@@ -134,21 +134,28 @@ export function Component() {
             </FeatureCard>
           </FeatureGrid>
         </div>
-      </Section>
+      </Section> */}
 
       <HowItWorksTimeline />
 
       {/* Lead capture. The calculator that used to sit here implied a price
           before underwriting had seen a file; this asks the qualifying
           question instead and hands the answer to the application. */}
-      <Section tone="paper" id="eligibility" ambient="converge" ambientSide="left">
-        <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-14">
+      <Section
+        tone="paper"
+        id="eligibility"
+        ambient="converge"
+        ambientSide="left"
+        className="!py-12 lg:!py-16"
+      >
+        <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center lg:gap-14">
           <SectionHead
+            className="[&_h2]:mt-2.5 [&_.text-lead]:mt-3"
             eyebrow="Get started"
             title="See what your business may qualify for."
             lead="Tell us roughly how much you are looking for and we'll take it from there. No credit inquiry during the eligibility check. No obligation."
           />
-          <EligibilityCta />
+          <EligibilityCta compact />
         </div>
       </Section>
 
@@ -163,7 +170,7 @@ export function Component() {
             <Link
               key={ind.slug}
               to={`/industries/${ind.slug}`}
-              className="group bg-white p-6 transition-colors duration-150 hover:bg-paper"
+              className="group flex h-full flex-col bg-white p-6 transition-colors duration-150 hover:bg-paper focus-visible:bg-paper focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-leaf"
             >
               <h3 className="text-[1.0625rem] font-semibold tracking-[-0.015em] text-ink">
                 {ind.short}
@@ -179,7 +186,7 @@ export function Component() {
                 <ArrowRightIcon
                   size={12}
                   weight="bold"
-                  className="transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-0.5"
+                  className="transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-0.5 group-focus-visible:translate-x-0.5"
                 />
               </span>
             </Link>

@@ -68,7 +68,7 @@ export const CTA = {
    * opens with the softer invitation rather than the qualifying verb. Every
    * other surface - nav, footer, section CTAs - stays on `primary`.
    */
-  heroPrimary: 'Get Started',
+  heroPrimary: 'Check Eligibility',
   primaryHref: '/apply',
   /** Reserved for applicants who have already pre-qualified. */
   apply: 'Apply now',
