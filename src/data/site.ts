@@ -162,7 +162,7 @@ export const INDUSTRIES: Industry[] = [
     cashFlowNote:
       "A restaurant's deposits can look erratic month to month even when the year is healthy — February is not July.",
     answer:
-      'Restaurants can use a merchant cash advance to cover equipment repair, seasonal payroll, inventory, or a build-out, with daily or weekly remittances. GLD Factoring LLC DBA GLD Funding typically advances $10,000 to $250,000 to restaurants, underwritten on business performance and cash flow.',
+      'Restaurants can use a merchant cash advance to cover equipment repair, seasonal payroll, inventory, or a build-out, with daily or weekly remittances. GLD Funding typically provides $10,000 to $250,000 in funding to restaurants, subject to underwriting based on business performance, cash flow, and other applicable factors.',
     useCases: ['Kitchen equipment repair or replacement', 'Seasonal staffing and payroll gaps', 'Inventory and supplier deposits', 'Dining room build-out or expansion', 'Bridging a slow month'],
     typicalRange: '$10,000 – $250,000',
   },
@@ -174,7 +174,7 @@ export const INDUSTRIES: Industry[] = [
     cashFlowNote:
       "A retailer's deposits swing with the selling calendar — a strong Q4 can sit next to a quiet February.",
     answer:
-      'Retailers use merchant cash advances to buy inventory ahead of a selling season, fund a store refit, or cover rent during a slow quarter. Approval is based on business performance and deposit history, so retailers with strong sales but an uneven monthly pattern can still be underwritten on deposit history rather than a bank-style credit file.',
+      'Retailers use merchant cash advances to buy inventory ahead of a selling season, fund a store refit, or cover rent during a slow quarter. Underwriting considers business performance, deposit history, cash flow, and other applicable factors, allowing GLD to evaluate the overall performance of the business.',
     useCases: ['Seasonal inventory buys', 'Store refit or relocation', 'Point-of-sale and systems upgrades', 'Marketing pushes before peak season', 'Covering rent through a slow quarter'],
     typicalRange: '$10,000 – $200,000',
   },
@@ -186,7 +186,7 @@ export const INDUSTRIES: Industry[] = [
     cashFlowNote:
       "A practice's deposits follow insurance reimbursement cycles more than the day patients were seen.",
     answer:
-      'Medical and dental practices use merchant cash advances to buy clinical equipment, expand treatment rooms, or bridge insurance reimbursement delays. Approval rests on practice deposit history rather than credit score, which suits practitioners carrying student debt or a recent practice acquisition.',
+      'Medical and dental practices use merchant cash advances to buy clinical equipment, expand treatment rooms, or bridge insurance reimbursement delays. Underwriting considers practice performance, deposit history, cash flow, and other applicable factors.',
     useCases: ['Clinical and imaging equipment', 'Additional treatment rooms', 'Bridging insurance reimbursement lag', 'Practice acquisition costs', 'Software and compliance systems'],
     typicalRange: '$25,000 – $500,000',
   },

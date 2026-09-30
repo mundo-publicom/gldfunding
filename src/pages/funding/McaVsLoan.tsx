@@ -1,8 +1,5 @@
-import { Link } from 'react-router-dom'
-import { CheckIcon, MinusIcon } from '@phosphor-icons/react'
-import { AnswerBlock, FaqList, PageHero, Section, SectionHead } from '../../components/ui'
+import { AnswerBlock, PageHero, Section } from '../../components/ui'
 import { Seo, breadcrumbSchema, faqSchema } from '../../lib/seo'
-import { CTA, PRODUCT } from '../../data/site'
 
 const TRAIL = [
   { name: 'Home', path: '/' },
@@ -17,15 +14,14 @@ type Row = { label: string; mca: string; loan: string }
 
 const ROWS: Row[] = [
   { label: 'Product type', mca: 'Purchase of future receivables', loan: 'Debt' },
-  { label: 'Time to funding', mca: 'Same-day funding available', loan: '1–4 weeks' },
+  { label: 'Time to funding', mca: 'Same-day funding may be available once the file is complete', loan: 'Varies by lender and loan program. Do not state “1–4 weeks” as a universal rule for business loans.' },
   { label: 'Cost basis', mca: 'Factor rate', loan: 'Interest rate' },
-  { label: 'Typical annualized cost', mca: 'Higher', loan: 'Lower' },
-  { label: 'Qualification', mca: 'Business performance and cash flow', loan: 'Credit score and financials' },
-  { label: 'Paperwork', mca: '4 months of bank statements', loan: 'Financials, tax returns, business plan' },
-  { label: 'Payment Structure', mca: 'Fixed daily or weekly remittance', loan: 'Fixed monthly payment' },
-  { label: 'Term', mca: `${PRODUCT.termMinMonths}–${PRODUCT.termMaxMonths} months`, loan: '1–5 years' },
-  { label: 'Early Completion', mca: 'No - cost is fixed at signing', loan: 'Usually' },
-  { label: 'Builds business credit', mca: 'Generally no', loan: 'Yes' },
+  { label: 'Qualification', mca: 'Business performance, revenue, cash flow, and underwriting', loan: 'Varies by lender; may include credit, financials, revenue, and other underwriting criteria' },
+  { label: 'Paperwork', mca: 'Application and 4 months of business bank statements; additional documents may be required', loan: 'Varies by lender and loan program' },
+  { label: 'Payment Structure', mca: 'Subject to the agreement and applicable reconciliation provisions', loan: 'Scheduled payments according to the loan agreement' },
+  { label: 'Term / Estimated Remittance Period', mca: 'Estimated remittance period varies based on the agreement and business receivables', loan: 'Varies by lender and loan product' },
+  { label: 'Early Completion', mca: 'Subject to the terms of the agreement', loan: 'Subject to the terms of the loan agreement' },
+  { label: 'Builds business credit', mca: 'Not typically structured as business credit', loan: 'May help build business credit when reported to business credit bureaus' }
 ]
 
 const FAQS = [
@@ -58,9 +54,8 @@ export function Component() {
       <Section tone="white">
         <div className="max-w-[68ch]">
           <AnswerBlock>
-            A merchant cash advance is funded quickly and qualified on business performance and cash
-            flow, but costs more on an annualized basis. A traditional business loan costs less and
-            builds credit, but takes weeks and requires strong credit and full financials.
+          A merchant cash advance and a traditional business loan are structured differently. 
+          An MCA is a purchase of future receivables, while a business loan is debt. Qualification requirements, funding speed, cost, payment structure, and documentation vary by provider and applicant.
           </AnswerBlock>
         </div>
 
@@ -81,7 +76,7 @@ export function Component() {
                     Merchant cash advance
                   </span>
                   <span className="mt-0.5 block font-mono text-[0.6875rem] uppercase tracking-[0.12em] text-leaf-deep">
-                    GLD Factoring LLC DBA GLD Funding
+                    GLD Funding
                   </span>
                 </th>
                 <th className="bg-paper px-5 py-4 text-left">
@@ -109,80 +104,10 @@ export function Component() {
         </div>
 
         <p className="mt-4 text-[0.8125rem] text-ink-3">
-          General comparison only. Actual terms vary by business and are determined by underwriting.
+        General comparison only. Products, eligibility requirements, costs, payment structures, terms, reporting practices, and documentation requirements vary by provider and applicant. Review the specific agreement and applicable disclosures before accepting financing.
         </p>
       </Section>
 
-      <Section tone="paper">
-        <SectionHead
-          eyebrow="Choosing"
-          title="Which one fits your situation."
-          lead="Neither product is better. They solve different problems, and the right answer depends on your timeline and what a bank will say."
-        />
-
-        <div className="mt-10 grid gap-px border border-rule bg-rule lg:grid-cols-2">
-          <div className="bg-white p-6 lg:p-8">
-            <h3 className="text-[1.0625rem] font-semibold text-ink">An advance may fit when…</h3>
-            <ul className="mt-5 flex flex-col gap-3">
-              {[
-                'You need capital quickly and the opportunity or problem will not wait',
-                'A bank has already declined you, or your credit will not clear their floor',
-                'Your revenue is strong but your monthly cash flow is uneven',
-                'The capital pays for itself faster than the cost of taking it',
-              ].map((t) => (
-                <li
-                  key={t}
-                  className="flex items-start gap-2.5 text-[0.9375rem] leading-relaxed text-ink-2"
-                >
-                  <CheckIcon size={15} weight="bold" className="mt-1 shrink-0 text-leaf-deep" />
-                  {t}
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="bg-white p-6 lg:p-8">
-            <h3 className="text-[1.0625rem] font-semibold text-ink">A loan may fit when…</h3>
-            <ul className="mt-5 flex flex-col gap-3">
-              {[
-                'You can wait several weeks for funding',
-                "Your credit and financials will clear a bank's criteria",
-                'You are funding something long-lived - property, a major build-out',
-                'You want the lowest available cost of capital',
-              ].map((t) => (
-                <li
-                  key={t}
-                  className="flex items-start gap-2.5 text-[0.9375rem] leading-relaxed text-ink-2"
-                >
-                  <MinusIcon size={15} weight="bold" className="mt-1 shrink-0 text-ink-4" />
-                  {t}
-                </li>
-              ))}
-            </ul>
-          </div>
-        </div>
-      </Section>
-
-      <Section tone="white">
-        <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-          <SectionHead eyebrow="Questions" title="Comparing the options." />
-          <FaqList items={FAQS} />
-        </div>
-      </Section>
-
-      <Section tone="paper">
-        <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h2 className="text-h3 font-semibold text-ink">Decided an advance is the right tool?</h2>
-            <p className="mt-2 max-w-[52ch] text-[0.9375rem] text-ink-2">
-              Answer a few simple questions to see what your business may qualify for.
-            </p>
-          </div>
-          <Link to={CTA.primaryHref} className="btn btn-primary btn-lg shrink-0">
-            {CTA.primary}
-          </Link>
-        </div>
-      </Section>
     </>
   )
 }

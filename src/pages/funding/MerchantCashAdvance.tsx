@@ -1,36 +1,13 @@
 import { Link } from 'react-router-dom'
-import { AnswerBlock, FaqList, PageHero, Prose, Section, SectionHead } from '../../components/ui'
+import { AnswerBlock, PageHero, Prose, Section } from '../../components/ui'
 import { EligibilityCta } from '../../components/EligibilityCta'
-import { Seo, breadcrumbSchema, faqSchema, productSchema } from '../../lib/seo'
-import { CTA, PRODUCT, currency } from '../../data/site'
+import { Seo, breadcrumbSchema, productSchema } from '../../lib/seo'
+import { PRODUCT, currency } from '../../data/site'
 
 const TRAIL = [
   { name: 'Home', path: '/' },
   { name: 'Funding', path: '/funding/merchant-cash-advance' },
   { name: 'What is an MCA?', path: '/funding/merchant-cash-advance' },
-]
-
-/* Four questions, and only four: what is it, how does it work, how are
-   payments handled, how do I apply. Mechanics, regulation, pricing depth and
-   suitability were removed - they duplicated the comparison and process
-   pages, and this page is the entry point, not the encyclopedia. */
-const FAQS = [
-  {
-    q: 'Is a merchant cash advance a loan?',
-    a: "No. A merchant cash advance is the purchase of a business's future receivables at a discount. Because it is a purchase rather than a loan, there is no interest rate, and providers like GLD Factoring LLC DBA GLD Funding are not banks or lenders.",
-  },
-  {
-    q: 'How is a factor rate different from an interest rate?',
-    a: 'A factor rate is a flat multiplier applied once to the advance amount. At a factor rate of 1.30, a $50,000 advance has a Total Purchased Amount of $65,000. Interest, by contrast, accrues over time, so repaying a loan early reduces what you owe.',
-  },
-  {
-    q: 'How are remittances collected?',
-    a: 'Remittances are collected by ACH debit from your business bank account on a fixed daily or weekly schedule agreed at signing, or as an agreed percentage of card settlements. The schedule is set out in your agreement before you sign anything.',
-  },
-  {
-    q: 'What do I need to apply?',
-    a: 'Four months of business bank statements, plus basic business and owner details. Anything further is requested only if your specific file calls for it, after review.',
-  },
 ]
 
 export function Component() {
@@ -42,7 +19,6 @@ export function Component() {
         description={`A merchant cash advance is the purchase of future business receivables at a discount - not a loan. Amounts from ${currency(PRODUCT.advanceMin)} to ${currency(PRODUCT.advanceMax)}, with daily or weekly remittances.`}
         schema={[
           breadcrumbSchema(TRAIL),
-          faqSchema(FAQS),
           productSchema({
             name: 'Merchant Cash Advance',
             description:
@@ -64,42 +40,47 @@ export function Component() {
           <div>
             <AnswerBlock>
               A merchant cash advance is the purchase of a business's future receivables at a
-              discount. The funder advances a lump sum - at GLD Factoring LLC DBA GLD Funding,{' '}
-              {currency(PRODUCT.advanceMin)} to {currency(PRODUCT.advanceMax)} - and recovers it
-              through fixed daily or weekly remittances. It is not a loan and carries no interest
-              rate.
+              discount. The funder provides a lump sum - at GLD Funding,{' '}
+              {currency(PRODUCT.advanceMin)} to {currency(PRODUCT.advanceMax)} - in exchange for an
+              agreed amount of future receivables. Remittances are made daily or weekly, subject to
+              the terms of the agreement and any applicable reconciliation provisions.
             </AnswerBlock>
 
             <Prose className="mt-8">
+              <p>
+                An MCA is structured as a purchase of future receivables rather than a traditional
+                loan, and its cost is generally expressed through a factor rate rather than an
+                interest rate.
+              </p>
+
               <h2>How does it work?</h2>
               <p>
-                You agree to sell a specific dollar amount of your future receivables - the{' '}
-                <strong>purchased amount</strong> - for a smaller sum paid to you today, the{' '}
+                You agree to sell a specific dollar amount of your future receivables, the{' '}
+                <strong>purchased amount</strong>, for a smaller sum paid to you today, the{' '}
                 <strong>purchase price</strong>. The difference between the two is the cost of the
                 advance, expressed as a <strong>factor rate</strong> rather than an interest rate.
               </p>
               <p>
-                Say you take {currency(50_000)} at a factor rate of 1.30. You receive{' '}
-                {currency(50_000)} now and remit a Total Purchased Amount of {currency(65_000)}. That cost is fixed at
-                signing: it does not accrue or compound if the remittance period takes longer than expected, and
-                it does not shrink if you complete the remittances sooner.
+                For example, if the purchase price is {currency(50_000)} with a factor rate of 1.30,
+                the Total Purchased Amount would be {currency(65_000)}.
               </p>
               <p>
-                Terms typically run {PRODUCT.termMinMonths} to {PRODUCT.termMaxMonths} months. A
-                shorter term generally means a lower factor rate but larger individual remittances,
-                so the structure is a trade-off between total cost and weekly cash-flow pressure.
+                Unlike interest that accrues over time, the purchased amount is established in the
+                agreement. Any early-remittance or prepayment terms will be disclosed in your
+                agreement and applicable disclosures.
+              </p>
+              <p>
+                The estimated remittance period may vary based on the structure of the agreement and
+                the business's receivables.
               </p>
 
               <h2>How are payments handled?</h2>
               <p>
-                Remittances come out by ACH debit from your business bank account on a fixed daily or
-                weekly schedule, or as an agreed percentage of card settlements. The amount, the
-                frequency and the Total Purchased Amount are all written into your agreement before you
-                sign, and remittances usually begin the business day after funds arrive.
+                Remittances are generally collected by ACH debit from your business bank account
+                daily or weekly. The remittance amount, frequency, Total Purchased Amount, and other
+                applicable terms are set out in your agreement before you sign.
               </p>
               <p>
-                Every offer comes with a written disclosure setting out the total dollar cost, the
-                remittance amount and frequency, and the term.{' '}
                 <Link to="/locations">See the rules that apply in your state</Link>.
               </p>
 
@@ -121,29 +102,6 @@ export function Component() {
           <div className="lg:sticky lg:top-28 lg:self-start">
             <EligibilityCta />
           </div>
-        </div>
-      </Section>
-
-      <Section tone="paper">
-        <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-          <SectionHead eyebrow="Common questions" title="What people ask before applying." />
-          <FaqList items={FAQS} />
-        </div>
-      </Section>
-
-      <Section tone="white">
-        <div className="flex flex-col items-start gap-6 border-t border-rule pt-10 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h2 className="text-h3 font-semibold text-ink">
-              See what your business may qualify for.
-            </h2>
-            <p className="mt-2 max-w-[52ch] text-[0.9375rem] text-ink-2">
-              Answer a few simple questions to get started.
-            </p>
-          </div>
-          <Link to={CTA.primaryHref} className="btn btn-primary btn-lg shrink-0">
-            {CTA.primary}
-          </Link>
         </div>
       </Section>
     </>

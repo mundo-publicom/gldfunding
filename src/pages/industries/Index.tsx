@@ -44,10 +44,7 @@ export function Component() {
       <Section tone="white">
         <div className="max-w-[68ch]">
           <AnswerBlock>
-            GLD Factoring LLC DBA GLD Funding provides merchant cash advances across eight core industries - restaurants,
-            retail, medical and dental, trucking, construction, auto repair, salons and e-commerce.
-            Advances range from $10,000 to $500,000, underwritten on business deposit history rather
-            than credit score.
+            GLD Funding provides merchant cash advances across eight core industries, restaurants, retail, medical and dental, trucking, construction, auto repair, salons and e-commerce. Funding amounts range from $10,000 to $500,000 and are subject to underwriting and approval.
           </AnswerBlock>
         </div>
 
@@ -80,7 +77,7 @@ export function Component() {
         </div>
 
         <p className="mt-8 max-w-[62ch] text-[0.9375rem] leading-relaxed text-ink-2">
-          Not listed? We fund well beyond these eight - professional services, manufacturing,
+          Not listed? We fund well beyond these eight, professional services, manufacturing,
           wholesale and more. A short restricted list applies to regulated categories.{' '}
           <Link to="/contact" className="text-leaf-deep underline underline-offset-[3px]">
             Ask us about yours
@@ -94,8 +91,7 @@ export function Component() {
           <div>
             <h2 className="text-h3 font-semibold text-ink">See what your business may qualify for.</h2>
             <p className="mt-2 max-w-[52ch] text-[0.9375rem] text-ink-2">
-              Answer a few simple questions to get started. No credit inquiry during the eligibility
-              check.
+              Answer a few simple questions to get started. No credit inquiry during the eligibility check.
             </p>
           </div>
           <Link to={CTA.primaryHref} className="btn btn-primary btn-lg shrink-0">
