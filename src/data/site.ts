@@ -210,7 +210,7 @@ export const INDUSTRIES: Industry[] = [
     cashFlowNote:
       "A contractor's deposits arrive in lumps when draws hit, not as a smooth monthly wage.",
     answer:
-      'Contractors and trades businesses use merchant cash advances to fund materials and labor before a progress payment arrives. Because underwriting reads bank deposits rather than credit files, contractors with strong revenue but lumpy monthly cash flow can still be underwritten on deposit history.',
+      'Contractors and trades businesses use merchant cash advances to fund materials and labor before a progress payment arrives. Underwriting considers business performance, deposit history, cash flow, and other applicable factors, which can help evaluate businesses with uneven monthly revenue.',
     useCases: ['Materials ahead of a progress payment', 'Crew payroll between draws', 'Tools, plant and vehicle purchases', 'Bonding and permit costs', 'Taking on a larger contract'],
     typicalRange: '$15,000 – $350,000',
   },
@@ -222,7 +222,7 @@ export const INDUSTRIES: Industry[] = [
     cashFlowNote:
       "A shop's deposits swing with season and weather, even when the year as a whole is solid.",
     answer:
-      'Auto repair shops use merchant cash advances to stock parts, buy diagnostic equipment, or add a service bay. Underwriting reads shop deposit history rather than a personal credit file, which suits a trade where revenue swings with season and weather.',
+      'Auto repair shops use merchant cash advances to stock parts, buy diagnostic equipment, or add a service bay. Underwriting considers shop performance, deposit history, cash flow, and other applicable factors.',
     useCases: ['Diagnostic and lift equipment', 'Parts inventory', 'Adding a service bay', 'Technician hiring and certification', 'Shop marketing and signage'],
     typicalRange: '$10,000 – $200,000',
   },
@@ -234,7 +234,7 @@ export const INDUSTRIES: Industry[] = [
     cashFlowNote:
       "A salon's deposits follow appointment volume and retail cycles, which are uneven week to week.",
     answer:
-      'Salons, barbershops and spas use merchant cash advances to fit out stations, buy retail stock, or fund a second location. Advances are typically smaller and shorter than in other trades, and approval leans on business performance and deposit volume.',
+      'Salons, barbershops and spas use merchant cash advances to fit out stations, buy retail stock, or fund a second location. Funding amounts and structures vary based on business performance, deposit volume, cash flow, and underwriting.',
     useCases: ['Station and chair fit-out', 'Retail product stock', 'Opening a second location', 'Booking and POS systems', 'Stylist recruitment and training'],
     typicalRange: '$10,000 – $150,000',
   },

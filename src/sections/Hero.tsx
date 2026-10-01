@@ -7,13 +7,10 @@ import {
   FileTextIcon,
   LightningIcon,
   LockSimpleIcon,
-  PauseIcon,
-  PhoneIcon,
-  PlayIcon,
   ShieldCheckIcon,
 } from '@phosphor-icons/react'
 import { ATMOSPHERE, tint } from '../lib/atmosphere'
-import { CTA, PRODUCT, SITE, currency } from '../data/site'
+import { CTA, PRODUCT, currency } from '../data/site'
 import { cn } from '../lib/cn'
 import { HERO_SLIDES, slideSrc, slideSrcSet } from './heroSlides'
 
@@ -57,15 +54,13 @@ const FEATURES = [
 export function Hero() {
   const wrapRef = useRef<HTMLDivElement>(null)
   const [index, setIndex] = useState(0)
-  /** Explicit user stop, via the pause control. Survives everything else. */
-  const [stopped, setStopped] = useState(false)
   /** Scrolled away, tab hidden, or the pointer/keyboard is inside the hero. */
   const [held, setHeld] = useState(false)
   const [reduced, setReduced] = useState(false)
   /** Which frames have been mounted. Index 0 ships; the rest arrive in turn. */
   const [mounted, setMounted] = useState<number[]>([0])
 
-  const running = !stopped && !held && !reduced
+  const running = !held && !reduced
 
   useEffect(() => {
     const mq = window.matchMedia('(prefers-reduced-motion: reduce)')
@@ -232,10 +227,6 @@ export function Hero() {
                   className="transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-0.5"
                 />
               </Link>
-              <a href={SITE.phoneHref} className="btn btn-secondary-invert btn-lg">
-                <PhoneIcon size={16} weight="fill" />
-                {SITE.phone}
-              </a>
             </div>
 
             <p className="mt-7 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[0.8125rem] text-paper/75">
@@ -246,7 +237,7 @@ export function Hero() {
               <span aria-hidden="true" className="hidden text-paper/40 sm:inline">
                 ·
               </span>
-              <span>No impact on credit score to apply</span>
+              <span>No credit inquiry during the eligibility check</span>
             </p>
           </div>
 
@@ -271,8 +262,7 @@ export function Hero() {
         </div>
 
         {/* Pagination. Dots plus one travelling ring that runs down the dwell,
-            so the rotation is legible rather than something that just happens.
-            The pause control is what makes an auto-advancing hero pass 2.2.2. */}
+            so the rotation is legible rather than something that just happens. */}
         <div className="mt-12 flex items-center gap-4">
           <div className="relative flex items-center" style={{ marginLeft: -(DOT_PITCH - 5) / 2 }}>
             {/* The ring rides on top of the dots, one pitch at a time. */}
@@ -328,19 +318,6 @@ export function Hero() {
               </button>
             ))}
           </div>
-
-          <button
-            type="button"
-            onClick={() => setStopped((s) => !s)}
-            aria-label={stopped ? 'Resume the slideshow' : 'Pause the slideshow'}
-            className="grid h-7 w-7 shrink-0 place-items-center rounded-full border border-white/20 text-paper/70 transition-colors duration-200 hover:border-white/45 hover:text-white"
-          >
-            {stopped ? (
-              <PlayIcon size={11} weight="fill" />
-            ) : (
-              <PauseIcon size={11} weight="fill" />
-            )}
-          </button>
 
           {/* Names the frame on screen. Polite, so it never interrupts. */}
           <p

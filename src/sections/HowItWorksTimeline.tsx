@@ -1,16 +1,30 @@
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { Section, SectionHead } from '../components/ui'
 import { STEPS } from './howItWorksSteps'
 
 
+type Step = { n: string; title: string; body: string }
+
 /**
- * Scroll-scrubbed three-step timeline.
+ * Scroll-scrubbed step timeline.
  *
  * Pure CSS transforms driven by one scroll listener - no WebGL, no additional
  * JS beyond this component. The rail fills as the reader travels, so the motion
  * is explaining the process rather than decorating it.
  */
-export function HowItWorksTimeline() {
+export function HowItWorksTimeline({
+  steps = STEPS,
+  eyebrow = 'How it works',
+  title = 'Three steps, start to funded.',
+  lead = 'Apply, review, get funded. Same-day funding is available once your file is complete.',
+  ambientSeed = 'how-it-works-timeline',
+}: {
+  steps?: Step[]
+  eyebrow?: string
+  title?: ReactNode
+  lead?: ReactNode
+  ambientSeed?: string
+} = {}) {
   const wrapRef = useRef<HTMLDivElement>(null)
   const [progress, setProgress] = useState(0)
   const [active, setActive] = useState(0)
@@ -21,7 +35,7 @@ export function HowItWorksTimeline() {
 
     if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
       setProgress(1)
-      setActive(STEPS.length - 1)
+      setActive(steps.length - 1)
       return
     }
 
@@ -37,7 +51,7 @@ export function HowItWorksTimeline() {
       const travelled = start - rect.top
       const p = Math.min(Math.max(travelled / span, 0), 1)
       setProgress(p)
-      setActive(Math.min(Math.floor(p * STEPS.length + 0.28), STEPS.length - 1))
+      setActive(Math.min(Math.floor(p * steps.length + 0.28), steps.length - 1))
     }
 
     const onScroll = () => {
@@ -53,18 +67,13 @@ export function HowItWorksTimeline() {
       window.removeEventListener('scroll', onScroll)
       window.removeEventListener('resize', onScroll)
     }
-  }, [])
+  }, [steps.length])
 
   return (
-    <Section tone="petrol" ambient="stream" ambientSeed="how-it-works-timeline" ambientIntensity={0.7}>
+    <Section tone="petrol" ambient="stream" ambientSeed={ambientSeed} ambientIntensity={0.7}>
       <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
         <div className="lg:sticky lg:top-28 lg:self-start">
-          <SectionHead
-            invert
-            eyebrow="How it works"
-            title="Three steps, start to funded."
-            lead="Apply, review, get funded. Same-day funding is available once your file is complete."
-          />
+          <SectionHead invert eyebrow={eyebrow} title={title} lead={lead} />
           {/* <div className="mt-8">
             <Link to={CTA.primaryHref} className="btn btn-primary-invert">
               {CTA.primary}
@@ -86,7 +95,7 @@ export function HowItWorksTimeline() {
           </div>
 
           <ol className="flex flex-col gap-12">
-            {STEPS.map((step, i) => {
+            {steps.map((step, i) => {
               const on = i <= active
               return (
                 <li key={step.n} className="relative pl-12">

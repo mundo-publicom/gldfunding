@@ -1,8 +1,7 @@
 import { Link } from 'react-router-dom'
-import { ArrowRightIcon } from '@phosphor-icons/react'
 import { AnswerBlock, PageHero, Section } from '../../components/ui'
 import { Seo, breadcrumbSchema } from '../../lib/seo'
-import { CTA, INDUSTRIES } from '../../data/site'
+import { INDUSTRIES } from '../../data/site'
 import { useRevealGroup } from '../../lib/useReveal'
 
 const TRAIL = [
@@ -50,11 +49,7 @@ export function Component() {
 
         <div ref={ref} className="stagger mt-10 grid gap-px border border-rule bg-rule sm:grid-cols-2">
           {INDUSTRIES.map((ind) => (
-            <Link
-              key={ind.slug}
-              to={`/industries/${ind.slug}`}
-              className="group flex flex-col bg-white p-6 transition-colors duration-150 hover:bg-paper lg:p-8"
-            >
+            <div key={ind.slug} className="flex flex-col bg-white p-6 lg:p-8">
               <div className="flex items-baseline justify-between gap-4">
                 <h2 className="text-h3 font-semibold text-ink">{ind.name}</h2>
                 <span className="shrink-0 font-mono text-[0.8125rem] tabular-nums text-leaf-deep">
@@ -64,15 +59,7 @@ export function Component() {
               <p className="mt-3 flex-1 text-[0.9375rem] leading-relaxed text-ink-2">
                 {ind.answer}
               </p>
-              <span className="mt-5 inline-flex items-center gap-1.5 text-[0.875rem] font-medium text-leaf-deep">
-                Funding for {ind.short.toLowerCase()}
-                <ArrowRightIcon
-                  size={13}
-                  weight="bold"
-                  className="transition-transform duration-200 ease-[cubic-bezier(0.23,1,0.32,1)] group-hover:translate-x-0.5"
-                />
-              </span>
-            </Link>
+            </div>
           ))}
         </div>
 
@@ -84,20 +71,6 @@ export function Component() {
           </Link>
           .
         </p>
-      </Section>
-
-      <Section tone="paper">
-        <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h2 className="text-h3 font-semibold text-ink">See what your business may qualify for.</h2>
-            <p className="mt-2 max-w-[52ch] text-[0.9375rem] text-ink-2">
-              Answer a few simple questions to get started. No credit inquiry during the eligibility check.
-            </p>
-          </div>
-          <Link to={CTA.primaryHref} className="btn btn-primary btn-lg shrink-0">
-            {CTA.primary}
-          </Link>
-        </div>
       </Section>
     </>
   )

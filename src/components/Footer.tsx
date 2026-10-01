@@ -48,12 +48,12 @@ export function Footer() {
       <AmbientBackdrop variant="drift" tone="dark" seed="footer" intensity={0.55} />
       {/* Closing CTA - one label per intent, same as the nav and every hero. */}
       <div className="border-b border-white/10">
-        <div className="page grid gap-6 py-10 lg:grid-cols-[1.2fr_auto] lg:items-center lg:py-12">
+        <div className="page grid gap-5 py-8 lg:grid-cols-[1.2fr_auto] lg:items-center lg:py-9">
           <div>
             <h2 className="text-h2 font-semibold text-white">
               See what your business may qualify for.
             </h2>
-            <p className="mt-3 max-w-[46ch] text-[1.0625rem] leading-relaxed text-paper/75">
+            <p className="mt-2 max-w-[46ch] text-[1.0625rem] leading-relaxed text-paper/75">
               Answer a few simple questions to get started. No credit inquiry during the eligibility
               check.
             </p>
@@ -62,25 +62,21 @@ export function Footer() {
             <Link to={CTA.primaryHref} className="btn btn-primary-invert btn-lg">
               {CTA.primary}
             </Link>
-            <a href={SITE.phoneHref} className="btn btn-secondary-invert btn-lg">
-              <PhoneIcon size={16} weight="fill" />
-              {SITE.phone}
-            </a>
           </div>
         </div>
       </div>
 
-      <div className="page grid gap-8 py-10 md:grid-cols-2 lg:grid-cols-[1.4fr_repeat(3,1fr)] lg:py-12">
+      <div className="page grid gap-x-8 gap-y-6 py-8 md:grid-cols-2 lg:grid-cols-[1.4fr_repeat(3,1fr)] lg:py-9">
         <div>
           {/* Petrol ground: this is the one place the artwork runs as drawn,
               white wordmark and all. */}
           <Logo className="h-[46px] text-white" title={SITE.name} />
-          <p className="mt-3 max-w-[38ch] text-[0.9375rem] leading-relaxed text-paper/70">
+          <p className="mt-2.5 max-w-[38ch] text-[0.9375rem] leading-relaxed text-paper/70">
             Merchant cash advances and working capital for small businesses across the United
             States. Serving business owners since {SITE.founded}.
           </p>
 
-          <address className="mt-5 flex flex-col gap-2 not-italic text-[0.875rem] text-paper/75">
+          <address className="mt-4 flex flex-col gap-1.5 not-italic text-[0.875rem] text-paper/75">
             <span className="flex items-start gap-2.5">
               <MapPinIcon size={16} className="mt-0.5 shrink-0 text-leaf-glow" />
               <span>
@@ -105,7 +101,7 @@ export function Footer() {
             </a>
           </address>
 
-          <div className="mt-4 flex gap-1">
+          <div className="-ml-2 mt-2.5 flex gap-0.5">
             {[
               { href: SITE.social.facebook, Icon: FacebookLogoIcon, label: 'Facebook' },
               { href: SITE.social.instagram, Icon: InstagramLogoIcon, label: 'Instagram' },
@@ -131,7 +127,7 @@ export function Footer() {
             <h3 className="font-mono text-[0.6875rem] font-medium uppercase tracking-[0.16em] text-leaf-glow">
               {col.title}
             </h3>
-            <ul className="mt-3 flex flex-col gap-2">
+            <ul className="mt-2.5 flex flex-col gap-1.5">
               {col.links.map((l) => (
                 <li key={l.href}>
                   <Link
@@ -148,7 +144,7 @@ export function Footer() {
       </div>
 
       <div className="border-t border-white/8">
-        <div className="page flex flex-col gap-3 py-4 text-[0.8125rem] text-paper/70 md:flex-row md:items-center md:justify-between">
+        <div className="page flex flex-col gap-2 py-3 text-[0.8125rem] text-paper/70 md:flex-row md:items-center md:justify-between">
           <p>
             © {year} {SITE.legalName}. All rights reserved.
           </p>
@@ -170,8 +166,8 @@ export function Footer() {
       </div>
 
       <div className="border-t border-white/8">
-        <div className="page py-4">
-          <p className="max-w-[92ch] text-[0.75rem] leading-relaxed text-paper/65">
+        <div className="page py-3">
+          <p className="max-w-[150ch] text-[0.75rem] leading-relaxed text-paper/65">
             A merchant cash advance is the purchase of future receivables, not a loan. GLD Factoring LLC DBA GLD Funding
             is not a bank and does not offer loans. Funding amounts, factor rates, and terms vary by
             business and are determined by underwriting. Approval times and funding speed reflect

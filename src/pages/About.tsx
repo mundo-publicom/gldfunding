@@ -14,21 +14,19 @@ const TRAIL = [
 const APPROACH = [
   {
     title: 'Fast',
-    body: 'A streamlined application, a quick decision once your file is complete, and same-day funding available on signed contracts.',
+    body: 'A streamlined application, a prompt decision once your file is complete, and same-day funding that may be available after required documents are completed and approved.',
   },
   {
     title: 'Transparent',
-    body: 'Every offer comes with a written disclosure of the total dollar cost, the remittance amount and frequency, and the term - before you sign.',
+    body: 'Applicable terms, costs, remittance information, and required disclosures are provided before you sign.',
   },
   {
     title: 'Business-focused',
-    body: 'We underwrite the business, reading performance and cash flow rather than judging the owner by a credit score alone.',
+    body: 'We evaluate business performance, cash flow, bank activity, and other applicable underwriting factors when reviewing an application.',
   },
 ]
 
 export function Component() {
-  const years = new Date().getFullYear() - SITE.founded
-
   return (
     <>
       <Seo
@@ -42,7 +40,7 @@ export function Component() {
         trail={TRAIL}
         eyebrow="About us"
         title="Funding solutions that are easier, faster and smarter"
-        lead={`${years}+ years of putting working capital into the hands of small business owners.`}
+        lead={`Serving small business owners since ${SITE.founded}.`}
       />
 
       <Section tone="white">
@@ -50,15 +48,15 @@ export function Component() {
           <div>
             {/* Who we are - one paragraph, no history lesson. */}
             <AnswerBlock>
-              GLD Factoring LLC DBA GLD Funding is a merchant cash advance provider headquartered in Garden City, New
+              GLD Funding is a merchant cash advance provider headquartered in Garden City, New
               York, serving small businesses across the United States since {SITE.founded}. We
-              purchase future receivables to provide working capital of{' '}
-              {currency(PRODUCT.advanceMin)} to {currency(PRODUCT.advanceMax)}, underwritten
-              primarily on business performance and cash flow.
+              purchase future receivables to provide working capital from{' '}
+              {currency(PRODUCT.advanceMin)} to {currency(PRODUCT.advanceMax)}, subject to
+              underwriting and approval.
             </AnswerBlock>
 
             <p className="mt-8 max-w-[64ch] text-[1.0625rem] leading-[1.7] text-ink-2">
-              We work with the owners who keep neighbourhoods running - the restaurant on the
+              We work with the owners who keep neighborhoods running - the restaurant on the
               corner, the shop that has been there thirty years, the contractor everyone calls. Our
               job is to look at what a business actually does, structure funding around it, and get
               an answer back quickly enough to be useful.
@@ -73,14 +71,14 @@ export function Component() {
               <dl className="mt-5 flex flex-col divide-y divide-rule-soft">
                 {[
                   ['Legal name', SITE.legalName],
-                  ['Operating as', SITE.name],
+                  ['Operating as', 'GLD Funding'],
                   ['Serving businesses since', String(SITE.founded)],
                   ['Headquarters', `${SITE.address.locality}, ${SITE.address.region}`],
                   [
                     'Advance range',
-                    `${currency(PRODUCT.advanceMin)} – ${currency(PRODUCT.advanceMax)}`,
+                    `${currency(PRODUCT.advanceMin)}–${currency(PRODUCT.advanceMax)}`,
                   ],
-                  ['Area served', 'United States'],
+                  ['Area served', 'Select U.S. States'],
                 ].map(([k, v]) => (
                   <div key={k} className="flex items-baseline justify-between gap-4 py-2.5">
                     <dt className="text-[0.875rem] text-ink-3">{k}</dt>
@@ -109,10 +107,15 @@ export function Component() {
 
         <div className="mt-14">
           <StatRow invert>
-            <Stat invert value={`${years}+`} label="Years funding" sub={`Since ${SITE.founded}`} />
-            <Stat invert value="Same day" label="Funding available" sub="On signed contracts" />
+            <Stat invert value={`Since ${SITE.founded}`} label="Serving businesses" sub="Garden City, New York" />
+            <Stat invert value="Same-day" label="Funding may be available" sub="After documents are approved" />
             <Stat invert value="4 months" label="Bank statements" sub="To get started" />
-            <Stat invert value="50" label="States served" sub="Nationwide" />
+            <Stat
+              invert
+              value={`$${PRODUCT.advanceMin / 1000}K–$${PRODUCT.advanceMax / 1000}K`}
+              label="Funding range"
+              sub="Subject to underwriting"
+            />
           </StatRow>
         </div>
       </Section>
@@ -124,7 +127,7 @@ export function Component() {
             <SectionHead
               eyebrow="Our team"
               title="Garden City, New York."
-              lead="An experienced funding team that stays with your file from application through funding. When you call, you reach a person who already knows your business."
+              lead="An experienced funding team supports your file from application through funding. Our team is available to answer questions and guide you through the process."
             />
             <address className="mt-8 not-italic text-[1.0625rem] leading-relaxed text-ink-2">
               {SITE.address.street}
@@ -158,8 +161,8 @@ export function Component() {
           <div className="flex flex-col justify-center border-l-[3px] border-leaf bg-paper p-7">
             <h2 className="text-h3 font-semibold text-ink">Prefer to talk it through?</h2>
             <p className="mt-3 text-[0.9375rem] leading-relaxed text-ink-2">
-              Call and tell us what you're trying to do. We'll tell you quickly whether an advance
-              is the right tool for it.
+              Tell us what your business is looking to accomplish. Our team can explain available
+              funding options and answer your questions.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <a href={SITE.phoneHref} className="btn btn-primary">
@@ -174,20 +177,6 @@ export function Component() {
       </Section>
 
       <Testimonials />
-
-      <Section tone="paper">
-        <div className="flex flex-col items-start gap-6 sm:flex-row sm:items-center sm:justify-between">
-          <div>
-            <h2 className="text-h3 font-semibold text-ink">Ready to get started?</h2>
-            <p className="mt-2 max-w-[52ch] text-[0.9375rem] text-ink-2">
-              Answer a few simple questions to see what your business may qualify for.
-            </p>
-          </div>
-          <Link to={CTA.primaryHref} className="btn btn-primary btn-lg shrink-0">
-            {CTA.primary}
-          </Link>
-        </div>
-      </Section>
     </>
   )
 }

@@ -1,5 +1,5 @@
 import { Link, useParams } from 'react-router-dom'
-import { ArrowRightIcon, CheckIcon, QuotesIcon } from '@phosphor-icons/react'
+import { ArrowRightIcon, CheckIcon } from '@phosphor-icons/react'
 import {
   AnswerBlock,
   FaqList,
@@ -9,6 +9,7 @@ import {
   SectionHead,
 } from '../../components/ui'
 import { EligibilityCta } from '../../components/EligibilityCta'
+import { TestimonialGrid } from '../../sections/Testimonials'
 import { Seo, breadcrumbSchema, faqSchema, productSchema } from '../../lib/seo'
 import { CTA, INDUSTRIES, PRODUCT, TESTIMONIALS, currency } from '../../data/site'
 import { NotFoundBody } from '../NotFound'
@@ -142,25 +143,7 @@ export function Component() {
             eyebrow="From this industry"
             title={`Owners we've funded in ${ind.short.toLowerCase()}.`}
           />
-          <div className="mt-8 grid gap-px border border-rule bg-rule sm:grid-cols-2 lg:grid-cols-3">
-            {proof.map((t) => (
-              <figure key={t.business} className="flex flex-col bg-white p-6">
-                <QuotesIcon size={20} weight="fill" className="text-leaf/35" aria-hidden="true" />
-                <blockquote className="mt-3.5 flex-1 text-[0.9375rem] leading-relaxed text-ink-2">
-                  {t.quote}
-                </blockquote>
-                <figcaption className="mt-5 border-t border-rule-soft pt-3.5">
-                  <div className="text-[0.9375rem] font-semibold text-ink">{t.business}</div>
-                  <div className="mt-0.5 text-[0.8125rem] text-ink-3">
-                    {t.author} · {t.location}
-                  </div>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
-          <p className="mt-5 text-[0.8125rem] text-ink-3">
-            Individual results vary. Testimonials are not a guarantee of approval or terms.
-          </p>
+          <TestimonialGrid items={proof} omit="industry" />
         </Section>
       )}
 

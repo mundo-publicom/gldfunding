@@ -9,6 +9,7 @@ import {
   SectionHead,
 } from '../../components/ui'
 import { EligibilityCta } from '../../components/EligibilityCta'
+import { TestimonialGrid } from '../../sections/Testimonials'
 import { Seo, breadcrumbSchema, faqSchema, localBusinessSchema } from '../../lib/seo'
 import { CTA, INDUSTRIES, PRODUCT, SITE, STATES, TESTIMONIALS, currency } from '../../data/site'
 import { NotFoundBody } from '../NotFound'
@@ -225,21 +226,7 @@ export function Component() {
       {local.length > 0 && (
         <Section tone="white">
           <SectionHead eyebrow={`${state.name} clients`} title="Businesses we've funded here." />
-          <div className="mt-8 grid gap-px border border-rule bg-rule sm:grid-cols-2 lg:grid-cols-3">
-            {local.slice(0, 3).map((t) => (
-              <figure key={t.business} className="flex flex-col bg-white p-6">
-                <blockquote className="flex-1 text-[0.9375rem] leading-relaxed text-ink-2">
-                  {t.quote}
-                </blockquote>
-                <figcaption className="mt-5 border-t border-rule-soft pt-3.5">
-                  <div className="text-[0.9375rem] font-semibold text-ink">{t.business}</div>
-                  <div className="mt-0.5 text-[0.8125rem] text-ink-3">
-                    {t.author} · {t.industry}
-                  </div>
-                </figcaption>
-              </figure>
-            ))}
-          </div>
+          <TestimonialGrid items={local.slice(0, 3)} omit="location" />
         </Section>
       )}
 
