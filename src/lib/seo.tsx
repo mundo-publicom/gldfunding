@@ -128,6 +128,26 @@ export const breadcrumbSchema = (trail: { name: string; path: string }[]) => ({
   })),
 })
 
+/** Google retired HowTo rich results, but answer engines still read the steps. */
+export const howToSchema = (opts: {
+  name: string
+  description: string
+  path: string
+  steps: { title: string; body: string }[]
+}) => ({
+  '@context': 'https://schema.org',
+  '@type': 'HowTo',
+  name: opts.name,
+  description: opts.description,
+  url: `${SITE.domain}${opts.path}`,
+  step: opts.steps.map((s, i) => ({
+    '@type': 'HowToStep',
+    position: i + 1,
+    name: s.title,
+    text: s.body,
+  })),
+})
+
 export const productSchema = (opts: {
   name: string
   description: string

@@ -8,12 +8,17 @@
  *      which fetches bytes for users the gates will reject.
  *   5. .nojekyll     — GitHub Pages otherwise hands the output to Jekyll, which
  *                      drops files and directories beginning with an underscore.
+ *   6. Aliases        — a static redirect page per entry in src/data/redirects.json,
+ *                      plus matching 301s in _redirects for hosts that honour it.
  */
-import { readdirSync, readFileSync, writeFileSync, statSync } from 'node:fs'
-import { join, relative } from 'node:path'
+import { existsSync, mkdirSync, readdirSync, readFileSync, writeFileSync, statSync } from 'node:fs'
+import { dirname, join, relative } from 'node:path'
 import { fileURLToPath } from 'node:url'
 
 const DIST = fileURLToPath(new URL('../dist', import.meta.url))
+const REDIRECTS = JSON.parse(
+  readFileSync(fileURLToPath(new URL('../src/data/redirects.json', import.meta.url)), 'utf8'),
+)
 
 // The canonical origin every absolute URL in the crawl surface is built from.
 // Override for a GitHub Pages project site: SITE_ORIGIN=https://user.github.io
@@ -56,8 +61,55 @@ const routes = files
     if (rel === '404.html') return null
     return `/${rel.replace(/\.html$/, '')}`
   })
-  .filter((r) => r !== null)
+  .filter((r) => r !== null && !(r in REDIRECTS))
   .sort()
+
+const fileFor = (route) => join(DIST, route === '/' ? 'index.html' : `${route.slice(1)}.html`)
+
+const decode = (s) =>
+  s
+    .replace(/&quot;/g, '"')
+    .replace(/&#x27;|&#39;/g, "'")
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&amp;/g, '&')
+
+/** Title, description and canonical exactly as the page itself declares them. */
+const headOf = (route) => {
+  const html = readFileSync(fileFor(route), 'utf8')
+  const pick = (re) => decode(html.match(re)?.[1] ?? '')
+  return {
+    title: pick(/<title[^>]*>([^<]*)<\/title>/).replace(/ \| GLD Factoring LLC DBA GLD Funding$/, ''),
+    description: pick(/<meta[^>]*name="description"[^>]*content="([^"]*)"/),
+    canonical: pick(/<link[^>]*rel="canonical"[^>]*href="([^"]*)"/),
+  }
+}
+
+// The steps come from the page's own HowTo JSON-LD, so llms.txt can never say
+// something different from what the page says.
+function howItWorks() {
+  const route = '/funding/how-it-works'
+  if (!routes.includes(route)) return ''
+  const blocks = [...readFileSync(fileFor(route), 'utf8').matchAll(
+    /<script[^>]*type="application\/ld\+json"[^>]*>([\s\S]*?)<\/script>/g,
+  )]
+  const howTo = blocks.map((m) => JSON.parse(m[1])).find((b) => b['@type'] === 'HowTo')
+  if (!howTo) return ''
+  return `## How funding works
+
+${howTo.step.map((s) => `${s.position}. ${s.name}: ${s.text}`).join('\n')}
+
+Details: ${url(route)}
+
+`
+}
+
+// llms.txt convention: `- [Title](url): one-line summary`. A bare path gives an
+// answer engine nothing to decide relevance with before it spends a fetch.
+const entry = (route) => {
+  const { title, description } = headOf(route)
+  return `- [${title || route}](${url(route)})${description ? `: ${description}` : ''}`
+}
 
 /* ---------- 1. robots.txt ---------- */
 
@@ -195,27 +247,27 @@ underwriting. They are not guaranteed on any individual transaction.
 
 ## Understanding the product
 
-${group('/funding/')
-  .map((r) => `- [${r}](${url(r)})`)
-  .join('\n')}
+${group('/funding/').map(entry).join('\n')}
 
-## Industries funded
+${howItWorks()}## Industries funded
 
-${group('/industries/')
-  .map((r) => `- [${r}](${url(r)})`)
-  .join('\n')}
+${group('/industries/').map(entry).join('\n')}
 
 ## State coverage and disclosure law
 
 Commercial financing disclosure requirements differ by state. These pages cover
 each state's regulatory posture and typical terms.
 
-${group('/locations/')
-  .slice(0, 12)
-  .map((r) => `- [${r}](${url(r)})`)
-  .join('\n')}
+${group('/locations/').slice(0, 12).map(entry).join('\n')}
 
 Full list: ${url('/locations')}
+
+## Company
+
+${['/about', '/partners', '/resources', '/legal/disclosures']
+  .filter((r) => routes.includes(r))
+  .map(entry)
+  .join('\n')}
 
 ## Contact
 
@@ -277,8 +329,71 @@ if (BASE) {
 // any future `_`-prefixed asset. Harmless on every other host.
 writeFileSync(join(DIST, '.nojekyll'), '')
 
+/* ---------- 7. aliases ---------- */
+
+// GitHub Pages cannot send a 301. The closest it can serve is a page whose only
+// job is to point elsewhere: a canonical to the destination (consolidates
+// ranking signal), a zero-second meta refresh (Google treats it as a permanent
+// redirect), and a plain link for crawlers that follow neither.
+const esc = (s) =>
+  s.replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;').replace(/>/g, '&gt;')
+
+let aliases = 0
+const skipped = []
+
+for (const [from, to] of Object.entries(REDIRECTS)) {
+  if (!routes.includes(to)) {
+    throw new Error(`[postbuild] redirect ${from} → ${to}: destination is not a built page`)
+  }
+  const file = fileFor(from)
+  // `/index` would land on index.html — the homepage itself. A host with real
+  // redirects still handles it through _redirects / vercel.json.
+  if (existsSync(file)) {
+    skipped.push(from)
+    continue
+  }
+
+  const { title, canonical } = headOf(to)
+  const href = `${BASE}${to}`
+  mkdirSync(dirname(file), { recursive: true })
+  writeFileSync(
+    file,
+    `<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+${IS_PRODUCTION ? '' : `${NOINDEX}\n`}<title>${esc(title)} | GLD Funding</title>
+<link rel="canonical" href="${esc(canonical || url(to))}">
+<meta http-equiv="refresh" content="0; url=${esc(href)}">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script>location.replace(${JSON.stringify(href)} + location.search + location.hash)</script>
+</head>
+<body>
+<p>This page has moved to <a href="${esc(href)}">${esc(title)}</a>.</p>
+</body>
+</html>
+`,
+  )
+  aliases++
+}
+
+// Real 301s for hosts that read _redirects (Netlify, Cloudflare Pages), placed
+// ahead of the 404 catch-all so they win.
+const redirectsFile = join(DIST, '_redirects')
+const rules = Object.entries(REDIRECTS)
+  .map(([from, to]) => `${BASE}${from}`.padEnd(40) + `${BASE}${to}`.padEnd(40) + '301')
+  .join('\n')
+writeFileSync(
+  redirectsFile,
+  readFileSync(redirectsFile, 'utf8').replace(
+    '# @redirects',
+    `# Generated from src/data/redirects.json by scripts/postbuild.mjs.\n${rules}`,
+  ),
+)
+
 console.log(
   `[postbuild] ${routes.length} routes → sitemap.xml · robots.txt · llms.txt · .nojekyll` +
+    ` · ${aliases} alias page(s)${skipped.length ? ` (301-only: ${skipped.join(', ')})` : ''}` +
     (stripped ? ` · stripped ${stripped} gated preload(s)` : '') +
     (IS_PRODUCTION ? '' : ` · NON-PRODUCTION: noindexed ${noindexed} page(s), robots.txt disallows all`),
 )

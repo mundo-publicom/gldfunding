@@ -79,6 +79,111 @@
       "source": "/funding/qualify",
       "destination": "/apply",
       "permanent": true
+    },
+    {
+      "source": "/funding",
+      "destination": "/funding/merchant-cash-advance",
+      "permanent": true
+    },
+    {
+      "source": "/merchant-cash-advance",
+      "destination": "/funding/merchant-cash-advance",
+      "permanent": true
+    },
+    {
+      "source": "/merchant-cash-advances",
+      "destination": "/funding/merchant-cash-advance",
+      "permanent": true
+    },
+    {
+      "source": "/what-is-a-merchant-cash-advance",
+      "destination": "/funding/merchant-cash-advance",
+      "permanent": true
+    },
+    {
+      "source": "/how-it-works",
+      "destination": "/funding/how-it-works",
+      "permanent": true
+    },
+    {
+      "source": "/process",
+      "destination": "/funding/how-it-works",
+      "permanent": true
+    },
+    {
+      "source": "/mca-vs-business-loan",
+      "destination": "/funding/mca-vs-business-loan",
+      "permanent": true
+    },
+    {
+      "source": "/mca-vs-loan",
+      "destination": "/funding/mca-vs-business-loan",
+      "permanent": true
+    },
+    {
+      "source": "/funding/mca-vs-loan",
+      "destination": "/funding/mca-vs-business-loan",
+      "permanent": true
+    },
+    {
+      "source": "/eligibility",
+      "destination": "/apply",
+      "permanent": true
+    },
+    {
+      "source": "/get-started",
+      "destination": "/apply",
+      "permanent": true
+    },
+    {
+      "source": "/apply-now",
+      "destination": "/apply",
+      "permanent": true
+    },
+    {
+      "source": "/about-us",
+      "destination": "/about",
+      "permanent": true
+    },
+    {
+      "source": "/contact-us",
+      "destination": "/contact",
+      "permanent": true
+    },
+    {
+      "source": "/states",
+      "destination": "/locations",
+      "permanent": true
+    },
+    {
+      "source": "/legal",
+      "destination": "/legal/disclosures",
+      "permanent": true
+    },
+    {
+      "source": "/disclosures",
+      "destination": "/legal/disclosures",
+      "permanent": true
+    },
+    {
+      "source": "/privacy",
+      "destination": "/legal/privacy",
+      "permanent": true
+    },
+    {
+      "source": "/privacy-policy",
+      "destination": "/legal/privacy",
+      "permanent": true
+    },
+    {
+      "source": "/terms",
+      "destination": "/legal/terms",
+      "permanent": true
+    },
+    {
+      "source": "/terms-of-service",
+      "destination": "/legal/terms",
+      "permanent": true
     }
   ]
 }

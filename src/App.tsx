@@ -1,6 +1,14 @@
 import type { RouteRecord } from 'vite-react-ssg'
+import { Navigate, useLocation } from 'react-router-dom'
 import RootLayout from './layouts/RootLayout'
 import { INDUSTRIES, STATES } from './data/site'
+import REDIRECTS from './data/redirects.json'
+
+/** Keeps `?utm_*` and `#fragment` intact across the hop. */
+function RedirectTo({ to }: { to: string }) {
+  const { search, hash } = useLocation()
+  return <Navigate to={`${to}${search}${hash}`} replace />
+}
 
 /**
  * Every route below is pre-rendered to static HTML at build time by
@@ -58,6 +66,17 @@ export const routes: RouteRecord[] = [
       { path: 'legal/privacy', lazy: () => import('./pages/legal/Privacy') },
       { path: 'legal/terms', lazy: () => import('./pages/legal/Terms') },
       { path: 'legal/disclosures', lazy: () => import('./pages/legal/Disclosures') },
+
+      /* --- Aliases ---
+         Legacy and guessable short URLs (`/how-it-works`, `/privacy`) that
+         people, old backlinks and answer engines reach for. These are excluded
+         from prerendering in `main.tsx`; `scripts/postbuild.mjs` writes each
+         one as a static redirect page instead, so a crawler that never runs
+         JavaScript still lands on the canonical URL. --- */
+      ...Object.entries(REDIRECTS).map(([from, to]) => ({
+        path: from.slice(1),
+        element: <RedirectTo to={to} />,
+      })),
 
       /* --- 404 ---
          Catch-all `*` routes are excluded from prerendering, so the explicit

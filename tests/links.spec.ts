@@ -1,5 +1,6 @@
+import { readFileSync } from 'node:fs'
 import { test, expect, request as pwRequest } from '@playwright/test'
-import { builtRoutes } from './routes'
+import { REDIRECTS, builtRoutes } from './routes'
 
 /**
  * Broken-link sweep.
@@ -247,4 +248,31 @@ test('404 page is built and host config routes unknown URLs to it', async ({ pag
   expect(rules, 'catch-all must map to the 404 page with a 404 status').toMatch(
     /\/\*\s+\/404\.html\s+404/,
   )
+})
+
+test('every alias resolves to a real page on every host', async ({ page, request }) => {
+  /*
+   * Short URLs like /how-it-works are what people type and what answer engines
+   * guess. Each must reach its canonical page in one hop: as a static stub on
+   * GitHub Pages, as a 301 in _redirects and vercel.json elsewhere.
+   */
+  const routes = new Set(builtRoutes())
+  const rules = await (await request.get('/_redirects')).text()
+  const vercel = JSON.parse(readFileSync(new URL('../vercel.json', import.meta.url), 'utf8'))
+  const vercelMap = Object.fromEntries(
+    (vercel.redirects as { source: string; destination: string }[]).map((r) => [r.source, r.destination]),
+  )
+  const problems: string[] = []
+
+  for (const [from, to] of Object.entries(REDIRECTS)) {
+    if (!routes.has(to)) problems.push(`${from} → ${to}: destination is not a built page`)
+    if (to in REDIRECTS) problems.push(`${from} → ${to}: chains through another alias`)
+    if (vercelMap[from] !== to) problems.push(`${from}: vercel.json says ${vercelMap[from] ?? 'nothing'}`)
+    if (!new RegExp(`^${from}\\s+${to}\\s+301$`, 'm').test(rules)) problems.push(`${from}: missing from _redirects`)
+  }
+  expect(problems.join('\n'), `\n${problems.join('\n')}`).toHaveLength(0)
+
+  await page.goto('/how-it-works?utm_source=test')
+  await expect(page).toHaveURL(/\/funding\/how-it-works\?utm_source=test$/)
+  await expect(page.locator('h1')).toContainText('How it works')
 })

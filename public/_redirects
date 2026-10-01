@@ -1,13 +1,7 @@
-# Legacy URLs from the 2020 Next.js site.
-/mca      /funding/merchant-cash-advance   301
-/blog     /resources                       301
-/index    /                                301
-
-# Pages removed in the 2026 content revision. 301 so their accumulated
-# authority lands on the nearest surviving page instead of a 404.
-/resources/glossary   /resources                       301
-/funding/cost         /funding/merchant-cash-advance   301
-/funding/qualify      /apply                           301
+# Legacy and guessable short URLs → canonical pages, 301 so accumulated
+# authority lands on the surviving page instead of a 404. The list lives in
+# src/data/redirects.json; postbuild expands the marker below.
+# @redirects
 
 # Anything unmatched gets the real 404 page with a real 404 status.
 # Without this a static host may fall back to index.html, which serves the

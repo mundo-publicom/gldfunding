@@ -1,6 +1,12 @@
+import { readFileSync } from 'node:fs'
 import { defineConfig } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
+import type {} from 'vite-react-ssg'
+
+const REDIRECTS: Record<string, string> = JSON.parse(
+  readFileSync(new URL('./src/data/redirects.json', import.meta.url), 'utf8'),
+)
 
 // GitHub Pages serves a project site from `https://<user>.github.io/<repo>/`,
 // so the build needs `base: '/<repo>/'` there. On a custom domain (or any host
@@ -39,5 +45,13 @@ export default defineConfig({
   },
   ssr: {
     noExternal: ['@phosphor-icons/react', '@intl-tel-input/react', 'intl-tel-input'],
+  },
+  ssgOptions: {
+    // Alias routes are a client-side <Navigate> with nothing to prerender, and
+    // `/index` would overwrite the homepage. scripts/postbuild.mjs writes their
+    // static redirect pages instead.
+    // Static routes arrive as `how-it-works`, expanded ones as `/industries/x`.
+    includedRoutes: (paths) =>
+      paths.filter((p) => !((p.startsWith('/') ? p : `/${p}`) in REDIRECTS)),
   },
 })

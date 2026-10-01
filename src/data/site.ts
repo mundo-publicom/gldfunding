@@ -198,7 +198,7 @@ export const INDUSTRIES: Industry[] = [
     cashFlowNote:
       "A carrier's deposits arrive when invoices settle, not when the load is delivered.",
     answer:
-      'Trucking and logistics operators use merchant cash advances for fuel, repairs, insurance premiums, and driver payroll while invoices sit unpaid. Same-day funding is available once a contract is signed, which matters when a truck is off the road and the repair bill is due now.',
+      'Trucking and logistics operators use merchant cash advances for fuel, repairs, insurance premiums, and driver payroll while invoices sit unpaid. Same-day funding may be available once the file is complete and all required documents have been reviewed and approved.',
     useCases: ['Emergency repairs and downtime', 'Fuel and operating float', 'Insurance premium payments', 'Driver payroll between settlements', 'Adding a truck or trailer'],
     typicalRange: '$15,000 – $300,000',
   },

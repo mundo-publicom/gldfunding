@@ -1,9 +1,8 @@
-import { Link } from 'react-router-dom'
-import { AnswerBlock, FaqList, PageHero, Prose, Section, SectionHead } from '../../components/ui'
+import { AnswerBlock, PageHero, Section } from '../../components/ui'
 import { HowItWorksTimeline } from '../../sections/HowItWorksTimeline'
+import { STEPS } from '../../sections/howItWorksSteps'
 import { EligibilityCta } from '../../components/EligibilityCta'
-import { Seo, breadcrumbSchema, faqSchema } from '../../lib/seo'
-import { CTA } from '../../data/site'
+import { Seo, breadcrumbSchema, faqSchema, howToSchema } from '../../lib/seo'
 
 const TRAIL = [
   { name: 'Home', path: '/' },
@@ -41,14 +40,22 @@ const FAQS = [
   },
 ]
 
+const TITLE = 'How Funding Works, Step by Step'
+const DESCRIPTION =
+  'Apply, review, get funded. Complete a simple application with four months of business bank statements, review the options our underwriting team presents, and receive funds directly into your business account.'
+
 export function Component() {
   return (
     <>
       <Seo
         path="/funding/how-it-works"
-        title="How Funding Works, Step by Step"
-        description="Apply, review, get funded. Complete a simple application with four months of business bank statements, review the options our underwriting team presents, and receive funds directly into your business account."
-        schema={[breadcrumbSchema(TRAIL), faqSchema(FAQS)]}
+        title={TITLE}
+        description={DESCRIPTION}
+        schema={[
+          breadcrumbSchema(TRAIL),
+          howToSchema({ name: TITLE, description: DESCRIPTION, path: '/funding/how-it-works', steps: STEPS }),
+          faqSchema(FAQS),
+        ]}
       />
 
       <PageHero trail={TRAIL} eyebrow="The process" title="How it works" />

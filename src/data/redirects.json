@@ -1,0 +1,33 @@
+{
+  "/mca": "/funding/merchant-cash-advance",
+  "/blog": "/resources",
+  "/index": "/",
+  "/resources/glossary": "/resources",
+  "/funding/cost": "/funding/merchant-cash-advance",
+  "/funding/qualify": "/apply",
+
+  "/funding": "/funding/merchant-cash-advance",
+  "/merchant-cash-advance": "/funding/merchant-cash-advance",
+  "/merchant-cash-advances": "/funding/merchant-cash-advance",
+  "/what-is-a-merchant-cash-advance": "/funding/merchant-cash-advance",
+  "/how-it-works": "/funding/how-it-works",
+  "/process": "/funding/how-it-works",
+  "/mca-vs-business-loan": "/funding/mca-vs-business-loan",
+  "/mca-vs-loan": "/funding/mca-vs-business-loan",
+  "/funding/mca-vs-loan": "/funding/mca-vs-business-loan",
+
+  "/eligibility": "/apply",
+  "/get-started": "/apply",
+  "/apply-now": "/apply",
+
+  "/about-us": "/about",
+  "/contact-us": "/contact",
+  "/states": "/locations",
+
+  "/legal": "/legal/disclosures",
+  "/disclosures": "/legal/disclosures",
+  "/privacy": "/legal/privacy",
+  "/privacy-policy": "/legal/privacy",
+  "/terms": "/legal/terms",
+  "/terms-of-service": "/legal/terms"
+}
