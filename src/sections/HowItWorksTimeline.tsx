@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { Section, SectionHead } from '../components/ui'
 import { STEPS } from './howItWorksSteps'
-import { VideoModal } from '../components/VideoModal'
+import { LoopVideo } from '../components/LoopVideo'
 
 
 type Step = { n: string; title: string; body: string }
@@ -26,7 +26,7 @@ export function HowItWorksTimeline({
   title?: ReactNode
   lead?: ReactNode
   ambientSeed?: string
-  video?: { src: string; poster?: string; captions?: string; title: string }
+  video?: { src: string; poster?: string; title: string }
 } = {}) {
   const wrapRef = useRef<HTMLDivElement>(null)
   const [progress, setProgress] = useState(0)
@@ -78,18 +78,14 @@ export function HowItWorksTimeline({
         <div className="lg:sticky lg:top-28 lg:self-start">
           <SectionHead invert eyebrow={eyebrow} title={title} lead={lead} />
           {video && (
-            <div className="mt-8">
-              <VideoModal
-                {...video}
-                className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-leaf-glow/40 px-5 py-2.5 text-[0.9375rem] font-medium text-leaf-glow transition-colors duration-150 hover:bg-leaf-glow/10 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-leaf-glow"
-              >
-                Watch video
-              </VideoModal>
-            </div>
+            <LoopVideo
+              {...video}
+              className="mt-8 max-w-[28rem]"
+            />
           )}
         </div>
 
-        <div ref={wrapRef} className="relative">
+        <div ref={wrapRef} className="relative lg:self-start">
           {/* The rail: a track that fills as the reader travels the section. */}
           <div className="absolute left-[15px] top-2 bottom-2 w-px bg-white/12" aria-hidden="true">
             <div

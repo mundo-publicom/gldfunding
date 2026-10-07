@@ -136,7 +136,6 @@ export function Component() {
         video={{
           src: '/videos/description.mp4',
           poster: '/videos/description-poster.webp',
-          captions: '/videos/description.en.vtt',
           title: 'GLD Funding overview video',
         }}
       />
