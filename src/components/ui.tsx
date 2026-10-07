@@ -17,6 +17,7 @@ export function Section({
   ambientSeed,
   ambientIntensity,
   ambientSide,
+  backdrop,
 }: {
   children: ReactNode
   className?: string
@@ -29,6 +30,8 @@ export function Section({
   ambientIntensity?: number
   /** Point the field at the section's empty half so it never sits under the copy. */
   ambientSide?: 'left' | 'right' | 'auto'
+  /** Custom `-z-10` layer behind the content (e.g. footage). Use instead of `ambient`. */
+  backdrop?: ReactNode
 }) {
   const tones = {
     white: 'bg-white text-ink',
@@ -44,7 +47,7 @@ export function Section({
         tones[tone],
         // `isolate` is what lets the -z-10 backdrop paint above the section's
         // own background. No overflow clipping - sections hold sticky columns.
-        ambient && 'relative isolate',
+        (ambient || backdrop ? 'relative isolate' : null),
         className,
       )}
     >
@@ -57,6 +60,7 @@ export function Section({
           side={ambientSide}
         />
       )}
+      {backdrop}
       <div className="page">{children}</div>
     </section>
   )

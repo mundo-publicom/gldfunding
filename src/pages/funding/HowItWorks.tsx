@@ -77,7 +77,7 @@ export function Component() {
         </div>
       </Section>
 
-      <HowItWorksTimeline />
+      <HowItWorksTimeline video />
 
     </>
   )

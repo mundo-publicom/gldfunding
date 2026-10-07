@@ -96,6 +96,7 @@ export function Component() {
 
       <HowItWorksTimeline
         steps={PARTNER_STEPS}
+        video={false}
         title="Four steps, from partnership to commission."
         lead="Submit complete files and your relationship manager keeps each deal moving from review to funding."
         ambientSeed="partners-how-it-works"

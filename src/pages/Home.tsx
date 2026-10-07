@@ -123,7 +123,7 @@ export function Component() {
         </div>
       </Section> */}
 
-      <HowItWorksTimeline />
+      <HowItWorksTimeline video />
 
       {/* Lead capture. The calculator that used to sit here implied a price
           before underwriting had seen a file; this asks the qualifying

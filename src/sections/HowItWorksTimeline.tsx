@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { Section, SectionHead } from '../components/ui'
 import { STEPS } from './howItWorksSteps'
+import { HowItWorksVideoBackdrop } from './HowItWorksVideoBackdrop'
 
 
 type Step = { n: string; title: string; body: string }
@@ -18,12 +19,15 @@ export function HowItWorksTimeline({
   title = 'Three steps, start to funded.',
   lead = 'Apply, review, get funded. Same-day funding is available once your file is complete.',
   ambientSeed = 'how-it-works-timeline',
+  video = false,
 }: {
   steps?: Step[]
   eyebrow?: string
   title?: ReactNode
   lead?: ReactNode
   ambientSeed?: string
+  /** Silent footage behind the steps instead of the WebGL field. Customer timeline only. */
+  video?: boolean
 } = {}) {
   const wrapRef = useRef<HTMLDivElement>(null)
   const [progress, setProgress] = useState(0)
@@ -70,7 +74,12 @@ export function HowItWorksTimeline({
   }, [steps.length])
 
   return (
-    <Section tone="petrol" ambient="stream" ambientSeed={ambientSeed} ambientIntensity={0.7}>
+    <Section
+      tone="petrol"
+      {...(video
+        ? { backdrop: <HowItWorksVideoBackdrop /> }
+        : { ambient: 'stream' as const, ambientSeed, ambientIntensity: 0.7 })}
+    >
       <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
         <div className="lg:sticky lg:top-28 lg:self-start">
           <SectionHead invert eyebrow={eyebrow} title={title} lead={lead} />
