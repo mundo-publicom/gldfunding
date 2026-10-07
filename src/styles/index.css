@@ -182,6 +182,21 @@
     }
   }
 
+  /* Wide variant for the hero and header: fills large and high-DPI
+     viewports instead of leaving a dead gutter either side. */
+  .page-wide {
+    width: 100%;
+    max-width: 1760px;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  @media (min-width: 1024px) {
+    .page-wide {
+      padding-inline: clamp(2.5rem, 4vw, 5rem);
+    }
+  }
+
   /* --- eyebrow label --- */
   .eyebrow {
     font-family: var(--font-mono);

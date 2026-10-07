@@ -126,7 +126,7 @@ export function Header() {
         )}
       >
       {/* Nav height capped at 72px - no agency bar eating the viewport. */}
-      <div className="page flex h-[68px] items-center justify-between gap-6 lg:h-[72px]">
+      <div className="page-wide flex h-[68px] items-center justify-between gap-6 lg:h-[72px]">
         {/* The lockup is one image, so nothing has to drop away on small
             screens - the wordmark stays whole down to 320px. Sized to just
             under the bar's inner height: the stacked lockup needs the vertical

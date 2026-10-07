@@ -202,24 +202,24 @@ export function Hero() {
       />
 
       {/* min-h uses dvh so iOS Safari's collapsing address bar cannot shift it. */}
-      <div className="page relative flex min-h-[min(76dvh,760px)] flex-col py-16 lg:min-h-[min(82dvh,820px)] lg:py-20">
-        <div className="my-auto grid gap-10 lg:grid-cols-[minmax(0,1fr)_22rem] lg:items-center lg:gap-14">
+      <div className="page-wide relative flex min-h-[min(76dvh,760px)] flex-col py-14 lg:min-h-[min(82dvh,880px)] lg:py-16 min-[1600px]:min-h-[min(84dvh,1000px)]">
+        <div className="my-auto grid gap-10 lg:grid-cols-[minmax(0,1fr)_clamp(22rem,24vw,30rem)] lg:items-center lg:gap-14 min-[1600px]:gap-24">
           {/* The value prop owns the left; the frames breathe on the right. */}
-          <div className="max-w-[42rem] lg:max-w-[46rem]">
+          <div className="max-w-[42rem] lg:max-w-[46rem] min-[1600px]:max-w-[64rem]">
             <p className="eyebrow eyebrow-invert">Working capital for small businesses</p>
 
-            <h1 className="mt-5 text-hero font-semibold text-white">
+            <h1 className="mt-5 text-hero font-semibold text-white min-[1600px]:text-[clamp(3.5rem,3.6vw,5rem)]">
               Business Funding{' '}
               <span className="lg:block">Built Around Your Business</span>
             </h1>
 
-            <p className="mt-4 max-w-[52ch] text-paper/80">
+            <p className="mt-4 max-w-[52ch] text-paper/80 min-[1600px]:mt-6 min-[1600px]:text-[clamp(1.125rem,1.15vw,1.5rem)]">
               Get the working capital you need to grow, manage cash flow, and seize opportunities.
               Funding available as soon as the same business day.
             </p>
 
             <div className="mt-9 flex flex-wrap items-center gap-3">
-              <Link to={CTA.primaryHref} className="btn btn-primary-invert btn-lg group">
+              <Link to={CTA.primaryHref} className="btn btn-primary-invert btn-lg group min-[1600px]:!px-9 min-[1600px]:!py-5 min-[1600px]:!text-[1.1875rem]">
                 {CTA.heroPrimary}
                 <ArrowRightIcon
                   size={16}
@@ -229,7 +229,7 @@ export function Hero() {
               </Link>
             </div>
 
-            <p className="mt-7 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[0.8125rem] text-paper/75">
+            <p className="mt-7 flex flex-wrap items-center gap-x-2.5 gap-y-1 text-[0.8125rem] text-paper/75 min-[1600px]:text-base">
               <span className="inline-flex items-center gap-2">
                 <LockSimpleIcon size={15} weight="fill" className="text-leaf-glow" aria-hidden="true" />
                 Secure process
@@ -242,9 +242,9 @@ export function Hero() {
           </div>
 
           {/* The one figure that decides whether an owner reads on. */}
-          <div className="max-w-[26rem] rounded-card border border-white/15 bg-white/8 p-6 backdrop-blur-md lg:max-w-none lg:p-7">
-            <p className="text-[0.9375rem] text-paper/80">Funding between</p>
-            <p className="mt-2 whitespace-nowrap font-mono text-[clamp(1.25rem,2vw,1.625rem)] font-medium tabular-nums tracking-[-0.03em] text-leaf-glow">
+          <div className="max-w-[26rem] rounded-card border border-white/15 bg-white/8 p-6 backdrop-blur-md lg:max-w-none lg:p-7 min-[1600px]:p-10">
+            <p className="text-[0.9375rem] text-paper/80 min-[1600px]:text-lg">Funding between</p>
+            <p className="mt-2 whitespace-nowrap font-mono text-[clamp(1.25rem,2vw,1.625rem)] min-[1600px]:text-[clamp(1.75rem,2.1vw,2.5rem)] font-medium tabular-nums tracking-[-0.03em] text-leaf-glow">
               {currency(PRODUCT.advanceMin)} &ndash; {currency(PRODUCT.advanceMax)}
             </p>
             <div className="mt-5 flex gap-3 border-t border-white/15 pt-5">
@@ -254,7 +254,7 @@ export function Hero() {
                 aria-hidden="true"
                 className="mt-0.5 shrink-0 text-leaf-glow"
               />
-              <p className="text-[0.875rem] leading-relaxed text-paper/80">
+              <p className="text-[0.875rem] leading-relaxed text-paper/80 min-[1600px]:text-lg">
                 Decisions in hours. Funding as soon as the same business day.
               </p>
             </div>
@@ -331,12 +331,12 @@ export function Hero() {
 
       {/* Trust strip sits UNDER the hero copy, never inside it. */}
       <div className="relative border-t border-white/10">
-        <div className="page grid grid-cols-2 lg:grid-cols-4">
+        <div className="page-wide grid grid-cols-2 lg:grid-cols-4">
           {FEATURES.map(({ Icon, title, body }, i) => (
             <div
               key={title}
               className={cn(
-                'flex gap-3 border-white/10 py-5 lg:py-6',
+                'flex gap-3 border-white/10 py-5 lg:py-6 min-[1600px]:gap-4 min-[1600px]:py-8',
                 // Column rule on every item except the first in its row.
                 i % 2 === 1 && 'border-l pl-5 lg:border-l lg:pl-6',
                 i % 2 === 0 && 'pr-5 lg:pr-6',
@@ -345,14 +345,14 @@ export function Hero() {
               )}
             >
               <Icon
-                size={20}
+                size={24}
                 weight="regular"
                 aria-hidden="true"
                 className="mt-0.5 shrink-0 text-leaf-glow"
               />
               <div className="min-w-0">
-                <div className="text-[0.9375rem] font-medium leading-snug text-white">{title}</div>
-                <div className="mt-1 text-[0.8125rem] leading-snug text-paper/70">{body}</div>
+                <div className="text-[0.9375rem] font-medium leading-snug text-white min-[1600px]:text-xl">{title}</div>
+                <div className="mt-1 text-[0.8125rem] leading-snug text-paper/70 min-[1600px]:text-base">{body}</div>
               </div>
             </div>
           ))}
