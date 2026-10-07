@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState, type ReactNode } from 'react'
 import { Section, SectionHead } from '../components/ui'
 import { STEPS } from './howItWorksSteps'
+import { VideoModal } from '../components/VideoModal'
 
 
 type Step = { n: string; title: string; body: string }
@@ -18,12 +19,14 @@ export function HowItWorksTimeline({
   title = 'Three steps, start to funded.',
   lead = 'Apply, review, get funded. Same-day funding is available once your file is complete.',
   ambientSeed = 'how-it-works-timeline',
+  video,
 }: {
   steps?: Step[]
   eyebrow?: string
   title?: ReactNode
   lead?: ReactNode
   ambientSeed?: string
+  video?: { src: string; poster?: string; captions?: string; title: string }
 } = {}) {
   const wrapRef = useRef<HTMLDivElement>(null)
   const [progress, setProgress] = useState(0)
@@ -74,11 +77,16 @@ export function HowItWorksTimeline({
       <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:gap-16">
         <div className="lg:sticky lg:top-28 lg:self-start">
           <SectionHead invert eyebrow={eyebrow} title={title} lead={lead} />
-          {/* <div className="mt-8">
-            <Link to={CTA.primaryHref} className="btn btn-primary-invert">
-              {CTA.primary}
-            </Link>
-          </div> */}
+          {video && (
+            <div className="mt-8">
+              <VideoModal
+                {...video}
+                className="inline-flex cursor-pointer items-center gap-2 rounded-full border border-leaf-glow/40 px-5 py-2.5 text-[0.9375rem] font-medium text-leaf-glow transition-colors duration-150 hover:bg-leaf-glow/10 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-leaf-glow"
+              >
+                Watch video
+              </VideoModal>
+            </div>
+          )}
         </div>
 
         <div ref={wrapRef} className="relative">
