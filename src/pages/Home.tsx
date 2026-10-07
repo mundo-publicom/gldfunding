@@ -1,3 +1,4 @@
+import { useState, type UIEvent } from 'react'
 import { Link } from 'react-router-dom'
 import { ArrowRightIcon } from '@phosphor-icons/react'
 import { Hero } from '../sections/Hero'
@@ -39,6 +40,14 @@ const FAQS = [
 
 export function Component() {
   const industriesRef = useRevealGroup()
+  const [slide, setSlide] = useState(0)
+  const onSlidesScroll = (e: UIEvent<HTMLDivElement>) => {
+    const el = e.currentTarget
+    const first = el.firstElementChild as HTMLElement | null
+    if (!first) return
+    const step = first.offsetWidth + 12
+    setSlide(Math.min(Math.max(Math.round(el.scrollLeft / step), 0), INDUSTRIES.length - 1))
+  }
 
   return (
     <>
@@ -159,12 +168,17 @@ export function Component() {
           title="We know your trade's cash flow."
           lead="We have funded these trades for years, so underwriting already understands why your deposits look the way they do."
         />
-        <div ref={industriesRef} className="stagger mt-10 grid gap-px bg-rule sm:grid-cols-2 lg:grid-cols-4">
+        {/* Phones: a swipeable scroll-snap slideshow. sm and up: the original grid. */}
+        <div
+          ref={industriesRef}
+          onScroll={onSlidesScroll}
+          className="stagger no-scrollbar -mx-4 mt-10 flex snap-x snap-mandatory scroll-px-4 gap-3 overflow-x-auto px-4 pb-1 sm:mx-0 sm:grid sm:grid-cols-2 sm:gap-px sm:overflow-visible sm:bg-rule sm:px-0 sm:pb-0 lg:grid-cols-4"
+        >
           {INDUSTRIES.map((ind) => (
             <Link
               key={ind.slug}
               to={`/industries/${ind.slug}`}
-              className="group flex h-full flex-col bg-white p-6 transition-colors duration-150 hover:bg-paper focus-visible:bg-paper focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-leaf"
+              className="group flex h-auto w-[80%] shrink-0 snap-center flex-col border border-rule bg-white p-6 sm:h-full sm:w-auto sm:border-0 transition-colors duration-150 hover:bg-paper focus-visible:bg-paper focus-visible:outline-2 focus-visible:outline-offset-[-2px] focus-visible:outline-leaf"
             >
               <h3 className="text-[1.0625rem] font-semibold tracking-[-0.015em] text-ink">
                 {ind.short}
@@ -184,6 +198,14 @@ export function Component() {
                 />
               </span>
             </Link>
+          ))}
+        </div>
+        <div className="mt-5 flex justify-center gap-2 sm:hidden" aria-hidden="true">
+          {INDUSTRIES.map((ind, i) => (
+            <span
+              key={ind.slug}
+              className={`h-1.5 rounded-full transition-all duration-200 ${i === slide ? 'w-5 bg-leaf-deep' : 'w-1.5 bg-rule'}`}
+            />
           ))}
         </div>
       </Section>

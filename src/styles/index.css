@@ -537,3 +537,11 @@
     transition-delay: calc(var(--i, 0) * 60ms);
   }
 }
+
+/* Hide the scrollbar on swipeable rows (scrolling itself stays). */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
