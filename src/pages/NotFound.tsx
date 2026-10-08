@@ -65,8 +65,8 @@ export function NotFoundBody() {
         <Link to="/" className="btn btn-primary">
           Back to home
         </Link>
-        <a href={SITE.phoneHref} className="btn btn-secondary">
-          Call {SITE.phone}
+        <a href={SITE.whatsappHref} target="_blank" rel="noopener noreferrer" className="btn btn-secondary">
+          WhatsApp {SITE.phone}
         </a>
       </div>
     </div>

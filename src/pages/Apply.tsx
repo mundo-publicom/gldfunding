@@ -523,8 +523,8 @@ function Confirmation({ reference, email }: { reference: string; email: string }
       )}
 
       <div className="mt-9 flex flex-wrap justify-center gap-3">
-        <a href={SITE.phoneHref} className="btn btn-primary min-h-12">
-          Call {SITE.phone}
+        <a href={SITE.whatsappHref} target="_blank" rel="noopener noreferrer" className="btn btn-primary min-h-12">
+          WhatsApp {SITE.phone}
         </a>
         <Link to="/" className="btn btn-secondary min-h-12">
           Back to home
@@ -592,7 +592,7 @@ function SidePanel({ data, phase }: { data: ApplicationData; phase: Phase }) {
 
       <div className="px-1 text-[0.8125rem] leading-relaxed text-ink-3">
         Questions?{' '}
-        <a href={SITE.phoneHref} className="font-medium text-leaf-deep">
+        <a href={SITE.whatsappHref} target="_blank" rel="noopener noreferrer" className="font-medium text-leaf-deep">
           {SITE.phone}
         </a>
       </div>

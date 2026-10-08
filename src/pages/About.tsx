@@ -138,7 +138,7 @@ export function Component() {
               <div className="flex gap-3">
                 <dt className="w-16 shrink-0 text-ink-3">Phone</dt>
                 <dd>
-                  <a href={SITE.phoneHref} className="font-mono tabular-nums text-leaf-deep">
+                  <a href={SITE.whatsappHref} target="_blank" rel="noopener noreferrer" className="font-mono tabular-nums text-leaf-deep">
                     {SITE.phone}
                   </a>
                 </dd>
@@ -165,8 +165,8 @@ export function Component() {
               funding options and answer your questions.
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <a href={SITE.phoneHref} className="btn btn-primary">
-                Call {SITE.phone}
+              <a href={SITE.whatsappHref} target="_blank" rel="noopener noreferrer" className="btn btn-primary">
+                WhatsApp {SITE.phone}
               </a>
               <Link to="/contact" className="btn btn-secondary">
                 Send a message

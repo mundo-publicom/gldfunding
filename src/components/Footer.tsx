@@ -86,7 +86,7 @@ export function Footer() {
               </span>
             </span>
             <a
-              href={SITE.phoneHref}
+              href={SITE.whatsappHref} target="_blank" rel="noopener noreferrer"
               className="flex items-center gap-2.5 font-mono tabular-nums transition-colors hover:text-leaf-glow"
             >
               <PhoneIcon size={16} className="shrink-0 text-leaf-glow" />
