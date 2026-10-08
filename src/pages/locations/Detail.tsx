@@ -84,7 +84,7 @@ export function Component() {
           <Link to={CTA.primaryHref} className="btn btn-primary">
             {CTA.primary}
           </Link>
-          <a href={SITE.whatsappHref} target="_blank" rel="noopener noreferrer" className="btn btn-secondary">
+          <a href={SITE.phoneHref} className="btn btn-secondary">
             {SITE.phone}
           </a>
         </div>

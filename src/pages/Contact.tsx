@@ -15,7 +15,7 @@ export function Component() {
       <Seo
         path="/contact"
         title="Contact GLD Factoring LLC DBA GLD Funding"
-        description={`Message us on WhatsApp at ${SITE.phone} or send a message. GLD Factoring LLC DBA GLD Funding is at ${SITE.address.street}, ${SITE.address.locality}, ${SITE.address.region} ${SITE.address.postalCode}.`}
+        description={`Call ${SITE.phone} or send a message. GLD Factoring LLC DBA GLD Funding is at ${SITE.address.street}, ${SITE.address.locality}, ${SITE.address.region} ${SITE.address.postalCode}.`}
         schema={[breadcrumbSchema(TRAIL), localBusinessSchema()]}
       />
 
@@ -33,10 +33,10 @@ export function Component() {
 
             <dl className="mt-8 flex flex-col divide-y divide-rule border-y border-rule">
               {[
-                { Icon: PhoneIcon, label: 'Phone', value: SITE.phone, href: SITE.whatsappHref, external: true, mono: true },
+                { Icon: PhoneIcon, label: 'Phone', value: SITE.phone, href: SITE.phoneHref, mono: true },
                 { Icon: EnvelopeSimpleIcon, label: 'Email', value: SITE.email, href: `mailto:${SITE.email}` },
                 { Icon: PrinterIcon, label: 'Fax', value: SITE.fax, mono: true },
-              ].map(({ Icon, label, value, href, mono, external }) => (
+              ].map(({ Icon, label, value, href, mono }) => (
                 <div key={label} className="flex items-center gap-4 py-4">
                   <dt className="flex w-28 shrink-0 items-center gap-3 text-[0.875rem] text-ink-3">
                     <Icon size={18} className="shrink-0 text-leaf-deep" />
@@ -44,7 +44,7 @@ export function Component() {
                   </dt>
                   <dd className={mono ? 'font-mono tabular-nums' : ''}>
                     {href ? (
-                      <a href={href} {...(external && { target: '_blank', rel: 'noopener noreferrer' })} className="text-[0.9375rem] text-ink transition-colors hover:text-leaf-deep">
+                      <a href={href} className="text-[0.9375rem] text-ink transition-colors hover:text-leaf-deep">
                         {value}
                       </a>
                     ) : (

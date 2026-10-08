@@ -5,6 +5,7 @@ import {
   InstagramLogoIcon,
   MapPinIcon,
   PhoneIcon,
+  WhatsappLogoIcon,
   XLogoIcon,
   YoutubeLogoIcon,
 } from '@phosphor-icons/react'
@@ -85,13 +86,24 @@ export function Footer() {
                 {SITE.address.locality}, {SITE.address.region} {SITE.address.postalCode}
               </span>
             </span>
-            <a
-              href={SITE.whatsappHref} target="_blank" rel="noopener noreferrer"
-              className="flex items-center gap-2.5 font-mono tabular-nums transition-colors hover:text-leaf-glow"
-            >
-              <PhoneIcon size={16} className="shrink-0 text-leaf-glow" />
-              {SITE.phone}
-            </a>
+            <span className="flex items-center gap-3">
+              <a
+                href={SITE.phoneHref}
+                className="flex items-center gap-2.5 font-mono tabular-nums transition-colors hover:text-leaf-glow"
+              >
+                <PhoneIcon size={16} className="shrink-0 text-leaf-glow" />
+                {SITE.phone}
+              </a>
+              <a
+                href={SITE.whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label="Chat with us on WhatsApp"
+                className="flex h-8 w-8 items-center justify-center rounded-full border border-white/20 text-leaf-glow transition-colors hover:border-leaf-glow"
+              >
+                <WhatsappLogoIcon size={16} weight="fill" />
+              </a>
+            </span>
             <a
               href={`mailto:${SITE.email}`}
               className="flex items-center gap-2.5 transition-colors hover:text-leaf-glow"
