@@ -24,7 +24,7 @@ export default defineConfig({
     // Listen on 0.0.0.0 so the dev server is reachable from outside the
     // container. Harmless outside Docker — it also binds localhost.
     host: true,
-    port: 5173,
+    port: Number(process.env.PORT) || 5173,
     // Some bind mounts (Docker on macOS/Windows) don't forward filesystem
     // events; set VITE_POLL=1 in that case to fall back to polling.
     watch: process.env.VITE_POLL ? { usePolling: true, interval: 300 } : undefined,

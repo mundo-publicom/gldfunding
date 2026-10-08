@@ -16,6 +16,8 @@ export const SITE = {
   founded: 2014,
   phone: '1 (877) 498-4344',
   phoneHref: 'tel:+18774984344',
+  whatsapp: '+1 (516) 812-0034',
+  whatsappHref: 'https://wa.me/15168120034',
   fax: '1 (516) 941-0758',
   email: 'info@gldfunding.com',
   loginUrl: 'https://login.gldfunding.com/',

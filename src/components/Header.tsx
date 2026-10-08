@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
-import { CaretDownIcon, ListIcon, PhoneIcon, XIcon } from '@phosphor-icons/react'
+import { CaretDownIcon, ListIcon, WhatsappLogoIcon, XIcon } from '@phosphor-icons/react'
 import { CTA, INDUSTRIES, SITE } from '../data/site'
 import { cn } from '../lib/cn'
 import { Logo } from './Logo'
@@ -241,23 +241,25 @@ export function Header() {
         </nav>
 
           <div className="flex shrink-0 items-center gap-1.5 sm:gap-2">
-            {/* Full number where it fits. */}
+            {/* WhatsApp replaces tap-to-call: full number where it fits, icon-only below xl. */}
             <a
-              href={SITE.phoneHref}
+              href={SITE.whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
               className="hidden items-center gap-1.5 rounded-full px-3 py-2 font-mono text-[0.8125rem] font-medium tabular-nums text-ink-2 transition-colors duration-150 hover:text-leaf-deep xl:flex"
             >
-              <PhoneIcon size={14} weight="fill" />
-              {SITE.phone}
+              <WhatsappLogoIcon size={16} weight="fill" />
+              {SITE.whatsapp}
             </a>
 
-            {/* Below xl, tap-to-call collapses to an icon but never disappears -
-                calling is the highest-intent action a mobile visitor takes. */}
             <a
-              href={SITE.phoneHref}
-              aria-label={`Call ${SITE.phone}`}
+              href={SITE.whatsappHref}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={`Chat on WhatsApp ${SITE.whatsapp}`}
               className="hidden h-10 w-10 items-center justify-center rounded-full border border-rule text-ink-2 transition-colors duration-150 hover:border-leaf hover:text-leaf-deep active:scale-[0.97] min-[360px]:flex xl:hidden"
             >
-              <PhoneIcon size={17} weight="fill" />
+              <WhatsappLogoIcon size={19} weight="fill" />
             </a>
 
             {/* Existing clients are a different intent from new applicants, so
@@ -329,9 +331,14 @@ export function Header() {
               <Link to={CTA.primaryHref} className="btn btn-primary btn-lg">
                 {CTA.primary}
               </Link>
-              <a href={SITE.phoneHref} className="btn btn-secondary btn-lg">
-                <PhoneIcon size={16} weight="fill" />
-                {SITE.phone}
+              <a
+                href={SITE.whatsappHref}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="btn btn-secondary btn-lg"
+              >
+                <WhatsappLogoIcon size={18} weight="fill" />
+                {SITE.whatsapp}
               </a>
               <a href={SITE.loginUrl} className="btn btn-secondary btn-lg">
                 Client login
