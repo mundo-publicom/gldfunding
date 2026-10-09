@@ -31,6 +31,9 @@ test-results/*
 /playwright/.cache/
 scrollcraft/*
 
-.env.local
-.env.production
-.env.staging
+# Environment files: real values never get committed, only .env.example
+.env
+.env.*
+!.env.example
+*.local
+*.production

@@ -1,5 +1,5 @@
 import { readFileSync } from 'node:fs'
-import { defineConfig } from 'vite'
+import { defineConfig, type Plugin } from 'vite'
 import react from '@vitejs/plugin-react'
 import tailwindcss from '@tailwindcss/vite'
 import type {} from 'vite-react-ssg'
@@ -17,9 +17,41 @@ const REDIRECTS: Record<string, string> = JSON.parse(
 const rawBase = process.env.BASE_PATH || '/'
 const base = rawBase.endsWith('/') ? rawBase : `${rawBase}/`
 
+// Injects the Google tag (gtag.js) into <head> at build time. With
+// VITE_GA_MEASUREMENT_ID unset or malformed the page is left untouched, so dev
+// and preview builds send no analytics hits.
+function googleAnalytics(): Plugin {
+  let id = ''
+  return {
+    name: 'gld:google-analytics',
+    configResolved(config) {
+      const value = String(config.env.VITE_GA_MEASUREMENT_ID ?? '').trim()
+      id = /^G-[A-Z0-9]+$/.test(value) ? value : ''
+    },
+    transformIndexHtml() {
+      if (!id) return
+      return [
+        {
+          tag: 'script',
+          attrs: { async: true, src: `https://www.googletagmanager.com/gtag/js?id=${id}` },
+          injectTo: 'head',
+        },
+        {
+          tag: 'script',
+          children: `window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', '${id}');`,
+          injectTo: 'head',
+        },
+      ]
+    },
+  }
+}
+
 export default defineConfig({
   base,
-  plugins: [react(), tailwindcss()],
+  plugins: [react(), tailwindcss(), googleAnalytics()],
   server: {
     // Listen on 0.0.0.0 so the dev server is reachable from outside the
     // container. Harmless outside Docker — it also binds localhost.
